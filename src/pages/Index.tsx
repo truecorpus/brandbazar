@@ -54,7 +54,7 @@ const Index = () => {
                 </span>
               </div>
 
-              <h1 className="mt-6 text-4xl sm:text-5xl font-semibold leading-[1.1] tracking-tight text-foreground animate-fade-up stagger-2" style={{ maxFontSize: '52px' }}>
+              <h1 className="mt-6 text-4xl sm:text-[52px] font-semibold leading-[1.1] tracking-tight text-foreground animate-fade-up stagger-2">
                 Your brand,{" "}
                 <span className="text-primary">printed to</span>{" "}
                 perfection
