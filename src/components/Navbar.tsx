@@ -17,9 +17,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const onScroll = () => {
-      setScrolled(window.scrollY > 60);
-
-      // Active section detection
+      setScrolled(window.scrollY > 10);
       const sections = navLinks.map((l) => l.href.replace("#", ""));
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
@@ -42,29 +40,30 @@ const Navbar = () => {
   return (
     <nav
       id="main-nav"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 bg-background border-b ${
         scrolled
-          ? "bg-surface-elevated/95 backdrop-blur-xl border-b border-border shadow-brand"
-          : "bg-transparent border-b border-transparent"
+          ? "border-border shadow-[0_1px_4px_rgba(0,0,0,0.1)]"
+          : "border-border"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <a href="#home" onClick={() => handleClick("#home")} className="font-display font-extrabold text-xl tracking-tight text-primary">
-              PRINT<span className="text-accent">CRAFT</span>
+            <a href="#home" onClick={() => handleClick("#home")} className="text-lg font-semibold tracking-tight">
+              <span className="text-foreground">Brand</span>
+              <span className="text-primary">Bazaar</span>
             </a>
           </div>
 
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) => (
               <button
                 key={link.label}
                 onClick={() => handleClick(link.href)}
-                className={`text-sm font-medium transition-colors duration-200 font-body ${
+                className={`text-sm font-medium transition-colors duration-200 ${
                   activeSection === link.href.replace("#", "")
-                    ? "text-accent"
-                    : "text-muted-foreground hover:text-primary"
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {link.label}
@@ -76,40 +75,40 @@ const Navbar = () => {
             <Button variant="outline" size="default" onClick={() => handleClick("#products")}>
               Browse Products
             </Button>
-            <Button variant="cta" size="default" onClick={() => handleClick("#quote")}>
+            <Button variant="default" size="default" onClick={() => handleClick("#quote")}>
               Get Quote
             </Button>
           </div>
 
           <button
-            className="lg:hidden p-2 text-primary"
+            className="lg:hidden p-2 text-foreground"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
       {mobileOpen && (
-        <div className="lg:hidden bg-surface-elevated border-t border-border animate-fade-up">
-          <div className="px-4 py-6 space-y-4">
+        <div className="lg:hidden bg-background border-t border-border animate-fade-up">
+          <div className="px-4 py-4 space-y-3">
             {navLinks.map((link) => (
               <button
                 key={link.label}
                 onClick={() => handleClick(link.href)}
-                className={`block w-full text-left text-base font-medium transition-colors font-body ${
-                  activeSection === link.href.replace("#", "") ? "text-accent" : "text-foreground hover:text-accent"
+                className={`block w-full text-left text-sm font-medium transition-colors ${
+                  activeSection === link.href.replace("#", "") ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {link.label}
               </button>
             ))}
-            <div className="flex flex-col gap-3 pt-4 border-t border-border">
-              <Button variant="outline" size="lg" className="w-full" onClick={() => handleClick("#products")}>
+            <div className="flex flex-col gap-2 pt-3 border-t border-border">
+              <Button variant="outline" size="default" className="w-full" onClick={() => handleClick("#products")}>
                 Browse Products
               </Button>
-              <Button variant="cta" size="lg" className="w-full" onClick={() => handleClick("#quote")}>
+              <Button variant="default" size="default" className="w-full" onClick={() => handleClick("#quote")}>
                 Get Quote
               </Button>
             </div>
