@@ -44,8 +44,8 @@ const Index = () => {
       <Navbar />
 
       {/* Hero */}
-      <section id="home" className="relative pt-[120px] pb-[100px] bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="home" className="pt-[140px] pb-[100px] bg-background">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-[55%_45%] gap-16 lg:gap-20 items-center">
             <div className="max-w-[480px]">
               <p className="text-[13px] font-medium text-primary tracking-[0.5px] animate-fade-up stagger-1">
@@ -56,21 +56,21 @@ const Index = () => {
                 Your Brand on Everything.
               </h1>
 
-              <p className="mt-5 text-[17px] text-muted-foreground leading-[1.6] max-w-[480px] animate-fade-up stagger-3">
+              <p className="mt-5 text-[16px] text-muted-foreground leading-[1.6] max-w-[480px] animate-fade-up stagger-3">
                 Premium custom printed merchandise for corporate teams. Mugs, T-shirts, ID cards, caps and more — bulk pricing from 25 units.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3 animate-fade-up stagger-4">
-                <Button variant="default" size="lg" className="px-7 py-3 text-sm font-medium" onClick={() => scrollTo("quote")}>
+                <Button variant="default" size="default" onClick={() => scrollTo("quote")}>
                   Get a Free Quote
                   <ArrowRight size={16} />
                 </Button>
-                <Button variant="outline" size="lg" className="px-7 py-3 text-sm font-medium" onClick={() => scrollTo("products")}>
+                <Button variant="outline" size="default" onClick={() => scrollTo("products")}>
                   Browse Products
                 </Button>
               </div>
 
-              <p className="mt-8 text-[13px] text-[hsl(var(--muted-foreground))] animate-fade-up stagger-5">
+              <p className="mt-8 text-[13px] text-muted-foreground animate-fade-up stagger-5">
                 500+ Corporate Clients · 50,000+ Orders Delivered · Pan-India Shipping
               </p>
             </div>
