@@ -2,6 +2,9 @@ import Navbar from "@/components/Navbar";
 import ProductGrid from "@/components/ProductGrid";
 import ProductCatalog from "@/components/ProductCatalog";
 import CorporateSection from "@/components/CorporateSection";
+import Testimonials from "@/components/Testimonials";
+import PricingTiers from "@/components/PricingTiers";
+import QuoteForm from "@/components/QuoteForm";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 
