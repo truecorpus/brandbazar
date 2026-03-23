@@ -79,6 +79,12 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Product Catalog */}
+      <ProductCatalog />
+
+      {/* Corporate Section */}
+      <CorporateSection />
     </div>
   );
 };
