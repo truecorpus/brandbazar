@@ -48,15 +48,13 @@ const CorporateSection = () => {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {valueProps.map((prop) => (
-              <div
-                key={prop.title}
-                className="bg-background rounded-xl border border-border p-6 transition-all duration-200 hover:border-primary hover:shadow-[0_4px_12px_rgba(26,115,232,0.15)]"
-                style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}
-              >
-                <span className="text-2xl block mb-4">{prop.icon}</span>
-                <h3 className="font-semibold text-[15px] text-foreground mb-2">{prop.title}</h3>
+              <div key={prop.title} className="card-modern p-6">
+                <div className="w-12 h-12 rounded-2xl bg-primary/[0.06] flex items-center justify-center mb-4">
+                  <span className="text-xl">{prop.icon}</span>
+                </div>
+                <h3 className="font-heading font-semibold text-[15px] text-foreground mb-2">{prop.title}</h3>
                 <p className="text-[14px] text-muted-foreground leading-relaxed">{prop.description}</p>
               </div>
             ))}
@@ -65,25 +63,26 @@ const CorporateSection = () => {
       </div>
 
       {/* Corporate CTA Block */}
-      <div className="py-20 bg-foreground">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-xs font-medium text-primary uppercase tracking-[1px]">
+      <div className="py-20 bg-foreground relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-primary/[0.08] blur-[120px] pointer-events-none" />
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+          <p className="text-xs font-medium text-primary uppercase tracking-[1.5px]">
             Corporate Partnership
           </p>
-          <h2 className="mt-3 text-[32px] font-semibold text-background tracking-tight">
+          <h2 className="mt-3 text-[32px] font-heading font-semibold text-background tracking-tight">
             Ready to brand at scale?
           </h2>
           <p className="mt-4 text-[16px] text-background/70 max-w-[560px] mx-auto leading-relaxed">
             Get a custom corporate merchandise plan tailored to your budget, timeline, and brand guidelines. No minimums on select products — just exceptional quality.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button variant="default" size="default">
+            <Button variant="default" size="lg" className="shadow-[0_4px_14px_rgba(26,115,232,0.35)]">
               Start Corporate Inquiry
               <ArrowRight size={16} />
             </Button>
             <Button
               variant="outline"
-              size="default"
+              size="lg"
               className="border-background/30 text-background hover:bg-background hover:text-foreground"
             >
               Download Corporate Catalog
@@ -95,14 +94,14 @@ const CorporateSection = () => {
       {/* Trust Row */}
       <div className="py-12 bg-secondary border-y border-border">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-xs font-medium text-muted-foreground uppercase tracking-[1px] mb-8">
+          <p className="text-center text-[11px] font-medium text-muted-foreground uppercase tracking-[1.5px] mb-8">
             Trusted by leading companies across India
           </p>
-          <div className="flex flex-wrap justify-center items-center gap-6 lg:gap-10">
+          <div className="flex flex-wrap justify-center items-center gap-5 lg:gap-8">
             {trustCompanies.map((company) => (
               <div
                 key={company}
-                className="px-6 py-3 rounded-lg bg-background border border-border text-[14px] font-medium text-muted-foreground"
+                className="px-6 py-3 rounded-xl bg-background border border-border text-[14px] font-medium text-muted-foreground"
               >
                 {company}
               </div>
@@ -127,10 +126,10 @@ const CorporateSection = () => {
                 {i < steps.length - 1 && (
                   <div className="hidden md:block absolute top-10 left-[60%] w-[80%] h-px bg-border" />
                 )}
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary/10 border border-primary/20 mb-6">
-                  <span className="font-semibold text-[16px] text-primary">{step.number}</span>
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/[0.08] border border-primary/[0.15] mb-6">
+                  <span className="font-heading font-semibold text-[16px] text-primary">{step.number}</span>
                 </div>
-                <h3 className="font-semibold text-[16px] text-foreground mb-2">{step.title}</h3>
+                <h3 className="font-heading font-semibold text-[16px] text-foreground mb-2">{step.title}</h3>
                 <p className="text-[14px] text-muted-foreground leading-relaxed max-w-xs mx-auto">{step.description}</p>
               </div>
             ))}

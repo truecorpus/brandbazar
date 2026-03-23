@@ -36,7 +36,6 @@ function AnimatedCounter({ target, suffix, decimals = 0, inView }: { target: num
     if (!inView) return;
     const duration = 2000;
     const startTime = performance.now();
-
     const animate = (now: number) => {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
@@ -48,7 +47,7 @@ function AnimatedCounter({ target, suffix, decimals = 0, inView }: { target: num
   }, [inView, target]);
 
   return (
-    <span className="font-semibold text-3xl lg:text-4xl text-foreground">
+    <span className="font-heading font-semibold text-3xl lg:text-4xl text-foreground">
       {decimals > 0 ? count.toFixed(decimals) : Math.floor(count).toLocaleString()}
       {suffix}
     </span>
@@ -62,10 +61,7 @@ const Testimonials = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          observer.disconnect();
-        }
+        if (entry.isIntersecting) { setInView(true); observer.disconnect(); }
       },
       { threshold: 0.3 }
     );
@@ -86,23 +82,19 @@ const Testimonials = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-16">
+        <div className="grid md:grid-cols-3 gap-5 mb-16">
           {testimonials.map((t, i) => (
-            <div
-              key={i}
-              className="bg-background rounded-xl p-6 border border-border transition-all duration-200 hover:border-primary hover:shadow-[0_4px_12px_rgba(26,115,232,0.15)]"
-              style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}
-            >
-              <div className="flex gap-1 mb-4">
+            <div key={i} className="card-modern p-6">
+              <div className="flex gap-0.5 mb-4">
                 {Array.from({ length: t.stars }).map((_, j) => (
                   <Star key={j} size={14} className="fill-amber-400 text-amber-400" />
                 ))}
               </div>
-              <p className="text-[14px] text-muted-foreground leading-relaxed mb-6">
+              <p className="text-[14px] text-muted-foreground leading-[1.7] mb-6">
                 "{t.text}"
               </p>
               <div className="border-t border-border pt-4">
-                <p className="font-semibold text-[14px] text-foreground">{t.name}</p>
+                <p className="font-heading font-semibold text-[14px] text-foreground">{t.name}</p>
                 <p className="text-[13px] text-muted-foreground">{t.role}</p>
               </div>
             </div>
@@ -111,8 +103,7 @@ const Testimonials = () => {
 
         <div
           ref={statsRef}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-6 bg-background rounded-xl p-8 lg:p-12 border border-border"
-          style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-6 bg-secondary/60 rounded-2xl p-8 lg:p-12 border border-border"
         >
           {stats.map((s, i) => (
             <div key={i} className="text-center">
@@ -123,12 +114,12 @@ const Testimonials = () => {
         </div>
 
         <div className="mt-12 text-center">
-          <p className="text-[12px] text-muted-foreground mb-6 uppercase tracking-[1px] font-medium">
+          <p className="text-[11px] text-muted-foreground mb-6 uppercase tracking-[1.5px] font-medium">
             Certified Quality & Compliance
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             {["ISO 9001 Certified", "Eco-Friendly Inks", "BIS Approved Materials", "MSME Registered"].map((badge) => (
-              <span key={badge} className="text-[13px] px-4 py-2 rounded-md bg-secondary text-muted-foreground border border-border font-medium">
+              <span key={badge} className="text-[13px] px-4 py-2 rounded-xl bg-secondary text-muted-foreground border border-border font-medium">
                 {badge}
               </span>
             ))}
