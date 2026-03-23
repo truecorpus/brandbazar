@@ -174,7 +174,6 @@
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
-}
 
 .animate-float-delayed {
   animation: float-delayed 5s ease-in-out infinite 1s;
