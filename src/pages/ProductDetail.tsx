@@ -10,18 +10,18 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 
 const crossSellProducts = [
-  { name: "Premium Lanyard + ID Card Set", price: "₹68", emoji: "🪪", color: "#7C83DB" },
-  { name: "Hardcover Branded Notebook", price: "₹119", emoji: "📓", color: "#D63031" },
-  { name: "Embroidery Logo Cap", price: "₹199", emoji: "🧢", color: "#3C4043" },
+  { name: "Premium Lanyard + ID Card Set", price: "₹68", emoji: "🪪" },
+  { name: "Hardcover Branded Notebook", price: "₹119", emoji: "📓" },
+  { name: "Embroidery Logo Cap", price: "₹199", emoji: "🧢" },
 ];
 
 const relatedProducts = [
-  { name: "Magic Color-Change Mug", price: "₹149", emoji: "☕", color: "#7C83DB" },
-  { name: "Steel Sipper Bottle", price: "₹299", emoji: "🥤", color: "#5F6368" },
-  { name: "Transparent Coffee Glass", price: "₹179", emoji: "🥃", color: "#E17055" },
-  { name: "Travel Tumbler", price: "₹349", emoji: "🍵", color: "#34A853" },
-  { name: "Ceramic Tea Set", price: "₹599", emoji: "🫖", color: "#1A73E8" },
-  { name: "Shot Glass Set (6pc)", price: "₹249", emoji: "🥂", color: "#EA4335" },
+  { name: "Magic Color-Change Mug", price: "₹149", emoji: "☕" },
+  { name: "Steel Sipper Bottle", price: "₹299", emoji: "🥤" },
+  { name: "Transparent Coffee Glass", price: "₹179", emoji: "🥃" },
+  { name: "Travel Tumbler", price: "₹349", emoji: "🍵" },
+  { name: "Ceramic Tea Set", price: "₹599", emoji: "🫖" },
+  { name: "Shot Glass Set (6pc)", price: "₹249", emoji: "🥂" },
 ];
 
 const ProductDetail = () => {
@@ -81,24 +81,24 @@ const ProductDetail = () => {
       <section className="bg-secondary border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="relative rounded-lg overflow-hidden p-12 bg-secondary">
+            <div className="relative rounded-xl overflow-hidden p-12 bg-secondary border border-border">
               <div className="relative flex items-end justify-center gap-6">
                 <div className="relative hidden sm:block">
                   <div className="w-6 h-10 rounded-t-full bg-emerald-400/30 border border-emerald-500/20" />
-                  <div className="w-8 h-6 rounded-b-md bg-muted border border-border -mt-px mx-auto" style={{ marginLeft: "-1px" }} />
+                  <div className="w-8 h-6 rounded-b-md bg-secondary border border-border -mt-px mx-auto" style={{ marginLeft: "-1px" }} />
                 </div>
                 <div className="relative">
                   <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-24 h-4 rounded-[50%] bg-foreground/[0.04] blur-md" />
-                  <div className="relative w-[100px] h-[110px] rounded-b-[16px] rounded-t-[4px] bg-white border border-border/60 overflow-hidden">
+                  <div className="relative w-[100px] h-[110px] rounded-b-[16px] rounded-t-[4px] bg-background border border-border overflow-hidden">
                     <div className="absolute top-[16px] left-[10px] right-[10px] h-[60px] rounded border-2 border-dashed border-primary/30 flex items-center justify-center bg-primary/[0.03]">
                       <span className="text-primary text-[8px] font-medium tracking-wider text-center leading-tight">YOUR<br />LOGO<br />HERE</span>
                     </div>
                     <div className="absolute top-[2px] left-[4px] right-[4px] h-[10px] rounded-[50%] bg-amber-800/20" />
                   </div>
-                  <div className="absolute top-[16px] -right-[18px] w-[22px] h-[56px] rounded-r-[14px] border-[4px] border-l-0 border-gray-300" />
+                  <div className="absolute top-[16px] -right-[18px] w-[22px] h-[56px] rounded-r-[14px] border-[4px] border-l-0 border-border" />
                 </div>
                 <div className="relative hidden sm:block" style={{ transform: "rotate(-8deg)" }}>
-                  <div className="w-16 h-20 rounded-md bg-muted border border-border" />
+                  <div className="w-16 h-20 rounded-md bg-secondary border border-border" />
                   <div className="absolute top-0 left-0 w-1.5 h-full rounded-l-md bg-primary/20" />
                 </div>
               </div>
@@ -113,7 +113,7 @@ const ProductDetail = () => {
               <Button variant="default" size="lg" className="mt-6">
                 Request Free Mockup <ArrowRight size={16} />
               </Button>
-              <p className="mt-3 text-xs text-muted-foreground">Over 2,000 mockups delivered this month</p>
+              <p className="mt-3 text-[13px] text-muted-foreground">Over 2,000 mockups delivered this month</p>
             </div>
           </div>
         </div>
@@ -124,24 +124,26 @@ const ProductDetail = () => {
         <h2 className="text-2xl lg:text-3xl font-semibold text-foreground tracking-tight mb-2">
           Complete the corporate kit
         </h2>
-        <p className="text-sm text-muted-foreground mb-8">
+        <p className="text-[13px] text-muted-foreground mb-8">
           Frequently ordered together for onboarding kits & employee welcome hampers
         </p>
         <div className="grid sm:grid-cols-3 gap-4 mb-6">
           {crossSellProducts.map((p) => (
-            <div key={p.name} className="bg-card rounded-lg border border-border p-5 flex flex-col items-center text-center hover:shadow-brand-lg transition-all">
-              <div className="w-14 h-14 rounded-lg flex items-center justify-center mb-3" style={{ background: `${p.color}15` }}>
+            <div key={p.name} className="bg-background rounded-xl border border-border p-5 flex flex-col items-center text-center transition-all duration-200 hover:border-primary hover:shadow-[0_4px_12px_rgba(26,115,232,0.15)]" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
+              <div className="w-14 h-14 rounded-lg bg-secondary flex items-center justify-center mb-3">
                 <span className="text-3xl">{p.emoji}</span>
               </div>
               <h4 className="font-semibold text-sm text-foreground mb-1">{p.name}</h4>
-              <p className="text-sm text-primary font-medium mb-3">From {p.price}/unit</p>
-              <Button variant="outline" size="sm" className="w-full text-xs">Add to Quote</Button>
+              <p className="text-[14px] font-semibold text-foreground mb-3">From {p.price}/unit</p>
+              <button className="text-[13px] font-medium text-primary flex items-center gap-1 hover:gap-2 transition-all">
+                Add to Quote <ArrowRight size={14} />
+              </button>
             </div>
           ))}
         </div>
         <div className="text-center">
           <Button variant="default" size="lg">
-            Add Bundle to Quote — Bundle Pricing Available <ArrowRight size={16} />
+            Add Bundle to Quote <ArrowRight size={16} />
           </Button>
         </div>
       </section>
@@ -154,23 +156,25 @@ const ProductDetail = () => {
               More in Drinkware & Gifting
             </h2>
             <div className="hidden sm:flex gap-2">
-              <button onClick={() => scrollCarousel(-1)} className="w-9 h-9 rounded-md bg-foreground text-background flex items-center justify-center hover:bg-primary transition-colors" aria-label="Scroll left">
+              <button onClick={() => scrollCarousel(-1)} className="w-9 h-9 rounded-md border border-border bg-background text-foreground flex items-center justify-center hover:border-primary hover:text-primary transition-colors" aria-label="Scroll left">
                 <ChevronLeft size={16} />
               </button>
-              <button onClick={() => scrollCarousel(1)} className="w-9 h-9 rounded-md bg-foreground text-background flex items-center justify-center hover:bg-primary transition-colors" aria-label="Scroll right">
+              <button onClick={() => scrollCarousel(1)} className="w-9 h-9 rounded-md border border-border bg-background text-foreground flex items-center justify-center hover:border-primary hover:text-primary transition-colors" aria-label="Scroll right">
                 <ChevronRight size={16} />
               </button>
             </div>
           </div>
           <div ref={carouselRef} className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory pb-2">
             {relatedProducts.map((p) => (
-              <div key={p.name} className="shrink-0 w-[220px] snap-start bg-card rounded-lg border border-border p-5 flex flex-col items-center text-center hover:shadow-brand-lg transition-all">
-                <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-3" style={{ background: `${p.color}15` }}>
+              <div key={p.name} className="shrink-0 w-[220px] snap-start bg-background rounded-xl border border-border p-5 flex flex-col items-center text-center transition-all duration-200 hover:border-primary hover:shadow-[0_4px_12px_rgba(26,115,232,0.15)]" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
+                <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center mb-3">
                   <span className="text-2xl">{p.emoji}</span>
                 </div>
                 <h4 className="font-semibold text-sm text-foreground mb-1">{p.name}</h4>
-                <p className="text-sm text-primary font-medium mb-3">From {p.price}/unit</p>
-                <Button variant="outline" size="sm" className="w-full text-xs">View Details</Button>
+                <p className="text-[14px] font-semibold text-foreground mb-3">From {p.price}/unit</p>
+                <button className="text-[13px] font-medium text-primary flex items-center gap-1 hover:gap-2 transition-all">
+                  View Details <ArrowRight size={14} />
+                </button>
               </div>
             ))}
           </div>

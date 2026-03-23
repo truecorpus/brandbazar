@@ -57,7 +57,7 @@ const ProductVisual = ({ type, color }: { type: string; color: string }) => {
     case "keychain":
       return (<div className={base}><div className="relative flex flex-col items-center"><div className="w-8 h-8 rounded-full border-2" style={{ borderColor: `${color}88` }} /><div className="w-1 h-3" style={{ backgroundColor: `${color}66` }} /><div className="w-14 h-16 rounded-md border-2 flex items-center justify-center" style={{ borderColor: `${color}66`, background: `linear-gradient(135deg, ${color}15, ${color}30)` }}><div className="w-8 h-8 rounded border border-dashed" style={{ borderColor: `${color}44` }} /></div></div></div>);
     case "kit":
-      return (<div className={base}><div className="relative"><div className="absolute top-0 left-3 w-20 h-20 rounded-md border" style={{ borderColor: `${color}33`, background: `${color}11` }} /><div className="absolute top-2 left-1 w-20 h-20 rounded-md border" style={{ borderColor: `${color}44`, background: `${color}18` }} /><div className="relative top-4 w-20 h-20 rounded-md border-2" style={{ borderColor: `${color}66`, background: `linear-gradient(135deg, ${color}15, ${color}30)` }}><div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded border border-dashed" style={{ borderColor: `${color}44` }} /><div className="absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-2 rounded-b" style={{ backgroundColor: `#FBBC04` }} /></div></div></div>);
+      return (<div className={base}><div className="relative"><div className="absolute top-0 left-3 w-20 h-20 rounded-md border" style={{ borderColor: `${color}33`, background: `${color}11` }} /><div className="absolute top-2 left-1 w-20 h-20 rounded-md border" style={{ borderColor: `${color}44`, background: `${color}18` }} /><div className="relative top-4 w-20 h-20 rounded-md border-2" style={{ borderColor: `${color}66`, background: `linear-gradient(135deg, ${color}15, ${color}30)` }}><div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded border border-dashed" style={{ borderColor: `${color}44` }} /></div></div></div>);
     case "lanyard":
       return (<div className={base}><div className="relative flex flex-col items-center"><div className="w-16 h-6 rounded-t-full border border-b-0" style={{ borderColor: `${color}55` }} /><div className="w-6 h-24 rounded-b border-2" style={{ borderColor: `${color}55`, background: `linear-gradient(180deg, ${color}22, ${color}38)` }}><div className="mt-2 mx-auto w-3 h-14 rounded-sm border border-dashed" style={{ borderColor: `${color}44` }} /></div></div></div>);
     case "tote":
@@ -67,14 +67,15 @@ const ProductVisual = ({ type, color }: { type: string; color: string }) => {
   }
 };
 
+const badgeStyles: Record<string, string> = {
+  BESTSELLER: "bg-[#E8F0FE] text-primary",
+  NEW: "bg-[#E6F4EA] text-[#137333]",
+  "CORPORATE PICK": "bg-[#E8F0FE] text-primary",
+  EXPRESS: "bg-[#FCE8E6] text-[#C5221F]",
+};
+
 const BadgeLabel = ({ badge }: { badge: string }) => {
-  const colors: Record<string, string> = {
-    BESTSELLER: "bg-amber-100 text-amber-700",
-    NEW: "bg-emerald-100 text-emerald-700",
-    "CORPORATE PICK": "bg-primary/10 text-primary",
-    EXPRESS: "bg-orange-100 text-orange-700",
-  };
-  return <span className={`absolute top-3 left-3 z-10 px-2.5 py-0.5 rounded text-[10px] font-medium uppercase tracking-wider ${colors[badge] || "bg-muted text-foreground"}`}>{badge}</span>;
+  return <span className={`absolute top-3 left-3 z-10 px-2 py-0.5 rounded text-[11px] font-medium ${badgeStyles[badge] || "bg-secondary text-foreground"}`}>{badge}</span>;
 };
 
 const Shop = () => {
@@ -157,7 +158,7 @@ const Shop = () => {
         <div className="bg-foreground overflow-hidden">
           <div className="flex animate-[marquee_30s_linear_infinite] whitespace-nowrap py-2.5">
             {[...marqueeItems, ...marqueeItems, ...marqueeItems].map((item, i) => (
-              <span key={i} className="mx-6 text-sm font-medium text-amber-400 shrink-0">{item}</span>
+              <span key={i} className="mx-6 text-sm font-medium text-primary shrink-0">{item}</span>
             ))}
           </div>
         </div>
@@ -171,7 +172,7 @@ const Shop = () => {
               <div className="flex items-center gap-2 min-w-max">
                 {categories.map((cat) => (
                   <button key={cat} onClick={() => { setActiveCategory(cat); setVisibleCount(12); }} aria-label={`Filter by ${cat}`}
-                    className={`px-4 py-2 rounded-md text-xs font-medium whitespace-nowrap transition-all duration-200 ${activeCategory === cat ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground border border-border hover:text-foreground"}`}>
+                    className={`px-4 py-2 rounded-md text-xs font-medium whitespace-nowrap transition-all duration-200 ${activeCategory === cat ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground border border-border hover:text-foreground"}`}>
                     {cat}
                   </button>
                 ))}
@@ -193,7 +194,7 @@ const Shop = () => {
                   <ChevronDown size={14} className={`transition-transform ${showSortDropdown ? "rotate-180" : ""}`} />
                 </button>
                 {showSortDropdown && (
-                  <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-brand-lg py-1 min-w-[180px] z-50 animate-scale-in">
+                  <div className="absolute right-0 top-full mt-1 bg-background border border-border rounded-md shadow-brand-lg py-1 min-w-[180px] z-50 animate-scale-in">
                     {sortOptions.map((opt) => (
                       <button key={opt.value} onClick={() => { setSortBy(opt.value); setShowSortDropdown(false); }}
                         className={`block w-full text-left px-4 py-2 text-sm transition-colors ${sortBy === opt.value ? "text-primary font-medium bg-primary/5" : "text-foreground hover:bg-secondary"}`}>
@@ -219,29 +220,31 @@ const Shop = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {displayed.map((product, i) => (
               <article key={product.id}
-                className={`group relative bg-card rounded-lg border border-border overflow-hidden transition-all duration-300 hover:shadow-brand-lg ${product.featured ? "sm:col-span-2" : ""}`}
-                style={{ animationDelay: `${i * 80}ms` } as React.CSSProperties}>
+                className={`group relative bg-background rounded-xl border border-border overflow-hidden transition-all duration-200 hover:border-primary hover:shadow-[0_4px_12px_rgba(26,115,232,0.15)] ${product.featured ? "sm:col-span-2" : ""}`}
+                style={{ animationDelay: `${i * 80}ms`, boxShadow: "0 1px 3px rgba(0,0,0,0.08)" } as React.CSSProperties}>
                 {product.badge && <BadgeLabel badge={product.badge} />}
-                <div className={`relative overflow-hidden ${product.featured ? "h-48 sm:h-56" : "h-44"}`} style={{ background: `linear-gradient(135deg, ${product.color}08, ${product.color}15)` }}>
+                <div className={`relative overflow-hidden bg-secondary ${product.featured ? "h-48 sm:h-56" : "h-44"}`}>
                   <div className="group-hover:scale-[1.05] transition-transform duration-500 w-full h-full"><ProductVisual type={product.type} color={product.color} /></div>
                   <div className="absolute inset-0 bg-foreground/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <span className="text-background font-medium text-sm flex items-center gap-2">Customize Now <ArrowRight size={16} /></span>
                   </div>
                 </div>
                 <div className="p-5">
-                  <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-muted-foreground mb-1.5">{product.category}</p>
-                  <h3 className={`font-semibold text-foreground leading-snug mb-1.5 ${product.featured ? "text-lg" : "text-sm"}`}>{product.name}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed mb-3">{product.tagline}</p>
+                  <p className="text-[11px] font-medium uppercase tracking-[0.8px] text-primary mb-1.5">{product.category}</p>
+                  <h3 className={`font-semibold text-foreground leading-snug mb-1.5 ${product.featured ? "text-lg" : "text-[16px]"}`}>{product.name}</h3>
+                  <p className="text-[13px] text-muted-foreground leading-relaxed mb-3">{product.tagline}</p>
                   <div className="mb-3">
-                    <span className="text-base font-semibold text-primary">From {product.price}</span>
-                    <span className="text-[10px] text-muted-foreground">/unit</span>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">({product.minUnits} · Bulk pricing available)</p>
+                    <span className="text-[14px] font-semibold text-foreground">From {product.price}</span>
+                    <span className="text-[11px] text-muted-foreground">/unit</span>
+                    <p className="text-[11px] text-muted-foreground mt-0.5">({product.minUnits} · Bulk pricing available)</p>
                   </div>
                   <div className="flex flex-wrap gap-1.5 mb-4">
                     {product.tags.map((tag) => <span key={tag} className="px-2 py-0.5 rounded text-[10px] font-medium bg-secondary text-muted-foreground">{tag}</span>)}
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button variant="default" size="sm" className="flex-1 text-xs h-9">View & Customize</Button>
+                    <button className="flex-1 text-[13px] font-medium text-primary flex items-center justify-center gap-1 hover:gap-2 transition-all py-2">
+                      Customize <ArrowRight size={14} />
+                    </button>
                     <button aria-label="Save product" className="w-9 h-9 rounded-md border border-border flex items-center justify-center text-muted-foreground hover:text-destructive transition-colors"><Heart size={14} /></button>
                   </div>
                 </div>
@@ -251,27 +254,29 @@ const Shop = () => {
         ) : (
           <div className="flex flex-col gap-4">
             {displayed.map((product, i) => (
-              <article key={product.id} className="group relative bg-card rounded-lg border border-border overflow-hidden transition-all duration-300 hover:shadow-brand-lg flex flex-col sm:flex-row" style={{ animationDelay: `${i * 60}ms` } as React.CSSProperties}>
+              <article key={product.id} className="group relative bg-background rounded-xl border border-border overflow-hidden transition-all duration-200 hover:border-primary hover:shadow-[0_4px_12px_rgba(26,115,232,0.15)] flex flex-col sm:flex-row" style={{ animationDelay: `${i * 60}ms`, boxShadow: "0 1px 3px rgba(0,0,0,0.08)" } as React.CSSProperties}>
                 {product.badge && <BadgeLabel badge={product.badge} />}
-                <div className="sm:w-[30%] h-40 sm:h-auto relative overflow-hidden shrink-0" style={{ background: `linear-gradient(135deg, ${product.color}08, ${product.color}15)` }}>
+                <div className="sm:w-[30%] h-40 sm:h-auto relative overflow-hidden shrink-0 bg-secondary">
                   <div className="group-hover:scale-[1.05] transition-transform duration-500 w-full h-full"><ProductVisual type={product.type} color={product.color} /></div>
                 </div>
                 <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between">
                   <div>
-                    <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-muted-foreground mb-1">{product.category}</p>
-                    <h3 className="font-semibold text-base text-foreground mb-1">{product.name}</h3>
-                    <p className="text-xs text-muted-foreground mb-3">{product.tagline}</p>
+                    <p className="text-[11px] font-medium uppercase tracking-[0.8px] text-primary mb-1">{product.category}</p>
+                    <h3 className="font-semibold text-[16px] text-foreground mb-1">{product.name}</h3>
+                    <p className="text-[13px] text-muted-foreground mb-3">{product.tagline}</p>
                     <div className="flex flex-wrap gap-1.5 mb-3">
                       {product.tags.map((tag) => <span key={tag} className="px-2 py-0.5 rounded text-[10px] font-medium bg-secondary text-muted-foreground">{tag}</span>)}
                     </div>
                   </div>
                   <div className="flex items-center justify-between gap-4">
                     <div>
-                      <span className="text-lg font-semibold text-primary">From {product.price}</span>
-                      <span className="text-xs text-muted-foreground">/unit</span>
-                      <p className="text-[10px] text-muted-foreground">({product.minUnits})</p>
+                      <span className="text-[14px] font-semibold text-foreground">From {product.price}</span>
+                      <span className="text-[11px] text-muted-foreground">/unit</span>
+                      <p className="text-[11px] text-muted-foreground">({product.minUnits})</p>
                     </div>
-                    <Button variant="default" size="sm" className="text-xs">View & Customize</Button>
+                    <button className="text-[13px] font-medium text-primary flex items-center gap-1 hover:gap-2 transition-all">
+                      Customize <ArrowRight size={14} />
+                    </button>
                   </div>
                 </div>
               </article>
