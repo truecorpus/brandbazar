@@ -48,7 +48,7 @@ function AnimatedCounter({ target, suffix, decimals = 0, inView }: { target: num
   }, [inView, target]);
 
   return (
-    <span className="font-semibold text-4xl lg:text-5xl text-foreground">
+    <span className="font-semibold text-3xl lg:text-4xl text-foreground">
       {decimals > 0 ? count.toFixed(decimals) : Math.floor(count).toLocaleString()}
       {suffix}
     </span>
@@ -74,35 +74,36 @@ const Testimonials = () => {
   }, []);
 
   return (
-    <section className="py-20 lg:py-28 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="badge-chip-muted">Social Proof</span>
-          <h2 className="mt-4 text-3xl sm:text-4xl font-semibold text-foreground tracking-tight">
+    <section className="py-20 bg-background">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-[560px] mx-auto mb-12">
+          <p className="section-label">Social Proof</p>
+          <h2 className="section-heading">
             Why 500+ companies choose us
           </h2>
-          <p className="mt-4 text-muted-foreground text-lg">
+          <p className="section-subtext">
             Real feedback from HR leaders, marketing teams, and procurement managers who trust us with their brand.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-20">
+        <div className="grid md:grid-cols-3 gap-6 mb-16">
           {testimonials.map((t, i) => (
             <div
               key={i}
-              className="bg-card rounded-lg p-8 border border-border hover:shadow-brand-lg transition-shadow duration-300"
+              className="bg-background rounded-xl p-6 border border-border transition-all duration-200 hover:border-primary hover:shadow-[0_4px_12px_rgba(26,115,232,0.15)]"
+              style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}
             >
               <div className="flex gap-1 mb-4">
                 {Array.from({ length: t.stars }).map((_, j) => (
-                  <Star key={j} size={16} className="fill-amber-400 text-amber-400" />
+                  <Star key={j} size={14} className="fill-amber-400 text-amber-400" />
                 ))}
               </div>
-              <p className="text-foreground leading-relaxed mb-6">
+              <p className="text-[14px] text-muted-foreground leading-relaxed mb-6">
                 "{t.text}"
               </p>
               <div className="border-t border-border pt-4">
-                <p className="font-semibold text-foreground">{t.name}</p>
-                <p className="text-sm text-muted-foreground">{t.role}</p>
+                <p className="font-semibold text-[14px] text-foreground">{t.name}</p>
+                <p className="text-[13px] text-muted-foreground">{t.role}</p>
               </div>
             </div>
           ))}
@@ -110,23 +111,24 @@ const Testimonials = () => {
 
         <div
           ref={statsRef}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-4 bg-card rounded-lg p-8 lg:p-12 border border-border"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-6 bg-background rounded-xl p-8 lg:p-12 border border-border"
+          style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}
         >
           {stats.map((s, i) => (
             <div key={i} className="text-center">
               <AnimatedCounter target={s.target} suffix={s.suffix} decimals={s.decimals} inView={inView} />
-              <p className="mt-2 text-sm text-muted-foreground font-medium">{s.label}</p>
+              <p className="mt-2 text-[13px] text-muted-foreground font-medium">{s.label}</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-16 text-center">
-          <p className="text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">
+        <div className="mt-12 text-center">
+          <p className="text-[12px] text-muted-foreground mb-6 uppercase tracking-[1px] font-medium">
             Certified Quality & Compliance
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-3">
             {["ISO 9001 Certified", "Eco-Friendly Inks", "BIS Approved Materials", "MSME Registered"].map((badge) => (
-              <span key={badge} className="badge-chip-muted text-sm px-4 py-2">
+              <span key={badge} className="text-[13px] px-4 py-2 rounded-md bg-secondary text-muted-foreground border border-border font-medium">
                 {badge}
               </span>
             ))}

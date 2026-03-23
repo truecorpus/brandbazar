@@ -51,14 +51,14 @@ const tiers = [
 
 const PricingTiers = () => {
   return (
-    <section className="py-20 lg:py-28 bg-secondary">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="badge-chip">Volume Pricing</span>
-          <h2 className="mt-4 text-3xl sm:text-4xl font-semibold text-foreground tracking-tight">
+    <section className="py-20 bg-secondary">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-[560px] mx-auto mb-12">
+          <p className="section-label">Volume Pricing</p>
+          <h2 className="section-heading">
             Transparent bulk pricing
           </h2>
-          <p className="mt-4 text-muted-foreground text-lg">
+          <p className="section-subtext">
             The more you order, the more you save. Every tier includes premium print quality and dedicated support.
           </p>
         </div>
@@ -67,32 +67,33 @@ const PricingTiers = () => {
           {tiers.map((tier) => (
             <div
               key={tier.name}
-              className={`relative rounded-lg p-8 flex flex-col transition-shadow duration-300 ${
+              className={`relative rounded-xl p-8 flex flex-col transition-all duration-200 ${
                 tier.popular
                   ? "bg-foreground text-background border-2 border-primary"
-                  : "bg-card border border-border hover:shadow-brand-lg"
+                  : "bg-background border border-border hover:border-primary hover:shadow-[0_4px_12px_rgba(26,115,232,0.15)]"
               }`}
+              style={!tier.popular ? { boxShadow: "0 1px 3px rgba(0,0,0,0.08)" } : undefined}
             >
               {tier.popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-medium px-4 py-1 rounded-full">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-[11px] font-medium px-4 py-1 rounded-md">
                   Most Popular
                 </span>
               )}
 
               <div className="mb-6">
-                <h3 className={`font-semibold text-xl ${tier.popular ? "text-background" : "text-foreground"}`}>
+                <h3 className={`font-semibold text-[18px] ${tier.popular ? "text-background" : "text-foreground"}`}>
                   {tier.name}
                 </h3>
-                <p className={`text-sm mt-1 ${tier.popular ? "text-background/70" : "text-muted-foreground"}`}>
+                <p className={`text-[14px] mt-1 ${tier.popular ? "text-background/70" : "text-muted-foreground"}`}>
                   {tier.units}
                 </p>
               </div>
 
               <div className="mb-8">
-                <span className={`font-semibold text-3xl ${tier.popular ? "text-primary-foreground" : "text-foreground"}`}>
+                <span className={`font-semibold text-[28px] ${tier.popular ? "text-primary-foreground" : "text-foreground"}`}>
                   {tier.price}
                 </span>
-                <span className={`text-sm ml-2 ${tier.popular ? "text-background/60" : "text-muted-foreground"}`}>
+                <span className={`text-[14px] ml-2 ${tier.popular ? "text-background/60" : "text-muted-foreground"}`}>
                   {tier.perUnit}
                 </span>
               </div>
@@ -101,7 +102,7 @@ const PricingTiers = () => {
                 {tier.features.map((f) => (
                   <li key={f} className="flex items-start gap-3">
                     <Check size={16} className={`mt-0.5 shrink-0 ${tier.popular ? "text-primary-foreground" : "text-primary"}`} />
-                    <span className={`text-sm ${tier.popular ? "text-background/90" : "text-foreground"}`}>
+                    <span className={`text-[14px] ${tier.popular ? "text-background/90" : "text-muted-foreground"}`}>
                       {f}
                     </span>
                   </li>
@@ -119,7 +120,7 @@ const PricingTiers = () => {
           ))}
         </div>
 
-        <p className="text-center mt-10 text-sm text-muted-foreground">
+        <p className="text-center mt-10 text-[13px] text-muted-foreground">
           All prices exclusive of GST. Final quote provided after design review. Prices vary by product category and customization complexity.
         </p>
       </div>
