@@ -9,14 +9,15 @@ const products = [
 
 const ProductGrid = () => {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-md">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-md">
       {products.map((product, i) => (
         <div
           key={product.name}
-          className={`animate-fade-up stagger-${i + 1} group bg-background rounded-xl border border-border p-5 flex flex-col items-center gap-3 transition-all duration-200 cursor-pointer hover:border-primary hover:shadow-[0_2px_8px_rgba(26,115,232,0.15)]`}
-          style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}
+          className={`animate-fade-up stagger-${i + 1} card-modern group p-6 flex flex-col items-center gap-3 cursor-pointer`}
         >
-          <span className="text-3xl">{product.emoji}</span>
+          <div className="w-14 h-14 rounded-2xl bg-primary/[0.06] flex items-center justify-center group-hover:bg-primary/[0.12] transition-colors duration-300">
+            <span className="text-2xl">{product.emoji}</span>
+          </div>
           <span className="text-[13px] font-medium text-muted-foreground group-hover:text-foreground transition-colors text-center">
             {product.name}
           </span>

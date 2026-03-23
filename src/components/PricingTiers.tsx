@@ -63,25 +63,24 @@ const PricingTiers = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 items-stretch">
+        <div className="grid md:grid-cols-3 gap-5 items-stretch">
           {tiers.map((tier) => (
             <div
               key={tier.name}
-              className={`relative rounded-xl p-8 flex flex-col transition-all duration-200 ${
+              className={`relative rounded-2xl p-8 flex flex-col transition-all duration-300 ${
                 tier.popular
-                  ? "bg-foreground text-background border-2 border-primary"
-                  : "bg-background border border-border hover:border-primary hover:shadow-[0_4px_12px_rgba(26,115,232,0.15)]"
+                  ? "bg-foreground text-background border-2 border-primary shadow-[0_8px_30px_rgba(26,115,232,0.2)]"
+                  : "card-modern"
               }`}
-              style={!tier.popular ? { boxShadow: "0 1px 3px rgba(0,0,0,0.08)" } : undefined}
             >
               {tier.popular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-[11px] font-medium px-4 py-1 rounded-md">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-[11px] font-medium px-4 py-1 rounded-full">
                   Most Popular
                 </span>
               )}
 
               <div className="mb-6">
-                <h3 className={`font-semibold text-[18px] ${tier.popular ? "text-background" : "text-foreground"}`}>
+                <h3 className={`font-heading font-semibold text-[18px] ${tier.popular ? "text-background" : "text-foreground"}`}>
                   {tier.name}
                 </h3>
                 <p className={`text-[14px] mt-1 ${tier.popular ? "text-background/70" : "text-muted-foreground"}`}>
@@ -90,7 +89,7 @@ const PricingTiers = () => {
               </div>
 
               <div className="mb-8">
-                <span className={`font-semibold text-[28px] ${tier.popular ? "text-primary-foreground" : "text-foreground"}`}>
+                <span className={`font-heading font-semibold text-[28px] ${tier.popular ? "text-primary-foreground" : "text-foreground"}`}>
                   {tier.price}
                 </span>
                 <span className={`text-[14px] ml-2 ${tier.popular ? "text-background/60" : "text-muted-foreground"}`}>
@@ -101,7 +100,9 @@ const PricingTiers = () => {
               <ul className="space-y-3 mb-8 flex-1">
                 {tier.features.map((f) => (
                   <li key={f} className="flex items-start gap-3">
-                    <Check size={16} className={`mt-0.5 shrink-0 ${tier.popular ? "text-primary-foreground" : "text-primary"}`} />
+                    <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${tier.popular ? "bg-primary/20" : "bg-primary/[0.08]"}`}>
+                      <Check size={12} className={tier.popular ? "text-primary-foreground" : "text-primary"} />
+                    </div>
                     <span className={`text-[14px] ${tier.popular ? "text-background/90" : "text-muted-foreground"}`}>
                       {f}
                     </span>
@@ -111,7 +112,7 @@ const PricingTiers = () => {
 
               <Button
                 variant={tier.popular ? "default" : "outline"}
-                className={`w-full ${tier.popular ? "bg-primary text-primary-foreground" : ""}`}
+                className={`w-full ${tier.popular ? "bg-primary text-primary-foreground shadow-[0_4px_14px_rgba(26,115,232,0.35)]" : ""}`}
               >
                 {tier.name === "Enterprise" ? "Contact Sales" : "Get Quote"}
                 <ArrowRight size={16} />

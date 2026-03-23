@@ -40,30 +40,30 @@ const Navbar = () => {
   return (
     <nav
       id="main-nav"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 bg-background border-b ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-border shadow-[0_1px_4px_rgba(0,0,0,0.1)]"
-          : "border-border"
+          ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-[0_1px_8px_rgba(0,0,0,0.06)]"
+          : "bg-background border-b border-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <a href="#home" onClick={() => handleClick("#home")} className="text-lg font-semibold tracking-tight">
+            <a href="#home" onClick={() => handleClick("#home")} className="text-xl font-heading font-semibold tracking-tight">
               <span className="text-foreground">Brand</span>
               <span className="text-primary">Bazaar</span>
             </a>
           </div>
 
-          <div className="hidden lg:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <button
                 key={link.label}
                 onClick={() => handleClick(link.href)}
-                className={`text-sm font-medium transition-colors duration-200 ${
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                   activeSection === link.href.replace("#", "")
-                    ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "text-primary bg-primary/5"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                 }`}
               >
                 {link.label}
@@ -91,14 +91,14 @@ const Navbar = () => {
       </div>
 
       {mobileOpen && (
-        <div className="lg:hidden bg-background border-t border-border animate-fade-up">
-          <div className="px-4 py-4 space-y-3">
+        <div className="lg:hidden bg-background/95 backdrop-blur-xl border-t border-border animate-fade-up">
+          <div className="px-4 py-4 space-y-1">
             {navLinks.map((link) => (
               <button
                 key={link.label}
                 onClick={() => handleClick(link.href)}
-                className={`block w-full text-left text-sm font-medium transition-colors ${
-                  activeSection === link.href.replace("#", "") ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                className={`block w-full text-left text-sm font-medium px-3 py-2.5 rounded-lg transition-colors ${
+                  activeSection === link.href.replace("#", "") ? "text-primary bg-primary/5" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                 }`}
               >
                 {link.label}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type Category = "All" | "Corporate" | "Gifting" | "Apparel" | "Accessories";
 
@@ -26,7 +27,7 @@ const products: Product[] = [
 const filters: Category[] = ["All", "Corporate", "Gifting", "Apparel", "Accessories"];
 
 const badgeStyles = {
-  bestseller: "bg-[#E8F0FE] text-primary",
+  bestseller: "bg-primary/[0.08] text-primary",
   new: "bg-[#E6F4EA] text-[#137333]",
 };
 
@@ -35,14 +36,14 @@ const ProductCatalog = () => {
   const filtered = products.filter((p) => p.categories.includes(active));
 
   return (
-    <section className="py-20 lg:py-28 bg-secondary">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <p className="text-[13px] font-medium text-primary tracking-[0.5px]">Our Products</p>
-          <h2 className="mt-3 text-3xl sm:text-4xl font-semibold text-foreground tracking-tight">
+    <section className="py-20 bg-secondary">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-[560px] mx-auto mb-12">
+          <p className="section-label">Our Products</p>
+          <h2 className="section-heading">
             Everything you can brand
           </h2>
-          <p className="mt-4 text-muted-foreground text-[17px] leading-relaxed">
+          <p className="section-subtext">
             From everyday essentials to premium corporate kits — every product is fully customizable with your logo, colors, and message.
           </p>
         </div>
@@ -52,10 +53,10 @@ const ProductCatalog = () => {
             <button
               key={f}
               onClick={() => setActive(f)}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+              className={`px-5 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 ${
                 active === f
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-background text-muted-foreground border border-border hover:text-foreground"
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "bg-background text-muted-foreground border border-border hover:text-foreground hover:border-primary/30"
               }`}
             >
               {f}
@@ -63,26 +64,27 @@ const ProductCatalog = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {filtered.map((product) => (
             <div
               key={product.name}
-              className="group bg-background rounded-xl border border-border p-5 flex flex-col transition-all duration-200 hover:border-primary hover:shadow-[0_4px_12px_rgba(26,115,232,0.15)] animate-scale-in"
-              style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}
+              className="card-modern group p-5 flex flex-col animate-scale-in"
             >
-              <div className="relative bg-secondary rounded-lg p-4 flex items-center justify-center mb-4">
-                <span className="text-4xl group-hover:scale-110 transition-transform duration-300">{product.emoji}</span>
+              <div className="relative bg-secondary/80 rounded-xl p-5 flex items-center justify-center mb-4">
+                <div className="w-14 h-14 rounded-2xl bg-primary/[0.06] flex items-center justify-center group-hover:bg-primary/[0.12] transition-colors duration-300">
+                  <span className="text-3xl">{product.emoji}</span>
+                </div>
                 {product.badge && (
-                  <span className={`absolute top-2 left-2 px-2 py-0.5 rounded text-[11px] font-medium ${badgeStyles[product.badge.variant]}`}>
+                  <span className={`absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium ${badgeStyles[product.badge.variant]}`}>
                     {product.badge.label}
                   </span>
                 )}
               </div>
-              <p className="text-[11px] font-medium text-primary uppercase tracking-[0.8px] mb-1">Product</p>
-              <h3 className="font-semibold text-[16px] text-foreground mb-1">{product.name}</h3>
-              <p className="text-[13px] text-muted-foreground leading-[1.5] mb-3">{product.tagline}</p>
+              <p className="text-[11px] font-medium text-primary uppercase tracking-[1px] mb-1.5">Product</p>
+              <h3 className="font-heading font-semibold text-[16px] text-foreground mb-1">{product.name}</h3>
+              <p className="text-[13px] text-muted-foreground leading-[1.6] mb-3">{product.tagline}</p>
               <p className="text-[14px] font-semibold text-foreground mb-4">From {product.price}/unit</p>
-              <button className="mt-auto text-[13px] font-medium text-primary flex items-center gap-1 hover:gap-2 transition-all">
+              <button className="mt-auto text-[13px] font-medium text-primary flex items-center gap-1.5 hover:gap-2.5 transition-all duration-200">
                 Customize <ArrowRight size={14} />
               </button>
             </div>
@@ -90,9 +92,9 @@ const ProductCatalog = () => {
         </div>
 
         <div className="mt-12 text-center">
-          <button className="px-6 py-3 rounded-md border border-border text-sm font-medium text-foreground bg-background hover:bg-secondary transition-colors">
+          <Button variant="outline" size="lg">
             View All Products
-          </button>
+          </Button>
         </div>
       </div>
     </section>
