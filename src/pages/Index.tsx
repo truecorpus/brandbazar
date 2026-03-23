@@ -88,6 +88,15 @@ const Index = () => {
 
       {/* Corporate Section */}
       <CorporateSection />
+
+      {/* Testimonials & Social Proof */}
+      <Testimonials />
+
+      {/* Pricing Tiers */}
+      <PricingTiers />
+
+      {/* Quote Form */}
+      <QuoteForm />
     </div>
   );
 };
