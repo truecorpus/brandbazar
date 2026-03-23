@@ -14,8 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Syne", "sans-serif"],
-        body: ["DM Sans", "sans-serif"],
+        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -51,12 +50,6 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        navy: "hsl(var(--navy))",
-        gold: {
-          DEFAULT: "hsl(var(--gold))",
-          light: "hsl(var(--gold-light))",
-          dark: "hsl(var(--gold-dark))",
-        },
         surface: {
           DEFAULT: "hsl(var(--surface))",
           elevated: "hsl(var(--surface-elevated))",
@@ -73,9 +66,8 @@ export default {
         },
       },
       boxShadow: {
-        brand: "var(--shadow-md)",
-        "brand-lg": "var(--shadow-lg)",
-        "brand-gold": "var(--shadow-gold)",
+        brand: "var(--shadow-sm)",
+        "brand-lg": "var(--shadow-md)",
       },
       borderRadius: {
         lg: "var(--radius)",

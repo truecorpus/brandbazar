@@ -6,19 +6,19 @@ const testimonials = [
     name: "Priya Mehta",
     role: "HR Director, TechNova Solutions",
     stars: 5,
-    text: "We ordered 800 branded mugs and notebooks for our annual offsite. The print quality was impeccable, and everything arrived 3 days ahead of schedule. PrintCraft has become our go-to vendor for all employee gifting.",
+    text: "We ordered 800 branded mugs and notebooks for our annual offsite. The print quality was impeccable, and everything arrived 3 days ahead of schedule. BrandBazaar has become our go-to vendor for all employee gifting.",
   },
   {
     name: "Rahul Sharma",
     role: "Marketing Head, GrowthStack",
     stars: 5,
-    text: "As a startup, brand consistency matters to us. PrintCraft delivered custom t-shirts, lanyards, and ID cards that looked premium without the premium price tag. Their design team even helped refine our logo placement.",
+    text: "As a startup, brand consistency matters to us. BrandBazaar delivered custom t-shirts, lanyards, and ID cards that looked premium without the premium price tag. Their design team even helped refine our logo placement.",
   },
   {
     name: "Ananya Desai",
     role: "Procurement Manager, Finserv Group",
     stars: 5,
-    text: "Managing corporate gifts for 12 offices used to be a nightmare. With PrintCraft's dedicated account manager, we now place a single order and they handle regional distribution. Absolute game-changer for our operations.",
+    text: "Managing corporate gifts for 12 offices used to be a nightmare. With BrandBazaar's dedicated account manager, we now place a single order and they handle regional distribution. Absolute game-changer for our operations.",
   },
 ];
 
@@ -34,7 +34,6 @@ function AnimatedCounter({ target, suffix, decimals = 0, inView }: { target: num
 
   useEffect(() => {
     if (!inView) return;
-    let start = 0;
     const duration = 2000;
     const startTime = performance.now();
 
@@ -49,7 +48,7 @@ function AnimatedCounter({ target, suffix, decimals = 0, inView }: { target: num
   }, [inView, target]);
 
   return (
-    <span className="font-display font-extrabold text-4xl lg:text-5xl text-primary">
+    <span className="font-semibold text-4xl lg:text-5xl text-foreground">
       {decimals > 0 ? count.toFixed(decimals) : Math.floor(count).toLocaleString()}
       {suffix}
     </span>
@@ -75,63 +74,59 @@ const Testimonials = () => {
   }, []);
 
   return (
-    <section className="relative py-20 lg:py-28 bg-background">
+    <section className="py-20 lg:py-28 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Headline */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="badge-chip-navy">Social Proof</span>
-          <h2 className="mt-4 font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-primary tracking-tight">
-            Why 500+ Companies Choose Us
+          <span className="badge-chip-muted">Social Proof</span>
+          <h2 className="mt-4 text-3xl sm:text-4xl font-semibold text-foreground tracking-tight">
+            Why 500+ companies choose us
           </h2>
-          <p className="mt-4 text-muted-foreground text-lg font-body">
+          <p className="mt-4 text-muted-foreground text-lg">
             Real feedback from HR leaders, marketing teams, and procurement managers who trust us with their brand.
           </p>
         </div>
 
-        {/* Testimonial Cards */}
-        <div className="grid md:grid-cols-3 gap-8 mb-20">
+        <div className="grid md:grid-cols-3 gap-6 mb-20">
           {testimonials.map((t, i) => (
             <div
               key={i}
-              className="bg-card rounded-xl p-8 border border-border shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-shadow duration-300"
+              className="bg-card rounded-lg p-8 border border-border hover:shadow-brand-lg transition-shadow duration-300"
             >
               <div className="flex gap-1 mb-4">
                 {Array.from({ length: t.stars }).map((_, j) => (
-                  <Star key={j} size={18} className="fill-accent text-accent" />
+                  <Star key={j} size={16} className="fill-amber-400 text-amber-400" />
                 ))}
               </div>
-              <p className="text-foreground font-body leading-relaxed mb-6">
+              <p className="text-foreground leading-relaxed mb-6">
                 "{t.text}"
               </p>
               <div className="border-t border-border pt-4">
-                <p className="font-display font-semibold text-primary">{t.name}</p>
-                <p className="text-sm text-muted-foreground font-body">{t.role}</p>
+                <p className="font-semibold text-foreground">{t.name}</p>
+                <p className="text-sm text-muted-foreground">{t.role}</p>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Stats Bar */}
         <div
           ref={statsRef}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-4 bg-card rounded-2xl p-8 lg:p-12 border border-border shadow-[var(--shadow-md)]"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-4 bg-card rounded-lg p-8 lg:p-12 border border-border"
         >
           {stats.map((s, i) => (
             <div key={i} className="text-center">
               <AnimatedCounter target={s.target} suffix={s.suffix} decimals={s.decimals} inView={inView} />
-              <p className="mt-2 text-sm text-muted-foreground font-body font-medium">{s.label}</p>
+              <p className="mt-2 text-sm text-muted-foreground font-medium">{s.label}</p>
             </div>
           ))}
         </div>
 
-        {/* Quality Badges */}
         <div className="mt-16 text-center">
-          <p className="text-sm text-muted-foreground font-body mb-6 uppercase tracking-widest font-medium">
+          <p className="text-sm text-muted-foreground mb-6 uppercase tracking-widest font-medium">
             Certified Quality & Compliance
           </p>
-          <div className="flex flex-wrap justify-center gap-6">
+          <div className="flex flex-wrap justify-center gap-4">
             {["ISO 9001 Certified", "Eco-Friendly Inks", "BIS Approved Materials", "MSME Registered"].map((badge) => (
-              <span key={badge} className="badge-chip-navy text-sm px-5 py-2">
+              <span key={badge} className="badge-chip-muted text-sm px-4 py-2">
                 {badge}
               </span>
             ))}

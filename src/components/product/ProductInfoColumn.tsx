@@ -53,7 +53,7 @@ const ProductInfoColumn = ({ selectedColor, quantity, onQuantityChange }: Props)
   const savings = mrpTotal - total;
 
   const colorName = useMemo(() => {
-    const map: Record<string, string> = { "#FFFFFF": "White", "#1A1A1A": "Black", "#0A1628": "Navy", "#C0392B": "Red", "#AEC6CF": "Pastel Blue" };
+    const map: Record<string, string> = { "#FFFFFF": "White", "#1A1A1A": "Black", "#1A3A5C": "Navy", "#C0392B": "Red", "#AEC6CF": "Pastel Blue" };
     return map[selectedColor] || "White";
   }, [selectedColor]);
 
@@ -63,146 +63,103 @@ const ProductInfoColumn = ({ selectedColor, quantity, onQuantityChange }: Props)
 
   return (
     <div className="space-y-6">
-      {/* Breadcrumb */}
       <nav aria-label="Breadcrumb">
-        <ol className="flex items-center gap-2 text-sm font-body text-muted-foreground">
-          <li><a href="/shop" className="hover:text-accent transition-colors">Shop</a></li>
+        <ol className="flex items-center gap-2 text-sm text-muted-foreground">
+          <li><a href="/shop" className="hover:text-primary transition-colors">Shop</a></li>
           <li className="text-border">›</li>
-          <li><a href="/shop" className="hover:text-accent transition-colors">Drinkware</a></li>
+          <li><a href="/shop" className="hover:text-primary transition-colors">Drinkware</a></li>
           <li className="text-border">›</li>
-          <li className="text-primary font-medium">Premium Ceramic Mug</li>
+          <li className="text-foreground font-medium">Premium Ceramic Mug</li>
         </ol>
       </nav>
 
-      {/* Badges */}
       <div className="flex flex-wrap gap-2">
-        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-body uppercase tracking-wider bg-accent text-accent-foreground">Bestseller</span>
-        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-body uppercase tracking-wider bg-primary text-primary-foreground">Corporate Pick</span>
-        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-body uppercase tracking-wider bg-orange-500 text-white">Express Available</span>
+        <span className="px-2.5 py-0.5 rounded text-[10px] font-medium uppercase tracking-wider bg-amber-100 text-amber-700">Bestseller</span>
+        <span className="px-2.5 py-0.5 rounded text-[10px] font-medium uppercase tracking-wider bg-primary/10 text-primary">Corporate Pick</span>
+        <span className="px-2.5 py-0.5 rounded text-[10px] font-medium uppercase tracking-wider bg-orange-100 text-orange-700">Express Available</span>
       </div>
 
-      {/* Product name */}
       <div>
-        <h1 className="font-display font-extrabold text-3xl lg:text-4xl text-primary tracking-tight leading-tight">
+        <h1 className="text-3xl lg:text-4xl font-semibold text-foreground tracking-tight leading-tight">
           Premium Ceramic Coffee Mug
         </h1>
-        <p className="mt-2 text-muted-foreground font-body text-base leading-relaxed">
+        <p className="mt-2 text-muted-foreground text-base leading-relaxed">
           Your brand, wrapped in warmth. Perfect for corporate gifting and personalized presents.
         </p>
       </div>
 
-      {/* Rating */}
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex gap-0.5">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <Star key={i} size={16} className="fill-accent text-accent" />
-          ))}
+          {[1, 2, 3, 4, 5].map((i) => <Star key={i} size={16} className="fill-amber-400 text-amber-400" />)}
         </div>
-        <span className="text-sm font-body font-semibold text-primary">4.9 / 5</span>
-        <span className="text-sm font-body text-muted-foreground">(247 reviews)</span>
+        <span className="text-sm font-medium text-foreground">4.9 / 5</span>
+        <span className="text-sm text-muted-foreground">(247 reviews)</span>
         <span className="badge-chip text-[10px]">50,000+ units delivered</span>
       </div>
 
-      {/* ═══ PRICING ENGINE ═══ */}
-      <div className="bg-card rounded-xl border border-border p-5 space-y-4">
-        {/* Quantity selector */}
+      {/* Pricing Engine */}
+      <div className="bg-card rounded-lg border border-border p-5 space-y-4">
         <div>
-          <label className="text-xs font-body font-semibold uppercase tracking-widest text-muted-foreground mb-2 block">Quantity</label>
+          <label className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2 block">Quantity</label>
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => onQuantityChange(Math.max(1, quantity - (quantity > 25 ? 25 : 1)))}
-              className="w-10 h-10 rounded-lg border border-border flex items-center justify-center text-primary hover:bg-muted transition-colors"
-              aria-label="Decrease quantity"
-            >
+            <button onClick={() => onQuantityChange(Math.max(1, quantity - (quantity > 25 ? 25 : 1)))} className="w-10 h-10 rounded-md border border-border flex items-center justify-center text-foreground hover:bg-secondary transition-colors" aria-label="Decrease quantity">
               <Minus size={16} />
             </button>
-            <input
-              type="number"
-              min="1"
-              value={quantity}
-              onChange={(e) => onQuantityChange(Math.max(1, parseInt(e.target.value) || 1))}
-              className="w-20 h-10 text-center rounded-lg border border-border font-body font-semibold text-primary bg-card focus:outline-none focus:ring-2 focus:ring-ring"
-            />
-            <button
-              onClick={() => onQuantityChange(quantity < 25 ? 25 : quantity + 25)}
-              className="w-10 h-10 rounded-lg border border-border flex items-center justify-center text-primary hover:bg-muted transition-colors"
-              aria-label="Increase quantity"
-            >
+            <input type="number" min="1" value={quantity} onChange={(e) => onQuantityChange(Math.max(1, parseInt(e.target.value) || 1))} className="w-20 h-10 text-center rounded-md border border-border font-medium text-foreground bg-background focus:outline-none focus:ring-2 focus:ring-ring" />
+            <button onClick={() => onQuantityChange(quantity < 25 ? 25 : quantity + 25)} className="w-10 h-10 rounded-md border border-border flex items-center justify-center text-foreground hover:bg-secondary transition-colors" aria-label="Increase quantity">
               <Plus size={16} />
             </button>
             {quantity < 25 && (
-              <button
-                onClick={() => onQuantityChange(25)}
-                className="text-xs font-body text-accent hover:underline transition-colors"
-              >
-                Jump to bulk (25)
-              </button>
+              <button onClick={() => onQuantityChange(25)} className="text-xs text-primary hover:underline transition-colors">Jump to bulk (25)</button>
             )}
           </div>
         </div>
 
-        {/* Pricing tiers */}
-        <div className="rounded-lg border border-border overflow-hidden">
+        <div className="rounded-md border border-border overflow-hidden">
           {pricingTiers.map((tier) => {
             const active = tier.min === currentTier.min;
             return (
-              <div
-                key={tier.label}
-                className={`flex items-center justify-between px-4 py-2.5 text-sm font-body transition-colors ${
-                  active ? "bg-accent/10 border-l-2 border-accent font-semibold text-primary" : "text-muted-foreground"
-                } ${tier.min > 1 ? "border-t border-border" : ""}`}
-              >
+              <div key={tier.label} className={`flex items-center justify-between px-4 py-2.5 text-sm transition-colors ${active ? "bg-primary/5 border-l-2 border-primary font-medium text-foreground" : "text-muted-foreground"} ${tier.min > 1 ? "border-t border-border" : ""}`}>
                 <span>{tier.label}</span>
                 <div className="flex items-center gap-2">
-                  <span className={active ? "text-accent font-bold" : ""}>₹{tier.price}/unit</span>
-                  <span className={`text-[10px] ${active ? "text-accent" : "text-muted-foreground/60"}`}>{tier.tag}</span>
+                  <span className={active ? "text-primary font-semibold" : ""}>₹{tier.price}/unit</span>
+                  <span className={`text-[10px] ${active ? "text-primary" : "text-muted-foreground/60"}`}>{tier.tag}</span>
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* Total */}
         <div className="flex items-center justify-between pt-2">
           <div>
-            <p className="text-sm text-muted-foreground font-body">Total</p>
-            <p className="font-display font-extrabold text-2xl text-primary">
-              ₹{total.toLocaleString("en-IN")}
-            </p>
-            <p className="text-[10px] text-muted-foreground font-body">(incl. customization)</p>
+            <p className="text-sm text-muted-foreground">Total</p>
+            <p className="font-semibold text-2xl text-foreground">₹{total.toLocaleString("en-IN")}</p>
+            <p className="text-[10px] text-muted-foreground">(incl. customization)</p>
           </div>
           {savings > 0 && quantity >= 25 && (
-            <span className="px-3 py-1.5 rounded-full text-xs font-bold font-body bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">
+            <span className="px-3 py-1.5 rounded text-xs font-medium bg-emerald-50 text-emerald-600 border border-emerald-200">
               You save ₹{savings.toLocaleString("en-IN")}!
             </span>
           )}
         </div>
-
-        <p className="text-[10px] text-muted-foreground font-body">+ 18% GST applicable. GST invoice provided.</p>
+        <p className="text-[10px] text-muted-foreground">+ 18% GST applicable. GST invoice provided.</p>
       </div>
 
-      {/* ═══ CUSTOMIZATION OPTIONS ═══ */}
       {/* Print Type */}
-      <div className="border border-border rounded-xl overflow-hidden">
-        <button onClick={() => toggle("print")} className="w-full flex items-center justify-between px-5 py-4 bg-card hover:bg-muted/30 transition-colors">
-          <span className="text-sm font-body font-semibold text-primary">Print Type</span>
+      <div className="border border-border rounded-lg overflow-hidden">
+        <button onClick={() => toggle("print")} className="w-full flex items-center justify-between px-5 py-3.5 bg-card hover:bg-secondary/50 transition-colors">
+          <span className="text-sm font-medium text-foreground">Print Type</span>
           {openSections.print ? <ChevronUp size={16} className="text-muted-foreground" /> : <ChevronDown size={16} className="text-muted-foreground" />}
         </button>
         {openSections.print && (
-          <div className="px-5 pb-5 grid gap-2">
+          <div className="px-5 pb-4 grid gap-2">
             {printTypes.map((pt) => (
-              <button
-                key={pt.id}
-                onClick={() => setPrintType(pt.id)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg border text-left transition-all ${
-                  printType === pt.id ? "border-accent bg-accent/5" : "border-border hover:border-primary/20"
-                }`}
-              >
-                <span className="text-xl">{pt.icon}</span>
+              <button key={pt.id} onClick={() => setPrintType(pt.id)} className={`flex items-center gap-3 px-4 py-3 rounded-md border text-left transition-all ${printType === pt.id ? "border-primary bg-primary/5" : "border-border hover:border-muted-foreground/30"}`}>
+                <span className="text-lg">{pt.icon}</span>
                 <div className="flex-1">
-                  <p className={`text-sm font-body font-medium ${printType === pt.id ? "text-primary" : "text-foreground"}`}>{pt.label}</p>
+                  <p className={`text-sm font-medium ${printType === pt.id ? "text-foreground" : "text-foreground"}`}>{pt.label}</p>
                 </div>
-                {pt.extra > 0 && <span className="text-xs text-muted-foreground font-body">+₹{pt.extra}/unit</span>}
+                {pt.extra > 0 && <span className="text-xs text-muted-foreground">+₹{pt.extra}/unit</span>}
               </button>
             ))}
           </div>
@@ -210,25 +167,19 @@ const ProductInfoColumn = ({ selectedColor, quantity, onQuantityChange }: Props)
       </div>
 
       {/* Print Method */}
-      <div className="border border-border rounded-xl overflow-hidden">
-        <button onClick={() => toggle("method")} className="w-full flex items-center justify-between px-5 py-4 bg-card hover:bg-muted/30 transition-colors">
-          <span className="text-sm font-body font-semibold text-primary">Print Method</span>
+      <div className="border border-border rounded-lg overflow-hidden">
+        <button onClick={() => toggle("method")} className="w-full flex items-center justify-between px-5 py-3.5 bg-card hover:bg-secondary/50 transition-colors">
+          <span className="text-sm font-medium text-foreground">Print Method</span>
           {openSections.method ? <ChevronUp size={16} className="text-muted-foreground" /> : <ChevronDown size={16} className="text-muted-foreground" />}
         </button>
         {openSections.method && (
-          <div className="px-5 pb-5 grid gap-2">
+          <div className="px-5 pb-4 grid gap-2">
             {printMethods.map((pm) => (
-              <button
-                key={pm.id}
-                onClick={() => setPrintMethod(pm.id)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg border text-left transition-all ${
-                  printMethod === pm.id ? "border-accent bg-accent/5" : "border-border hover:border-primary/20"
-                }`}
-              >
+              <button key={pm.id} onClick={() => setPrintMethod(pm.id)} className={`flex items-center gap-3 px-4 py-3 rounded-md border text-left transition-all ${printMethod === pm.id ? "border-primary bg-primary/5" : "border-border hover:border-muted-foreground/30"}`}>
                 <div className="flex-1">
-                  <p className={`text-sm font-body font-medium ${printMethod === pm.id ? "text-primary" : "text-foreground"}`}>{pm.label}</p>
+                  <p className={`text-sm font-medium ${printMethod === pm.id ? "text-foreground" : "text-foreground"}`}>{pm.label}</p>
                 </div>
-                {pm.rec && <span className="px-2 py-0.5 rounded-full text-[9px] font-bold font-body bg-accent/10 text-accent border border-accent/20">RECOMMENDED</span>}
+                {pm.rec && <span className="px-2 py-0.5 rounded text-[9px] font-medium bg-primary/10 text-primary">Recommended</span>}
               </button>
             ))}
           </div>
@@ -236,35 +187,32 @@ const ProductInfoColumn = ({ selectedColor, quantity, onQuantityChange }: Props)
       </div>
 
       {/* Artwork Upload */}
-      <div className="border border-border rounded-xl overflow-hidden">
-        <button onClick={() => toggle("artwork")} className="w-full flex items-center justify-between px-5 py-4 bg-card hover:bg-muted/30 transition-colors">
-          <span className="text-sm font-body font-semibold text-primary">Artwork Upload</span>
+      <div className="border border-border rounded-lg overflow-hidden">
+        <button onClick={() => toggle("artwork")} className="w-full flex items-center justify-between px-5 py-3.5 bg-card hover:bg-secondary/50 transition-colors">
+          <span className="text-sm font-medium text-foreground">Artwork Upload</span>
           {openSections.artwork ? <ChevronUp size={16} className="text-muted-foreground" /> : <ChevronDown size={16} className="text-muted-foreground" />}
         </button>
         {openSections.artwork && (
-          <div className="px-5 pb-5">
+          <div className="px-5 pb-4">
             {uploadedFile ? (
-              <div className="rounded-lg border border-accent bg-accent/5 p-4 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center text-accent">✓</div>
+              <div className="rounded-md border border-primary bg-primary/5 p-4 flex items-center gap-3">
+                <div className="w-8 h-8 rounded bg-primary/10 flex items-center justify-center text-primary">✓</div>
                 <div className="flex-1">
-                  <p className="text-sm font-body font-medium text-primary">{uploadedFile}</p>
-                  <p className="text-xs text-muted-foreground font-body">Uploaded successfully</p>
+                  <p className="text-sm font-medium text-foreground">{uploadedFile}</p>
+                  <p className="text-xs text-muted-foreground">Uploaded successfully</p>
                 </div>
-                <button onClick={() => setUploadedFile("")} className="text-xs text-muted-foreground hover:text-destructive font-body">Remove</button>
+                <button onClick={() => setUploadedFile("")} className="text-xs text-muted-foreground hover:text-destructive">Remove</button>
               </div>
             ) : (
-              <div
-                className={`rounded-lg border-2 border-dashed p-8 text-center transition-colors ${
-                  fileDropHover ? "border-accent bg-accent/5" : "border-border"
-                }`}
+              <div className={`rounded-md border-2 border-dashed p-8 text-center transition-colors ${fileDropHover ? "border-primary bg-primary/5" : "border-border"}`}
                 onDragOver={(e) => { e.preventDefault(); setFileDropHover(true); }}
                 onDragLeave={() => setFileDropHover(false)}
                 onDrop={(e) => { e.preventDefault(); setFileDropHover(false); setUploadedFile("company-logo.png"); }}
               >
-                <Upload size={28} className="mx-auto text-muted-foreground mb-3" />
-                <p className="text-sm font-body text-foreground mb-1">Drop your logo or design here, or <button onClick={() => setUploadedFile("brand-logo.png")} className="text-accent hover:underline font-semibold">browse</button></p>
-                <p className="text-[10px] text-muted-foreground font-body">Accepted: PNG, PDF, AI, PSD · Min 300 DPI · Max 10MB</p>
-                <p className="text-[10px] text-accent font-body mt-2 font-medium">Don't have a design? Our designers will create one FREE</p>
+                <Upload size={24} className="mx-auto text-muted-foreground mb-3" />
+                <p className="text-sm text-foreground mb-1">Drop your logo or design here, or <button onClick={() => setUploadedFile("brand-logo.png")} className="text-primary hover:underline font-medium">browse</button></p>
+                <p className="text-[10px] text-muted-foreground">Accepted: PNG, PDF, AI, PSD · Min 300 DPI · Max 10MB</p>
+                <p className="text-[10px] text-primary mt-2 font-medium">Don't have a design? Our designers will create one FREE</p>
               </div>
             )}
           </div>
@@ -272,31 +220,26 @@ const ProductInfoColumn = ({ selectedColor, quantity, onQuantityChange }: Props)
       </div>
 
       {/* Special Instructions */}
-      <div className="border border-border rounded-xl overflow-hidden">
-        <button onClick={() => toggle("instructions")} className="w-full flex items-center justify-between px-5 py-4 bg-card hover:bg-muted/30 transition-colors">
-          <span className="text-sm font-body font-semibold text-primary">Special Instructions</span>
+      <div className="border border-border rounded-lg overflow-hidden">
+        <button onClick={() => toggle("instructions")} className="w-full flex items-center justify-between px-5 py-3.5 bg-card hover:bg-secondary/50 transition-colors">
+          <span className="text-sm font-medium text-foreground">Special Instructions</span>
           {openSections.instructions ? <ChevronUp size={16} className="text-muted-foreground" /> : <ChevronDown size={16} className="text-muted-foreground" />}
         </button>
         {openSections.instructions && (
-          <div className="px-5 pb-5">
-            <textarea
-              rows={3}
-              maxLength={500}
-              value={specialInstructions}
-              onChange={(e) => setSpecialInstructions(e.target.value)}
+          <div className="px-5 pb-4">
+            <textarea rows={3} maxLength={500} value={specialInstructions} onChange={(e) => setSpecialInstructions(e.target.value)}
               placeholder="E.g. Employee names on each mug, specific pantone color, packaging preferences..."
-              className="w-full px-4 py-3 rounded-lg border border-border bg-card text-sm font-body placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+              className="w-full px-4 py-3 rounded-md border border-border bg-background text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
             />
-            <p className="text-right text-[10px] text-muted-foreground font-body mt-1">{specialInstructions.length}/500</p>
+            <p className="text-right text-[10px] text-muted-foreground mt-1">{specialInstructions.length}/500</p>
           </div>
         )}
       </div>
 
-      {/* ═══ CTAs ═══ */}
+      {/* CTAs */}
       <div className="space-y-3">
         <Button variant="default" size="xl" className="w-full">
-          Add to Quote Cart
-          <ArrowRight size={18} />
+          Add to Quote Cart <ArrowRight size={16} />
         </Button>
         <a href={waLink} target="_blank" rel="noopener noreferrer" className="block">
           <Button variant="outline" size="xl" className="w-full border-[#25D366] text-[#25D366] hover:bg-[#25D366] hover:text-white">
@@ -306,16 +249,15 @@ const ProductInfoColumn = ({ selectedColor, quantity, onQuantityChange }: Props)
             Get Instant WhatsApp Quote
           </Button>
         </a>
-        <button className="w-full text-center text-sm font-body text-muted-foreground hover:text-accent transition-colors flex items-center justify-center gap-1.5">
+        <button className="w-full text-center text-sm text-muted-foreground hover:text-primary transition-colors flex items-center justify-center gap-1.5">
           <FileText size={14} /> Download Product Spec Sheet
         </button>
       </div>
 
-      {/* Trust row */}
       <div className="flex flex-wrap gap-x-4 gap-y-2 justify-center">
         {trustPoints.map((tp) => (
-          <span key={tp.text} className="flex items-center gap-1 text-[10px] text-muted-foreground font-body">
-            <tp.icon size={12} className="text-accent" /> {tp.text}
+          <span key={tp.text} className="flex items-center gap-1 text-[10px] text-muted-foreground">
+            <tp.icon size={12} className="text-primary" /> {tp.text}
           </span>
         ))}
       </div>

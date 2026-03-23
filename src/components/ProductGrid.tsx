@@ -13,10 +13,10 @@ const ProductGrid = () => {
       {products.map((product, i) => (
         <div
           key={product.name}
-          className={`${product.delay} animate-fade-up stagger-${i + 1} group relative bg-surface-elevated rounded-xl border border-border p-6 flex flex-col items-center gap-3 shadow-brand hover:shadow-brand-lg hover:border-accent/30 transition-all duration-300 cursor-pointer`}
+          className={`${product.delay} animate-fade-up stagger-${i + 1} group relative bg-card rounded-xl border border-border p-6 flex flex-col items-center gap-3 shadow-brand hover:shadow-brand-lg transition-all duration-300 cursor-pointer`}
         >
           <span className="text-4xl">{product.emoji}</span>
-          <span className="text-xs font-medium text-muted-foreground group-hover:text-primary transition-colors font-body text-center">
+          <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors text-center">
             {product.name}
           </span>
         </div>
