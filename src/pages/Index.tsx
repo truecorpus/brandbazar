@@ -1,5 +1,7 @@
 import Navbar from "@/components/Navbar";
 import ProductGrid from "@/components/ProductGrid";
+import ProductCatalog from "@/components/ProductCatalog";
+import CorporateSection from "@/components/CorporateSection";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 
@@ -77,6 +79,12 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Product Catalog */}
+      <ProductCatalog />
+
+      {/* Corporate Section */}
+      <CorporateSection />
     </div>
   );
 };
