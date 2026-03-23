@@ -197,6 +197,18 @@
   z-index: 0;
 }
 
+/* Mug animations */
+@keyframes mugFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes mugRotate {
+  0% { transform: perspective(800px) rotateY(0deg); }
+  50% { transform: perspective(800px) rotateY(180deg); }
+  100% { transform: perspective(800px) rotateY(360deg); }
+}
+
 /* Scroll-triggered fade-in */
 [data-animate] {
   opacity: 0;
