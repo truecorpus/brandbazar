@@ -68,14 +68,14 @@ const ProductVisual = ({ type, color }: { type: string; color: string }) => {
 };
 
 const badgeStyles: Record<string, string> = {
-  BESTSELLER: "bg-[#E8F0FE] text-primary",
-  NEW: "bg-[#E6F4EA] text-[#137333]",
-  "CORPORATE PICK": "bg-[#E8F0FE] text-primary",
-  EXPRESS: "bg-[#FCE8E6] text-[#C5221F]",
+  BESTSELLER: "bg-primary/[0.08] text-primary border border-primary/[0.12]",
+  NEW: "bg-[hsl(142_71%_45%/0.08)] text-[hsl(142_71%_45%)] border border-[hsl(142_71%_45%/0.12)]",
+  "CORPORATE PICK": "bg-primary/[0.08] text-primary border border-primary/[0.12]",
+  EXPRESS: "bg-destructive/[0.08] text-destructive border border-destructive/[0.12]",
 };
 
 const BadgeLabel = ({ badge }: { badge: string }) => {
-  return <span className={`absolute top-3 left-3 z-10 px-2 py-0.5 rounded text-[11px] font-medium ${badgeStyles[badge] || "bg-secondary text-foreground"}`}>{badge}</span>;
+  return <span className={`absolute top-3 left-3 z-10 px-2 py-0.5 rounded-full text-[10px] font-medium ${badgeStyles[badge] || "bg-secondary text-foreground"}`}>{badge}</span>;
 };
 
 const Shop = () => {
@@ -129,40 +129,40 @@ const Shop = () => {
   }, [activeCategory, searchQuery, sortBy]);
 
   const displayed = filtered.slice(0, visibleCount);
-  const handleLoadMore = () => { setLoading(true); setTimeout(() => { setVisibleCount((v) => v + 4); setLoading(false); }, 1000); };
+  const handleLoadMore = () => { setLoading(true); setTimeout(() => { setVisibleCount((v) => v + 4); setLoading(false); }, 800); };
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
 
       {/* Shop Hero */}
-      <section className="pt-28 lg:pt-32 pb-12">
+      <section className="pt-24 lg:pt-28 pb-10">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-          <nav aria-label="Breadcrumb" className="mb-6 animate-fade-up">
-            <ol className="flex items-center gap-2 text-[14px] text-muted-foreground">
+          <nav aria-label="Breadcrumb" className="mb-5 animate-fade-up">
+            <ol className="flex items-center gap-2 text-[13px] text-muted-foreground">
               <li><a href="/" className="hover:text-primary transition-colors">Home</a></li>
               <li className="text-border">›</li>
               <li className="text-foreground font-medium">Shop</li>
             </ol>
           </nav>
-          <h1 className="text-[32px] sm:text-[40px] font-semibold text-foreground tracking-tight animate-fade-up stagger-1">
+          <h1 className="text-[28px] sm:text-[36px] font-heading font-semibold text-foreground tracking-tight animate-fade-up stagger-1">
             Our Product Catalog
           </h1>
-          <p className="mt-3 text-[16px] text-muted-foreground max-w-xl animate-fade-up stagger-2">
+          <p className="mt-2 text-[15px] text-muted-foreground max-w-xl animate-fade-up stagger-2">
             Customize anything. Brand everything. Order in bulk.
           </p>
         </div>
       </section>
 
       {/* Filter Bar */}
-      <div className="sticky top-16 z-40 bg-background/80 backdrop-blur-xl border-b border-border">
+      <div className="sticky top-16 z-40 bg-background/90 backdrop-blur-2xl border-b border-border">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex flex-col lg:flex-row lg:items-center gap-3">
             <div className="flex-1 overflow-x-auto scrollbar-hide">
-              <div className="flex items-center gap-2 min-w-max">
+              <div className="flex items-center gap-1.5 min-w-max">
                 {categories.map((cat) => (
                   <button key={cat} onClick={() => { setActiveCategory(cat); setVisibleCount(12); }} aria-label={`Filter by ${cat}`}
-                    className={`px-4 py-2 rounded-md text-[13px] font-medium whitespace-nowrap transition-all duration-200 ${activeCategory === cat ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground border border-border hover:text-foreground"}`}>
+                    className={`px-3.5 py-1.5 rounded-full text-[12px] font-medium whitespace-nowrap transition-all duration-200 ${activeCategory === cat ? "bg-primary text-primary-foreground shadow-brand" : "bg-background text-muted-foreground border border-border hover:text-foreground hover:border-primary/30"}`}>
                     {cat}
                   </button>
                 ))}
@@ -170,24 +170,24 @@ const Shop = () => {
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <div className="relative">
-                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                <input type="text" placeholder="Search products..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-8 pr-3 py-2 w-40 lg:w-48 rounded-md border border-border bg-background text-[14px] placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition" />
+                <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-8 pr-3 py-1.5 w-36 lg:w-44 rounded-full border border-border bg-background text-[13px] placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" />
               </div>
-              <div className="hidden sm:flex items-center border border-border rounded-md overflow-hidden">
-                <button onClick={() => setViewMode("grid")} aria-label="Grid view" className={`p-2 transition-colors ${viewMode === "grid" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}><Grid3X3 size={16} /></button>
-                <button onClick={() => setViewMode("list")} aria-label="List view" className={`p-2 transition-colors ${viewMode === "list" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}><List size={16} /></button>
+              <div className="hidden sm:flex items-center border border-border rounded-lg overflow-hidden">
+                <button onClick={() => setViewMode("grid")} aria-label="Grid view" className={`p-1.5 transition-colors ${viewMode === "grid" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}><Grid3X3 size={14} /></button>
+                <button onClick={() => setViewMode("list")} aria-label="List view" className={`p-1.5 transition-colors ${viewMode === "list" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}><List size={14} /></button>
               </div>
               <div ref={sortRef} className="relative">
-                <button onClick={() => setShowSortDropdown(!showSortDropdown)} className="flex items-center gap-1.5 px-3 py-2 rounded-md border border-border text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors bg-background">
+                <button onClick={() => setShowSortDropdown(!showSortDropdown)} className="flex items-center gap-1 px-3 py-1.5 rounded-full border border-border text-[12px] font-medium text-muted-foreground hover:text-foreground transition-colors bg-background">
                   {sortOptions.find((s) => s.value === sortBy)?.label || "Sort"}
-                  <ChevronDown size={14} className={`transition-transform ${showSortDropdown ? "rotate-180" : ""}`} />
+                  <ChevronDown size={12} className={`transition-transform ${showSortDropdown ? "rotate-180" : ""}`} />
                 </button>
                 {showSortDropdown && (
-                  <div className="absolute right-0 top-full mt-1 bg-background border border-border rounded-md py-1 min-w-[180px] z-50 animate-scale-in" style={{ boxShadow: "0 4px 6px rgba(0,0,0,0.07)" }}>
+                  <div className="absolute right-0 top-full mt-1.5 bg-background border border-border rounded-xl py-1 min-w-[170px] z-50 animate-scale-in" style={{ boxShadow: 'var(--shadow-lg)' }}>
                     {sortOptions.map((opt) => (
                       <button key={opt.value} onClick={() => { setSortBy(opt.value); setShowSortDropdown(false); }}
-                        className={`block w-full text-left px-4 py-2 text-[14px] transition-colors ${sortBy === opt.value ? "text-primary font-medium bg-primary/5" : "text-foreground hover:bg-secondary"}`}>
+                        className={`block w-full text-left px-3.5 py-2 text-[13px] transition-colors rounded-lg mx-0.5 ${sortBy === opt.value ? "text-primary font-medium bg-primary/[0.05]" : "text-foreground hover:bg-secondary"}`}>
                         {opt.label}
                       </button>
                     ))}
@@ -200,72 +200,75 @@ const Shop = () => {
       </div>
 
       {/* Product Grid */}
-      <main className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
+      <main className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
         {displayed.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-[20px] font-semibold text-foreground mb-2">No products found</p>
+            <p className="text-[18px] font-heading font-semibold text-foreground mb-2">No products found</p>
             <p className="text-[14px] text-muted-foreground">Try adjusting your filters or search query.</p>
           </div>
         ) : viewMode === "grid" ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {displayed.map((product, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {displayed.map((product) => (
               <article key={product.id}
-                className={`group relative bg-background rounded-xl border border-border overflow-hidden transition-all duration-200 hover:border-primary hover:shadow-[0_4px_12px_rgba(26,115,232,0.15)] ${product.featured ? "sm:col-span-2" : ""}`}
-                style={{ animationDelay: `${i * 80}ms`, boxShadow: "0 1px 3px rgba(0,0,0,0.08)" } as React.CSSProperties}>
+                className={`group relative bg-background rounded-2xl border border-border overflow-hidden transition-all duration-300 hover:border-primary/30 hover:-translate-y-1 ${product.featured ? "sm:col-span-2" : ""}`}
+                style={{ boxShadow: 'var(--shadow-sm)' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-lg)'; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-sm)'; }}
+              >
                 {product.badge && <BadgeLabel badge={product.badge} />}
-                <div className={`relative overflow-hidden bg-secondary ${product.featured ? "h-48 sm:h-56" : "h-44"}`}>
-                  <div className="group-hover:scale-[1.05] transition-transform duration-500 w-full h-full"><ProductVisual type={product.type} color={product.color} /></div>
-                  <div className="absolute inset-0 bg-foreground/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-background font-medium text-[14px] flex items-center gap-2">Customize Now <ArrowRight size={16} /></span>
+                <div className={`relative overflow-hidden bg-surface ${product.featured ? "h-48 sm:h-56" : "h-44"}`}>
+                  <div className="group-hover:scale-[1.03] transition-transform duration-500 w-full h-full"><ProductVisual type={product.type} color={product.color} /></div>
+                  <div className="absolute inset-0 bg-foreground/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <span className="text-background font-medium text-[13px] flex items-center gap-2">Customize Now <ArrowRight size={14} /></span>
                   </div>
                 </div>
-                <div className="p-5">
-                  <p className="text-[11px] font-medium uppercase tracking-[0.8px] text-primary mb-1.5">{product.category}</p>
-                  <h3 className={`font-semibold text-foreground leading-snug mb-1.5 ${product.featured ? "text-[18px]" : "text-[15px]"}`}>{product.name}</h3>
-                  <p className="text-[13px] text-muted-foreground leading-relaxed mb-3">{product.tagline}</p>
-                  <div className="mb-3">
-                    <span className="text-[14px] font-semibold text-foreground">From {product.price}</span>
-                    <span className="text-[11px] text-muted-foreground">/unit</span>
-                    <p className="text-[11px] text-muted-foreground mt-0.5">({product.minUnits} · Bulk pricing available)</p>
+                <div className="p-4">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.8px] text-primary mb-1">{product.category}</p>
+                  <h3 className={`font-heading font-semibold text-foreground leading-snug mb-1 ${product.featured ? "text-[16px]" : "text-[14px]"}`}>{product.name}</h3>
+                  <p className="text-[12px] text-muted-foreground leading-relaxed mb-3">{product.tagline}</p>
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {product.tags.slice(0, 2).map((tag) => <span key={tag} className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-surface text-muted-foreground border border-border">{tag}</span>)}
                   </div>
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {product.tags.map((tag) => <span key={tag} className="px-2 py-0.5 rounded text-[10px] font-medium bg-secondary text-muted-foreground">{tag}</span>)}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button className="flex-1 text-[13px] font-medium text-primary flex items-center justify-center gap-1 hover:gap-2 transition-all py-2">
-                      Customize <ArrowRight size={14} />
-                    </button>
-                    <button aria-label="Save product" className="w-9 h-9 rounded-md border border-border flex items-center justify-center text-muted-foreground hover:text-destructive transition-colors"><Heart size={14} /></button>
+                  <div className="flex items-center justify-between pt-3 border-t border-border/60">
+                    <div>
+                      <span className="text-[14px] font-semibold text-foreground">From {product.price}</span>
+                      <span className="text-[10px] text-muted-foreground">/unit</span>
+                    </div>
+                    <button aria-label="Save product" className="w-8 h-8 rounded-lg border border-border flex items-center justify-center text-muted-foreground hover:text-destructive hover:border-destructive/30 transition-all"><Heart size={13} /></button>
                   </div>
                 </div>
               </article>
             ))}
           </div>
         ) : (
-          <div className="flex flex-col gap-6">
-            {displayed.map((product, i) => (
-              <article key={product.id} className="group relative bg-background rounded-xl border border-border overflow-hidden transition-all duration-200 hover:border-primary hover:shadow-[0_4px_12px_rgba(26,115,232,0.15)] flex flex-col sm:flex-row" style={{ animationDelay: `${i * 60}ms`, boxShadow: "0 1px 3px rgba(0,0,0,0.08)" } as React.CSSProperties}>
+          <div className="flex flex-col gap-4">
+            {displayed.map((product) => (
+              <article key={product.id}
+                className="group relative bg-background rounded-2xl border border-border overflow-hidden transition-all duration-300 hover:border-primary/30 flex flex-col sm:flex-row"
+                style={{ boxShadow: 'var(--shadow-sm)' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-lg)'; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-sm)'; }}
+              >
                 {product.badge && <BadgeLabel badge={product.badge} />}
-                <div className="sm:w-[30%] h-40 sm:h-auto relative overflow-hidden shrink-0 bg-secondary">
-                  <div className="group-hover:scale-[1.05] transition-transform duration-500 w-full h-full"><ProductVisual type={product.type} color={product.color} /></div>
+                <div className="sm:w-[30%] h-36 sm:h-auto relative overflow-hidden shrink-0 bg-surface">
+                  <div className="group-hover:scale-[1.03] transition-transform duration-500 w-full h-full"><ProductVisual type={product.type} color={product.color} /></div>
                 </div>
-                <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between">
+                <div className="flex-1 p-5 flex flex-col justify-between">
                   <div>
-                    <p className="text-[11px] font-medium uppercase tracking-[0.8px] text-primary mb-1">{product.category}</p>
-                    <h3 className="font-semibold text-[15px] text-foreground mb-1">{product.name}</h3>
-                    <p className="text-[13px] text-muted-foreground mb-3">{product.tagline}</p>
-                    <div className="flex flex-wrap gap-1.5 mb-3">
-                      {product.tags.map((tag) => <span key={tag} className="px-2 py-0.5 rounded text-[10px] font-medium bg-secondary text-muted-foreground">{tag}</span>)}
+                    <p className="text-[10px] font-medium uppercase tracking-[0.8px] text-primary mb-1">{product.category}</p>
+                    <h3 className="font-heading font-semibold text-[14px] text-foreground mb-1">{product.name}</h3>
+                    <p className="text-[12px] text-muted-foreground mb-3">{product.tagline}</p>
+                    <div className="flex flex-wrap gap-1 mb-3">
+                      {product.tags.map((tag) => <span key={tag} className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-surface text-muted-foreground border border-border">{tag}</span>)}
                     </div>
                   </div>
-                  <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center justify-between gap-4 pt-3 border-t border-border/60">
                     <div>
                       <span className="text-[14px] font-semibold text-foreground">From {product.price}</span>
-                      <span className="text-[11px] text-muted-foreground">/unit</span>
-                      <p className="text-[11px] text-muted-foreground">({product.minUnits})</p>
+                      <span className="text-[10px] text-muted-foreground">/unit</span>
                     </div>
-                    <button className="text-[13px] font-medium text-primary flex items-center gap-1 hover:gap-2 transition-all">
-                      Customize <ArrowRight size={14} />
+                    <button className="text-[12px] font-medium text-primary flex items-center gap-1 hover:gap-1.5 transition-all">
+                      Customize <ArrowRight size={12} />
                     </button>
                   </div>
                 </div>
@@ -275,31 +278,29 @@ const Shop = () => {
         )}
 
         {filtered.length > visibleCount && (
-          <div className="mt-12 text-center">
-            <p className="text-[14px] text-muted-foreground mb-4">Showing {Math.min(visibleCount, filtered.length)} of {filtered.length} products</p>
-            <Button variant="outline" size="lg" onClick={handleLoadMore} disabled={loading} className="min-w-[220px]">
-              {loading ? <><Loader2 size={16} className="animate-spin" /> Loading...</> : "Load More Products"}
+          <div className="mt-10 text-center">
+            <p className="text-[13px] text-muted-foreground mb-4">Showing {Math.min(visibleCount, filtered.length)} of {filtered.length} products</p>
+            <Button variant="outline" size="lg" onClick={handleLoadMore} disabled={loading} className="min-w-[200px]">
+              {loading ? <><Loader2 size={14} className="animate-spin" /> Loading...</> : "Load More Products"}
             </Button>
           </div>
         )}
         {filtered.length <= visibleCount && filtered.length > 0 && (
-          <p className="mt-10 text-center text-[14px] text-muted-foreground">Showing all {filtered.length} products</p>
+          <p className="mt-8 text-center text-[13px] text-muted-foreground">Showing all {filtered.length} products</p>
         )}
       </main>
 
-      {/* Corporate Callout Strip */}
-      <section data-shop-animate className="bg-foreground py-20">
-        <div className="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-[28px] sm:text-[32px] font-semibold text-background tracking-tight">Ordering for your company?</h2>
-          <p className="mt-4 text-background/70 text-[16px] max-w-[560px] mx-auto leading-relaxed">Get custom quotes, dedicated support, and bulk pricing on all products. We handle everything from design to delivery.</p>
+      {/* Corporate Callout */}
+      <section data-shop-animate className="bg-foreground py-20 relative overflow-hidden">
+        <div className="absolute inset-0 surface-dot-pattern opacity-[0.02]" />
+        <div className="max-w-[700px] mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+          <h2 className="text-[26px] sm:text-[32px] font-heading font-semibold text-background tracking-tight">Ordering for your company?</h2>
+          <p className="mt-4 text-background/55 text-[15px] max-w-[520px] mx-auto leading-relaxed">Get custom quotes, dedicated support, and bulk pricing on all products.</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button variant="default" size="default" onClick={() => window.location.href = "/#quote"}>Request Corporate Quote <ArrowRight size={16} /></Button>
+            <Button variant="default" size="default" className="shadow-brand-lg" onClick={() => window.location.href = "/#quote"}>Request Corporate Quote <ArrowRight size={14} /></Button>
             <a href="https://wa.me/919876543210?text=Hi%2C%20I%27d%20like%20a%20corporate%20quote%20for%20branded%20merchandise." target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" size="default" className="border-background/30 text-background hover:bg-background hover:text-foreground">WhatsApp Us Now</Button>
+              <Button variant="outline" size="default" className="border-background/20 text-background hover:bg-background hover:text-foreground">WhatsApp Us</Button>
             </a>
-          </div>
-          <div className="mt-10 flex flex-wrap justify-center gap-8 text-background/60 text-[14px]">
-            <span>🎨 Free Design Mockup</span><span>📋 GST Invoice</span><span>🚀 Pan-India Delivery</span>
           </div>
         </div>
       </section>
