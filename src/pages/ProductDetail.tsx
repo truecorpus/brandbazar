@@ -11,9 +11,9 @@ import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { productImages } from "@/assets/products";
 
 const crossSellProducts = [
-  { name: "Premium Lanyard + ID Card Set", price: "₹68", emoji: "🪪" },
-  { name: "Hardcover Branded Notebook", price: "₹119", emoji: "📓" },
-  { name: "Embroidery Logo Cap", price: "₹199", emoji: "🧢" },
+  { name: "Premium Lanyard + ID Card Set", price: "₹68", imageKey: "lanyard" },
+  { name: "Hardcover Branded Notebook", price: "₹119", imageKey: "notebook" },
+  { name: "Embroidery Logo Cap", price: "₹199", imageKey: "cap" },
 ];
 
 const relatedProducts = [
