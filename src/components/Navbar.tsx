@@ -79,9 +79,10 @@ const Navbar = () => {
                 key={link.label}
                 onClick={() => handleClick(link)}
                 className={`relative px-3.5 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 ${
-                  activeSection === link.href.replace("#", "")
+                  (link.isRoute ? location.pathname === link.href : activeSection === link.href.replace("#", ""))
                     ? "text-primary"
                     : "text-muted-foreground hover:text-foreground"
+                }`}
                 }`}
               >
                 {link.label}
