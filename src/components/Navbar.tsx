@@ -62,7 +62,7 @@ const Navbar = () => {
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <a href="#home" onClick={() => handleClick("#home")} className="flex items-center gap-1">
+            <a href="/" onClick={(e) => { e.preventDefault(); handleClick({ label: "Home", href: "#home" }); }} className="flex items-center gap-1">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
                 <span className="text-primary-foreground font-heading font-semibold text-sm">B</span>
               </div>
