@@ -131,8 +131,8 @@ const ProductDetail = () => {
         <div className="grid sm:grid-cols-3 gap-4 mb-6">
           {crossSellProducts.map((p) => (
             <div key={p.name} className="bg-background rounded-xl border border-border p-5 flex flex-col items-center text-center transition-all duration-200 hover:border-primary hover:shadow-[0_4px_12px_rgba(26,115,232,0.15)]" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
-              <div className="w-14 h-14 rounded-lg bg-secondary flex items-center justify-center mb-3">
-                <span className="text-3xl">{p.emoji}</span>
+              <div className="w-14 h-14 rounded-lg bg-secondary overflow-hidden flex items-center justify-center mb-3">
+                <img src={productImages[p.imageKey]} alt={p.name} className="w-full h-full object-cover" loading="lazy" width={56} height={56} />
               </div>
               <h4 className="font-semibold text-sm text-foreground mb-1">{p.name}</h4>
               <p className="text-[14px] font-semibold text-foreground mb-3">From {p.price}/unit</p>
