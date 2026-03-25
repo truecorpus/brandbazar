@@ -230,7 +230,7 @@ const Shop = () => {
               >
                 {product.badge && <BadgeLabel badge={product.badge} />}
                 <div className="sm:w-[30%] h-36 sm:h-auto relative overflow-hidden shrink-0 bg-surface">
-                  <div className="group-hover:scale-[1.03] transition-transform duration-500 w-full h-full"><ProductVisual type={product.type} color={product.color} /></div>
+                  <div className="group-hover:scale-[1.03] transition-transform duration-500 w-full h-full"><ProductImage type={product.type} name={product.name} /></div>
                 </div>
                 <div className="flex-1 p-5 flex flex-col justify-between">
                   <div>
