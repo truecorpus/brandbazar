@@ -119,7 +119,7 @@ const Navbar = () => {
             {navLinks.map((link) => (
               <button
                 key={link.label}
-                onClick={() => handleClick(link.href)}
+                onClick={() => handleClick(link)}
                 className={`block w-full text-left text-[14px] font-medium px-3 py-2.5 rounded-lg transition-colors ${
                   activeSection === link.href.replace("#", "") ? "text-primary bg-primary/5" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                 }`}
