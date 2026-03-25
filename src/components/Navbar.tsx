@@ -16,11 +16,14 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 10);
-      const sections = navLinks.map((l) => l.href.replace("#", ""));
+      if (location.pathname !== "/") return;
+      const sections = navLinks.filter((l) => !l.isRoute).map((l) => l.href.replace("#", ""));
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
         if (el && el.getBoundingClientRect().top <= 120) {
@@ -31,11 +34,19 @@ const Navbar = () => {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [location.pathname]);
 
-  const handleClick = (href: string) => {
+  const handleClick = (link: typeof navLinks[0]) => {
     setMobileOpen(false);
-    const el = document.querySelector(href);
+    if (link.isRoute) {
+      navigate(link.href);
+      return;
+    }
+    if (location.pathname !== "/") {
+      navigate("/" + link.href);
+      return;
+    }
+    const el = document.querySelector(link.href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
