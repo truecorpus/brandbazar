@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ArrowRight } from "lucide-react";
 
@@ -7,6 +8,7 @@ const navLinks = [
   { label: "Products", href: "#products" },
   { label: "Corporate", href: "#corporate" },
   { label: "About", href: "#about" },
+  { label: "Blog", href: "/blog", isRoute: true },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -14,11 +16,14 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 10);
-      const sections = navLinks.map((l) => l.href.replace("#", ""));
+      if (location.pathname !== "/") return;
+      const sections = navLinks.filter((l) => !l.isRoute).map((l) => l.href.replace("#", ""));
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i]);
         if (el && el.getBoundingClientRect().top <= 120) {
@@ -29,11 +34,19 @@ const Navbar = () => {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [location.pathname]);
 
-  const handleClick = (href: string) => {
+  const handleClick = (link: typeof navLinks[0]) => {
     setMobileOpen(false);
-    const el = document.querySelector(href);
+    if (link.isRoute) {
+      navigate(link.href);
+      return;
+    }
+    if (location.pathname !== "/") {
+      navigate("/" + link.href);
+      return;
+    }
+    const el = document.querySelector(link.href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -49,7 +62,7 @@ const Navbar = () => {
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <a href="#home" onClick={() => handleClick("#home")} className="flex items-center gap-1">
+            <a href="/" onClick={(e) => { e.preventDefault(); handleClick({ label: "Home", href: "#home" }); }} className="flex items-center gap-1">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
                 <span className="text-primary-foreground font-heading font-semibold text-sm">B</span>
               </div>
@@ -64,15 +77,15 @@ const Navbar = () => {
             {navLinks.map((link) => (
               <button
                 key={link.label}
-                onClick={() => handleClick(link.href)}
+                onClick={() => handleClick(link)}
                 className={`relative px-3.5 py-2 rounded-lg text-[13px] font-medium transition-all duration-200 ${
-                  activeSection === link.href.replace("#", "")
+                  (link.isRoute ? location.pathname === link.href : activeSection === link.href.replace("#", ""))
                     ? "text-primary"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {link.label}
-                {activeSection === link.href.replace("#", "") && (
+                {(link.isRoute ? location.pathname === link.href : activeSection === link.href.replace("#", "")) && (
                   <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-primary" />
                 )}
               </button>
@@ -80,10 +93,10 @@ const Navbar = () => {
           </div>
 
           <div className="hidden lg:flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={() => handleClick("#products")}>
+            <Button variant="ghost" size="sm" onClick={() => handleClick({ label: "Products", href: "#products" })}>
               Browse Products
             </Button>
-            <Button variant="default" size="sm" onClick={() => handleClick("#quote")} className="gap-1.5">
+            <Button variant="default" size="sm" onClick={() => handleClick({ label: "Quote", href: "#quote" })} className="gap-1.5">
               Get Quote
               <ArrowRight size={14} />
             </Button>
@@ -105,7 +118,7 @@ const Navbar = () => {
             {navLinks.map((link) => (
               <button
                 key={link.label}
-                onClick={() => handleClick(link.href)}
+                onClick={() => handleClick(link)}
                 className={`block w-full text-left text-[14px] font-medium px-3 py-2.5 rounded-lg transition-colors ${
                   activeSection === link.href.replace("#", "") ? "text-primary bg-primary/5" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                 }`}
@@ -114,10 +127,10 @@ const Navbar = () => {
               </button>
             ))}
             <div className="flex flex-col gap-2 pt-3 border-t border-border mt-2">
-              <Button variant="outline" size="default" className="w-full" onClick={() => handleClick("#products")}>
+              <Button variant="outline" size="default" className="w-full" onClick={() => handleClick({ label: "Products", href: "#products" })}>
                 Browse Products
               </Button>
-              <Button variant="default" size="default" className="w-full" onClick={() => handleClick("#quote")}>
+              <Button variant="default" size="default" className="w-full" onClick={() => handleClick({ label: "Quote", href: "#quote" })}>
                 Get Quote
                 <ArrowRight size={14} />
               </Button>
