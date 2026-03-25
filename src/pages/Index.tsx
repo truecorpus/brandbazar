@@ -11,6 +11,7 @@ import BackToTop from "@/components/BackToTop";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useEffect } from "react";
+import heroImage from "@/assets/hero-image.jpg";
 
 const Index = () => {
   useEffect(() => {
@@ -45,7 +46,6 @@ const Index = () => {
 
       {/* Hero */}
       <section id="home" className="pt-28 sm:pt-32 lg:pt-[140px] pb-20 lg:pb-[100px] bg-background relative overflow-hidden">
-        {/* Subtle background elements */}
         <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-primary/[0.03] blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-accent/[0.03] blur-[100px] pointer-events-none" />
 
@@ -96,8 +96,22 @@ const Index = () => {
               </div>
             </div>
 
-            <div className="flex justify-center lg:justify-end">
-              <ProductGrid />
+            <div className="flex justify-center lg:justify-end animate-fade-up stagger-3">
+              <div className="relative w-full max-w-[480px]">
+                <div className="rounded-2xl overflow-hidden border border-border" style={{ boxShadow: 'var(--shadow-xl)' }}>
+                  <img
+                    src={heroImage}
+                    alt="Custom branded merchandise including mugs, t-shirts, notebooks and corporate gift boxes"
+                    className="w-full h-auto object-cover"
+                    width={1280}
+                    height={720}
+                  />
+                </div>
+                {/* Floating product cards */}
+                <div className="absolute -bottom-4 -left-4 sm:-left-8">
+                  <ProductGrid />
+                </div>
+              </div>
             </div>
           </div>
         </div>

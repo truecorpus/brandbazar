@@ -8,20 +8,21 @@ import ProductInfoColumn from "@/components/product/ProductInfoColumn";
 import ProductDetailTabs from "@/components/product/ProductDetailTabs";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { productImages } from "@/assets/products";
 
 const crossSellProducts = [
-  { name: "Premium Lanyard + ID Card Set", price: "₹68", emoji: "🪪" },
-  { name: "Hardcover Branded Notebook", price: "₹119", emoji: "📓" },
-  { name: "Embroidery Logo Cap", price: "₹199", emoji: "🧢" },
+  { name: "Premium Lanyard + ID Card Set", price: "₹68", imageKey: "lanyard" },
+  { name: "Hardcover Branded Notebook", price: "₹119", imageKey: "notebook" },
+  { name: "Embroidery Logo Cap", price: "₹199", imageKey: "cap" },
 ];
 
 const relatedProducts = [
-  { name: "Magic Color-Change Mug", price: "₹149", emoji: "☕" },
-  { name: "Steel Sipper Bottle", price: "₹299", emoji: "🥤" },
-  { name: "Transparent Coffee Glass", price: "₹179", emoji: "🥃" },
-  { name: "Travel Tumbler", price: "₹349", emoji: "🍵" },
-  { name: "Ceramic Tea Set", price: "₹599", emoji: "🫖" },
-  { name: "Shot Glass Set (6pc)", price: "₹249", emoji: "🥂" },
+  { name: "Magic Color-Change Mug", price: "₹149", imageKey: "mug-magic" },
+  { name: "Custom Tote Bag", price: "₹149", imageKey: "tote" },
+  { name: "Branded T-Shirt", price: "₹299", imageKey: "tshirt" },
+  { name: "Premium Polo", price: "₹449", imageKey: "polo" },
+  { name: "LED Mood Lamp", price: "₹399", imageKey: "lamp" },
+  { name: "Metal Keychain Set", price: "₹59", imageKey: "keychain" },
 ];
 
 const ProductDetail = () => {
@@ -130,8 +131,8 @@ const ProductDetail = () => {
         <div className="grid sm:grid-cols-3 gap-4 mb-6">
           {crossSellProducts.map((p) => (
             <div key={p.name} className="bg-background rounded-xl border border-border p-5 flex flex-col items-center text-center transition-all duration-200 hover:border-primary hover:shadow-[0_4px_12px_rgba(26,115,232,0.15)]" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
-              <div className="w-14 h-14 rounded-lg bg-secondary flex items-center justify-center mb-3">
-                <span className="text-3xl">{p.emoji}</span>
+              <div className="w-14 h-14 rounded-lg bg-secondary overflow-hidden flex items-center justify-center mb-3">
+                <img src={productImages[p.imageKey]} alt={p.name} className="w-full h-full object-cover" loading="lazy" width={56} height={56} />
               </div>
               <h4 className="font-semibold text-sm text-foreground mb-1">{p.name}</h4>
               <p className="text-[14px] font-semibold text-foreground mb-3">From {p.price}/unit</p>
@@ -167,8 +168,8 @@ const ProductDetail = () => {
           <div ref={carouselRef} className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory pb-2">
             {relatedProducts.map((p) => (
               <div key={p.name} className="shrink-0 w-[220px] snap-start bg-background rounded-xl border border-border p-5 flex flex-col items-center text-center transition-all duration-200 hover:border-primary hover:shadow-[0_4px_12px_rgba(26,115,232,0.15)]" style={{ boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
-                <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center mb-3">
-                  <span className="text-2xl">{p.emoji}</span>
+                <div className="w-12 h-12 rounded-lg bg-secondary overflow-hidden flex items-center justify-center mb-3">
+                  <img src={productImages[p.imageKey]} alt={p.name} className="w-full h-full object-cover" loading="lazy" width={48} height={48} />
                 </div>
                 <h4 className="font-semibold text-sm text-foreground mb-1">{p.name}</h4>
                 <p className="text-[14px] font-semibold text-foreground mb-3">From {p.price}/unit</p>
