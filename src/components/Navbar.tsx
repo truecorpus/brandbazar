@@ -83,7 +83,6 @@ const Navbar = () => {
                     ? "text-primary"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
-                }`}
               >
                 {link.label}
                 {(link.isRoute ? location.pathname === link.href : activeSection === link.href.replace("#", "")) && (
