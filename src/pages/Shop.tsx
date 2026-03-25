@@ -196,7 +196,7 @@ const Shop = () => {
               >
                 {product.badge && <BadgeLabel badge={product.badge} />}
                 <div className={`relative overflow-hidden bg-surface ${product.featured ? "h-48 sm:h-56" : "h-44"}`}>
-                  <div className="group-hover:scale-[1.03] transition-transform duration-500 w-full h-full"><ProductVisual type={product.type} color={product.color} /></div>
+                  <div className="group-hover:scale-[1.03] transition-transform duration-500 w-full h-full"><ProductImage type={product.type} name={product.name} /></div>
                   <div className="absolute inset-0 bg-foreground/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
                     <span className="text-background font-medium text-[13px] flex items-center gap-2">Customize Now <ArrowRight size={14} /></span>
                   </div>
