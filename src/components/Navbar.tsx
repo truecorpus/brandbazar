@@ -97,7 +97,7 @@ const Navbar = () => {
             <Button variant="ghost" size="sm" onClick={() => handleClick({ label: "Products", href: "#products" })}>
               Browse Products
             </Button>
-            <Button variant="default" size="sm" onClick={() => handleClick("#quote")} className="gap-1.5">
+            <Button variant="default" size="sm" onClick={() => handleClick({ label: "Quote", href: "#quote" })} className="gap-1.5">
               Get Quote
               <ArrowRight size={14} />
             </Button>
