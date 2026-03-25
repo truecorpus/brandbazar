@@ -5,6 +5,7 @@ import WhatsAppFab from "@/components/WhatsAppFab";
 import BackToTop from "@/components/BackToTop";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Search, Grid3X3, List, Heart, ChevronDown, Loader2 } from "lucide-react";
+import { productImages } from "@/assets/products";
 
 type Category = "All Products" | "Corporate Kits" | "Drinkware" | "Apparel" | "Desk & Office" | "Accessories" | "Recognition & Awards";
 
