@@ -131,7 +131,7 @@ const Navbar = () => {
               <Button variant="outline" size="default" className="w-full" onClick={() => handleClick({ label: "Products", href: "#products" })}>
                 Browse Products
               </Button>
-              <Button variant="default" size="default" className="w-full" onClick={() => handleClick("#quote")}>
+              <Button variant="default" size="default" className="w-full" onClick={() => handleClick({ label: "Quote", href: "#quote" })}>
                 Get Quote
                 <ArrowRight size={14} />
               </Button>
