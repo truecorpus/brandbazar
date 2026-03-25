@@ -8,6 +8,7 @@ import ProductInfoColumn from "@/components/product/ProductInfoColumn";
 import ProductDetailTabs from "@/components/product/ProductDetailTabs";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { productImages } from "@/assets/products";
 
 const crossSellProducts = [
   { name: "Premium Lanyard + ID Card Set", price: "₹68", emoji: "🪪" },
