@@ -86,7 +86,7 @@ const Navbar = () => {
                 }`}
               >
                 {link.label}
-                {activeSection === link.href.replace("#", "") && (
+                {(link.isRoute ? location.pathname === link.href : activeSection === link.href.replace("#", "")) && (
                   <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-primary" />
                 )}
               </button>
