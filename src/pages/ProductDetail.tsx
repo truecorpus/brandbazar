@@ -17,12 +17,12 @@ const crossSellProducts = [
 ];
 
 const relatedProducts = [
-  { name: "Magic Color-Change Mug", price: "₹149", emoji: "☕" },
-  { name: "Steel Sipper Bottle", price: "₹299", emoji: "🥤" },
-  { name: "Transparent Coffee Glass", price: "₹179", emoji: "🥃" },
-  { name: "Travel Tumbler", price: "₹349", emoji: "🍵" },
-  { name: "Ceramic Tea Set", price: "₹599", emoji: "🫖" },
-  { name: "Shot Glass Set (6pc)", price: "₹249", emoji: "🥂" },
+  { name: "Magic Color-Change Mug", price: "₹149", imageKey: "mug-magic" },
+  { name: "Custom Tote Bag", price: "₹149", imageKey: "tote" },
+  { name: "Branded T-Shirt", price: "₹299", imageKey: "tshirt" },
+  { name: "Premium Polo", price: "₹449", imageKey: "polo" },
+  { name: "LED Mood Lamp", price: "₹399", imageKey: "lamp" },
+  { name: "Metal Keychain Set", price: "₹59", imageKey: "keychain" },
 ];
 
 const ProductDetail = () => {
