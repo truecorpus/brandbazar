@@ -128,7 +128,7 @@ const Navbar = () => {
               </button>
             ))}
             <div className="flex flex-col gap-2 pt-3 border-t border-border mt-2">
-              <Button variant="outline" size="default" className="w-full" onClick={() => handleClick("#products")}>
+              <Button variant="outline" size="default" className="w-full" onClick={() => handleClick({ label: "Products", href: "#products" })}>
                 Browse Products
               </Button>
               <Button variant="default" size="default" className="w-full" onClick={() => handleClick("#quote")}>
