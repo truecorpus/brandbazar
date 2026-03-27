@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 import { Bell, ShoppingBag, CreditCard, FileImage, FileText, AlertCircle, CheckCheck } from "lucide-react";
 
 const typeIcons: Record<string, any> = {
@@ -19,7 +19,7 @@ const Notifications = () => {
   const [notifications, setNotifications] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetch = async () => {
+  const fetchNotifications = async () => {
     if (!user) return;
     const { data } = await supabase
       .from("notifications")
@@ -30,18 +30,18 @@ const Notifications = () => {
     setLoading(false);
   };
 
-  useEffect(() => { fetch(); }, [user]);
+  useEffect(() => { fetchNotifications(); }, [user]);
 
   const markAllRead = async () => {
     if (!user) return;
     await supabase.from("notifications").update({ is_read: true }).eq("recipient_id", user.id).eq("is_read", false);
     toast("All notifications marked as read");
-    fetch();
+    fetchNotifications();
   };
 
   const markRead = async (id: string) => {
     await supabase.from("notifications").update({ is_read: true }).eq("id", id);
-    fetch();
+    fetchNotifications();
   };
 
   const timeAgo = (date: string) => {
@@ -106,8 +106,5 @@ const Notifications = () => {
     </div>
   );
 };
-
-// Need toast import
-import { toast } from "sonner";
 
 export default Notifications;
