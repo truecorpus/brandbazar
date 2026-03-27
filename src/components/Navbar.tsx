@@ -93,8 +93,8 @@ const Navbar = () => {
           </div>
 
           <div className="hidden lg:flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={() => handleClick({ label: "Products", href: "#products" })}>
-              Browse Products
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/login"><User size={15} /> Sign in</Link>
             </Button>
             <Button variant="default" size="sm" onClick={() => handleClick({ label: "Quote", href: "#quote" })} className="gap-1.5">
               Get Quote
