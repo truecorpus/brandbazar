@@ -60,6 +60,11 @@ const App = () => (
               <Route path="addresses" element={<Addresses />} />
               <Route path="settings" element={<ProfileSettings />} />
               <Route path="notifications" element={<Notifications />} />
+              <Route path="corporate" element={<CorporateDashboard />} />
+              <Route path="corporate/bulk-order" element={<BulkOrderBuilder />} />
+              <Route path="corporate/brand-assets" element={<BrandAssets />} />
+              <Route path="corporate/team" element={<TeamMembers />} />
+              <Route path="corporate/invoices" element={<InvoicesBilling />} />
             </Route>
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
