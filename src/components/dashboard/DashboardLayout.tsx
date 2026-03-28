@@ -17,6 +17,14 @@ const navItems = [
   { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
 ];
 
+const corporateNavItems = [
+  { label: "Corporate Home", href: "/dashboard/corporate", icon: LayoutDashboard },
+  { label: "Bulk Orders", href: "/dashboard/corporate/bulk-order", icon: ShoppingBag },
+  { label: "Brand Assets", href: "/dashboard/corporate/brand-assets", icon: Palette },
+  { label: "Team Members", href: "/dashboard/corporate/team", icon: Settings },
+  { label: "Invoices & Billing", href: "/dashboard/corporate/invoices", icon: FileText },
+];
+
 const DashboardLayout = () => {
   const { user, profile, role, signOut } = useAuth();
   const location = useLocation();
@@ -66,6 +74,29 @@ const DashboardLayout = () => {
             {item.label}
           </Link>
         ))}
+
+        {isCorporate && (
+          <>
+            <div className="pt-4 pb-1 px-3">
+              <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">Corporate</p>
+            </div>
+            {corporateNavItems.map((item) => (
+              <Link
+                key={item.href}
+                to={item.href}
+                onClick={() => setSidebarOpen(false)}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-medium transition-all ${
+                  isActive(item.href)
+                    ? "bg-primary/[0.08] text-primary"
+                    : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                }`}
+              >
+                <item.icon size={18} />
+                {item.label}
+              </Link>
+            ))}
+          </>
+        )}
       </nav>
 
       {/* User + Logout */}
