@@ -17,6 +17,14 @@ const navItems = [
   { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
 ];
 
+const corporateNavItems = [
+  { label: "Corporate Home", href: "/dashboard/corporate", icon: LayoutDashboard },
+  { label: "Bulk Orders", href: "/dashboard/corporate/bulk-order", icon: ShoppingBag },
+  { label: "Brand Assets", href: "/dashboard/corporate/brand-assets", icon: Palette },
+  { label: "Team Members", href: "/dashboard/corporate/team", icon: Settings },
+  { label: "Invoices & Billing", href: "/dashboard/corporate/invoices", icon: FileText },
+];
+
 const DashboardLayout = () => {
   const { user, profile, role, signOut } = useAuth();
   const location = useLocation();
