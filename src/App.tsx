@@ -23,6 +23,11 @@ import ArtworkMockups from "./pages/dashboard/ArtworkMockups";
 import Addresses from "./pages/dashboard/Addresses";
 import ProfileSettings from "./pages/dashboard/ProfileSettings";
 import Notifications from "./pages/dashboard/Notifications";
+import CorporateDashboard from "./pages/dashboard/corporate/CorporateDashboard";
+import BulkOrderBuilder from "./pages/dashboard/corporate/BulkOrderBuilder";
+import BrandAssets from "./pages/dashboard/corporate/BrandAssets";
+import TeamMembers from "./pages/dashboard/corporate/TeamMembers";
+import InvoicesBilling from "./pages/dashboard/corporate/InvoicesBilling";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
