@@ -563,6 +563,170 @@ export type Database = {
         }
         Relationships: []
       }
+      invoices: {
+        Row: {
+          amount_in_words: string | null
+          buyer_address: string | null
+          buyer_gstin: string | null
+          buyer_name: string | null
+          buyer_state: string | null
+          buyer_state_code: string | null
+          cgst_amount: number | null
+          cgst_rate: number | null
+          corporate_account_id: string | null
+          created_at: string | null
+          credit_reason: string | null
+          customer_id: string
+          discount_amount: number | null
+          due_date: string | null
+          grand_total: number
+          id: string
+          igst_amount: number | null
+          igst_rate: number | null
+          invoice_date: string | null
+          invoice_number: string | null
+          invoice_type: string
+          line_items: Json
+          notes: string | null
+          order_id: string | null
+          original_invoice_id: string | null
+          payment_id: string | null
+          payment_method: string | null
+          pdf_url: string | null
+          seller_address: string | null
+          seller_company: string | null
+          seller_gstin: string | null
+          seller_pan: string | null
+          sgst_amount: number | null
+          sgst_rate: number | null
+          shipping_address: string | null
+          shipping_state: string | null
+          status: string | null
+          subtotal: number
+          taxable_amount: number
+          total_gst: number | null
+          transaction_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount_in_words?: string | null
+          buyer_address?: string | null
+          buyer_gstin?: string | null
+          buyer_name?: string | null
+          buyer_state?: string | null
+          buyer_state_code?: string | null
+          cgst_amount?: number | null
+          cgst_rate?: number | null
+          corporate_account_id?: string | null
+          created_at?: string | null
+          credit_reason?: string | null
+          customer_id: string
+          discount_amount?: number | null
+          due_date?: string | null
+          grand_total?: number
+          id?: string
+          igst_amount?: number | null
+          igst_rate?: number | null
+          invoice_date?: string | null
+          invoice_number?: string | null
+          invoice_type?: string
+          line_items?: Json
+          notes?: string | null
+          order_id?: string | null
+          original_invoice_id?: string | null
+          payment_id?: string | null
+          payment_method?: string | null
+          pdf_url?: string | null
+          seller_address?: string | null
+          seller_company?: string | null
+          seller_gstin?: string | null
+          seller_pan?: string | null
+          sgst_amount?: number | null
+          sgst_rate?: number | null
+          shipping_address?: string | null
+          shipping_state?: string | null
+          status?: string | null
+          subtotal?: number
+          taxable_amount?: number
+          total_gst?: number | null
+          transaction_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount_in_words?: string | null
+          buyer_address?: string | null
+          buyer_gstin?: string | null
+          buyer_name?: string | null
+          buyer_state?: string | null
+          buyer_state_code?: string | null
+          cgst_amount?: number | null
+          cgst_rate?: number | null
+          corporate_account_id?: string | null
+          created_at?: string | null
+          credit_reason?: string | null
+          customer_id?: string
+          discount_amount?: number | null
+          due_date?: string | null
+          grand_total?: number
+          id?: string
+          igst_amount?: number | null
+          igst_rate?: number | null
+          invoice_date?: string | null
+          invoice_number?: string | null
+          invoice_type?: string
+          line_items?: Json
+          notes?: string | null
+          order_id?: string | null
+          original_invoice_id?: string | null
+          payment_id?: string | null
+          payment_method?: string | null
+          pdf_url?: string | null
+          seller_address?: string | null
+          seller_company?: string | null
+          seller_gstin?: string | null
+          seller_pan?: string | null
+          sgst_amount?: number | null
+          sgst_rate?: number | null
+          shipping_address?: string | null
+          shipping_state?: string | null
+          status?: string | null
+          subtotal?: number
+          taxable_amount?: number
+          total_gst?: number | null
+          transaction_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_corporate_account_id_fkey"
+            columns: ["corporate_account_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_original_invoice_id_fkey"
+            columns: ["original_invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       mockups: {
         Row: {
           client_feedback: string | null
@@ -715,6 +879,8 @@ export type Database = {
       }
       orders: {
         Row: {
+          advance_amount: number | null
+          advance_paid: boolean | null
           assigned_staff_id: string | null
           billing_address_id: string | null
           corporate_account_id: string | null
@@ -730,6 +896,8 @@ export type Database = {
           order_status: string
           order_type: string
           payment_status: string
+          payment_terms: string | null
+          remaining_amount: number | null
           shipping_address_id: string | null
           shipping_amount: number | null
           special_instructions: string | null
@@ -738,6 +906,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          advance_amount?: number | null
+          advance_paid?: boolean | null
           assigned_staff_id?: string | null
           billing_address_id?: string | null
           corporate_account_id?: string | null
@@ -753,6 +923,8 @@ export type Database = {
           order_status?: string
           order_type?: string
           payment_status?: string
+          payment_terms?: string | null
+          remaining_amount?: number | null
           shipping_address_id?: string | null
           shipping_amount?: number | null
           special_instructions?: string | null
@@ -761,6 +933,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          advance_amount?: number | null
+          advance_paid?: boolean | null
           assigned_staff_id?: string | null
           billing_address_id?: string | null
           corporate_account_id?: string | null
@@ -776,6 +950,8 @@ export type Database = {
           order_status?: string
           order_type?: string
           payment_status?: string
+          payment_terms?: string | null
+          remaining_amount?: number | null
           shipping_address_id?: string | null
           shipping_amount?: number | null
           special_instructions?: string | null
