@@ -94,6 +94,7 @@ const Navbar = () => {
           </div>
 
           <div className="hidden lg:flex items-center gap-2">
+            <NotificationBell />
             <Button variant="ghost" size="sm" asChild>
               <Link to="/login"><User size={15} /> Sign in</Link>
             </Button>

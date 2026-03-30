@@ -124,6 +124,9 @@ const App = () => (
               <Route path="audit-log" element={<AdminAuditLog />} />
             </Route>
 
+            {/* Public pages */}
+            <Route path="/unsubscribe" element={<Unsubscribe />} />
+
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
