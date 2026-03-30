@@ -49,6 +49,17 @@ const Signup = () => {
       setLoading(false);
       return;
     }
+
+    // Send welcome email
+    supabase.functions.invoke("send-transactional-email", {
+      body: {
+        templateName: "welcome",
+        recipientEmail: form.email,
+        idempotencyKey: `welcome-${form.email}`,
+        templateData: { name: form.name },
+      },
+    });
+
     toast.success("Check your email to verify your account!");
     navigate("/login");
   };
