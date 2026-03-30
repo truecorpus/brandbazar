@@ -17,6 +17,5 @@ export const AdminInventory = () => <AdminPlaceholder title="Inventory" descript
 export const AdminProductionTracker = () => <AdminPlaceholder title="Production Tracker" description="Monitor production progress across all active orders." />;
 export const AdminEmailCampaigns = () => <AdminPlaceholder title="Email Campaigns" description="Create and send marketing email campaigns to customers." />;
 export const AdminPayoutTracker = () => <AdminPlaceholder title="Payout Tracker" description="Track revenue payouts and financial settlements." />;
-export const AdminPayoutTracker = () => <AdminPlaceholder title="Payout Tracker" description="Track revenue payouts and financial settlements." />;
 export const AdminShipping = () => <AdminPlaceholder title="Shipping Settings" description="Configure shipping partners, rates, and delivery zones." />;
 export const AdminTax = () => <AdminPlaceholder title="Tax Settings" description="Manage GST rates by product category and HSN codes." />;
