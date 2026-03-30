@@ -49,9 +49,12 @@ import AdminAuditLog from "./pages/admin/AdminAuditLog";
 import AdminSettings from "./pages/admin/AdminSettings";
 import {
   AdminBulkOrders, AdminReturns, AdminCustomization, AdminInventory,
-  AdminProductionTracker, AdminEmailCampaigns, AdminInvoices,
-  AdminGSTReports, AdminPayoutTracker, AdminShipping, AdminTax,
+  AdminProductionTracker, AdminEmailCampaigns,
+  AdminPayoutTracker, AdminShipping, AdminTax,
 } from "./pages/admin/AdminPlaceholders";
+import AdminInvoicesPage from "./pages/admin/AdminInvoicesPage";
+import AdminGSTReportsPage from "./pages/admin/AdminGSTReportsPage";
+import Checkout from "./pages/Checkout";
 import NotFound from "./pages/NotFound";
 import Unsubscribe from "./pages/Unsubscribe";
 
@@ -114,8 +117,8 @@ const App = () => (
               <Route path="cms" element={<AdminCMS />} />
               <Route path="email-campaigns" element={<AdminEmailCampaigns />} />
               <Route path="payments" element={<AdminPayments />} />
-              <Route path="invoices" element={<AdminInvoices />} />
-              <Route path="gst-reports" element={<AdminGSTReports />} />
+              <Route path="invoices" element={<AdminInvoicesPage />} />
+              <Route path="gst-reports" element={<AdminGSTReportsPage />} />
               <Route path="payouts" element={<AdminPayoutTracker />} />
               <Route path="settings" element={<AdminSettings />} />
               <Route path="shipping" element={<AdminShipping />} />
@@ -125,6 +128,7 @@ const App = () => (
             </Route>
 
             {/* Public pages */}
+            <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
             <Route path="/unsubscribe" element={<Unsubscribe />} />
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
