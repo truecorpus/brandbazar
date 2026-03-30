@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ArrowRight, User } from "lucide-react";
+import NotificationBell from "@/components/NotificationBell";
 
 const navLinks = [
   { label: "Home", href: "#home" },
