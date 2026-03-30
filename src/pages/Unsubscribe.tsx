@@ -67,7 +67,7 @@ const Unsubscribe = () => {
           )}
           {status === "success" && (
             <>
-              <CheckCircle2 className="mx-auto text-green-600" size={40} />
+              <CheckCircle2 className="mx-auto text-emerald-600" size={40} />
               <h1 className="text-xl font-heading font-semibold text-foreground mt-4">Unsubscribed</h1>
               <p className="text-sm text-muted-foreground mt-2">You've been successfully unsubscribed from BrandBazaar emails.</p>
             </>
