@@ -117,8 +117,8 @@ const App = () => (
               <Route path="cms" element={<AdminCMS />} />
               <Route path="email-campaigns" element={<AdminEmailCampaigns />} />
               <Route path="payments" element={<AdminPayments />} />
-              <Route path="invoices" element={<AdminInvoices />} />
-              <Route path="gst-reports" element={<AdminGSTReports />} />
+              <Route path="invoices" element={<AdminInvoicesPage />} />
+              <Route path="gst-reports" element={<AdminGSTReportsPage />} />
               <Route path="payouts" element={<AdminPayoutTracker />} />
               <Route path="settings" element={<AdminSettings />} />
               <Route path="shipping" element={<AdminShipping />} />
