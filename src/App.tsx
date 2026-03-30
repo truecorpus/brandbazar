@@ -53,6 +53,7 @@ import {
   AdminGSTReports, AdminPayoutTracker, AdminShipping, AdminTax,
 } from "./pages/admin/AdminPlaceholders";
 import NotFound from "./pages/NotFound";
+import Unsubscribe from "./pages/Unsubscribe";
 
 const queryClient = new QueryClient();
 
