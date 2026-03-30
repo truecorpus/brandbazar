@@ -128,6 +128,7 @@ const App = () => (
             </Route>
 
             {/* Public pages */}
+            <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
             <Route path="/unsubscribe" element={<Unsubscribe />} />
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
