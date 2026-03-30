@@ -53,6 +53,7 @@ import {
   AdminGSTReports, AdminPayoutTracker, AdminShipping, AdminTax,
 } from "./pages/admin/AdminPlaceholders";
 import NotFound from "./pages/NotFound";
+import Unsubscribe from "./pages/Unsubscribe";
 
 const queryClient = new QueryClient();
 
@@ -122,6 +123,9 @@ const App = () => (
               <Route path="staff" element={<AdminStaff />} />
               <Route path="audit-log" element={<AdminAuditLog />} />
             </Route>
+
+            {/* Public pages */}
+            <Route path="/unsubscribe" element={<Unsubscribe />} />
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

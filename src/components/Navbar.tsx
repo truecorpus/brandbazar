@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ArrowRight, User } from "lucide-react";
+import NotificationBell from "@/components/NotificationBell";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -93,6 +94,7 @@ const Navbar = () => {
           </div>
 
           <div className="hidden lg:flex items-center gap-2">
+            <NotificationBell />
             <Button variant="ghost" size="sm" asChild>
               <Link to="/login"><User size={15} /> Sign in</Link>
             </Button>
