@@ -127,7 +127,7 @@ const App = () => (
               <Route path="gst-reports" element={<AdminGSTReportsPage />} />
               <Route path="payouts" element={<AdminPayoutTracker />} />
               <Route path="settings" element={<AdminSettings />} />
-              <Route path="shipping" element={<AdminShipping />} />
+              <Route path="shipping" element={<AdminShippingSettings />} />
               <Route path="tax" element={<AdminTax />} />
               <Route path="staff" element={<AdminStaff />} />
               <Route path="audit-log" element={<AdminAuditLog />} />
