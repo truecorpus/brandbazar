@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Download, Package, CheckCircle2, Truck, MapPin } from "lucide-react";
+import { ArrowLeft, Download, Package, CheckCircle2, Truck, MapPin, RotateCcw } from "lucide-react";
 
 const steps = ["confirmed", "in_production", "quality_check", "dispatched", "delivered"];
 const stepLabels = ["Confirmed", "In Production", "Quality Check", "Dispatched", "Delivered"];
