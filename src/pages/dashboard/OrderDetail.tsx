@@ -10,6 +10,7 @@ const stepLabels = ["Confirmed", "In Production", "Quality Check", "Dispatched",
 
 const OrderDetail = () => {
   const { orderId } = useParams();
+  const navigate = useNavigate();
   const [order, setOrder] = useState<any>(null);
   const [items, setItems] = useState<any[]>([]);
   const [shipment, setShipment] = useState<any>(null);
