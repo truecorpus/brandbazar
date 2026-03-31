@@ -57,6 +57,8 @@ import AdminReturnsRefunds from "./pages/admin/AdminReturnsRefunds";
 import AdminInvoicesPage from "./pages/admin/AdminInvoicesPage";
 import AdminGSTReportsPage from "./pages/admin/AdminGSTReportsPage";
 import Checkout from "./pages/Checkout";
+import ReturnRequest from "./pages/dashboard/ReturnRequest";
+import MyReturns from "./pages/dashboard/MyReturns";
 import NotFound from "./pages/NotFound";
 import Unsubscribe from "./pages/Unsubscribe";
 
