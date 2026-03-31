@@ -97,6 +97,8 @@ const App = () => (
               <Route path="corporate/brand-assets" element={<BrandAssets />} />
               <Route path="corporate/team" element={<TeamMembers />} />
               <Route path="corporate/invoices" element={<InvoicesBilling />} />
+              <Route path="returns" element={<MyReturns />} />
+              <Route path="returns/:orderId" element={<ReturnRequest />} />
             </Route>
 
             {/* Admin routes */}
