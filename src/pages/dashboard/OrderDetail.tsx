@@ -46,7 +46,14 @@ const OrderDetail = () => {
             Placed on {new Date(order.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}
           </p>
         </div>
-        <Button variant="outline" size="sm" className="gap-2"><Download size={14} /> Download Invoice</Button>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" className="gap-2"><Download size={14} /> Download Invoice</Button>
+          {order.order_status === "delivered" && (
+            <Button variant="outline" size="sm" className="gap-2" onClick={() => navigate(`/dashboard/returns/${orderId}`)}>
+              <RotateCcw size={14} /> Request Return
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Progress tracker */}
