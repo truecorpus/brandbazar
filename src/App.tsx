@@ -48,10 +48,12 @@ import AdminStaff from "./pages/admin/AdminStaff";
 import AdminAuditLog from "./pages/admin/AdminAuditLog";
 import AdminSettings from "./pages/admin/AdminSettings";
 import {
-  AdminBulkOrders, AdminReturns, AdminCustomization, AdminInventory,
+  AdminBulkOrders, AdminCustomization, AdminInventory,
   AdminProductionTracker, AdminEmailCampaigns,
-  AdminPayoutTracker, AdminShipping, AdminTax,
+  AdminPayoutTracker, AdminTax,
 } from "./pages/admin/AdminPlaceholders";
+import AdminShippingSettings from "./pages/admin/AdminShippingSettings";
+import AdminReturnsRefunds from "./pages/admin/AdminReturnsRefunds";
 import AdminInvoicesPage from "./pages/admin/AdminInvoicesPage";
 import AdminGSTReportsPage from "./pages/admin/AdminGSTReportsPage";
 import Checkout from "./pages/Checkout";
