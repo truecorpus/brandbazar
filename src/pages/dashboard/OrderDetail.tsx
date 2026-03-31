@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Download, Package, CheckCircle2, Truck, MapPin } from "lucide-react";
+import { ArrowLeft, Download, Package, CheckCircle2, Truck, MapPin, RotateCcw } from "lucide-react";
 
 const steps = ["confirmed", "in_production", "quality_check", "dispatched", "delivered"];
 const stepLabels = ["Confirmed", "In Production", "Quality Check", "Dispatched", "Delivered"];
 
 const OrderDetail = () => {
   const { orderId } = useParams();
+  const navigate = useNavigate();
   const [order, setOrder] = useState<any>(null);
   const [items, setItems] = useState<any[]>([]);
   const [shipment, setShipment] = useState<any>(null);
@@ -46,7 +47,14 @@ const OrderDetail = () => {
             Placed on {new Date(order.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}
           </p>
         </div>
-        <Button variant="outline" size="sm" className="gap-2"><Download size={14} /> Download Invoice</Button>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" className="gap-2"><Download size={14} /> Download Invoice</Button>
+          {order.order_status === "delivered" && (
+            <Button variant="outline" size="sm" className="gap-2" onClick={() => navigate(`/dashboard/returns/${orderId}`)}>
+              <RotateCcw size={14} /> Request Return
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Progress tracker */}

@@ -48,13 +48,17 @@ import AdminStaff from "./pages/admin/AdminStaff";
 import AdminAuditLog from "./pages/admin/AdminAuditLog";
 import AdminSettings from "./pages/admin/AdminSettings";
 import {
-  AdminBulkOrders, AdminReturns, AdminCustomization, AdminInventory,
+  AdminBulkOrders, AdminCustomization, AdminInventory,
   AdminProductionTracker, AdminEmailCampaigns,
-  AdminPayoutTracker, AdminShipping, AdminTax,
+  AdminPayoutTracker, AdminTax,
 } from "./pages/admin/AdminPlaceholders";
+import AdminShippingSettings from "./pages/admin/AdminShippingSettings";
+import AdminReturnsRefunds from "./pages/admin/AdminReturnsRefunds";
 import AdminInvoicesPage from "./pages/admin/AdminInvoicesPage";
 import AdminGSTReportsPage from "./pages/admin/AdminGSTReportsPage";
 import Checkout from "./pages/Checkout";
+import ReturnRequest from "./pages/dashboard/ReturnRequest";
+import MyReturns from "./pages/dashboard/MyReturns";
 import NotFound from "./pages/NotFound";
 import Unsubscribe from "./pages/Unsubscribe";
 
@@ -93,6 +97,8 @@ const App = () => (
               <Route path="corporate/brand-assets" element={<BrandAssets />} />
               <Route path="corporate/team" element={<TeamMembers />} />
               <Route path="corporate/invoices" element={<InvoicesBilling />} />
+              <Route path="returns" element={<MyReturns />} />
+              <Route path="returns/:orderId" element={<ReturnRequest />} />
             </Route>
 
             {/* Admin routes */}
@@ -102,7 +108,7 @@ const App = () => (
               <Route path="production" element={<AdminProductionQueue />} />
               <Route path="bulk-orders" element={<AdminBulkOrders />} />
               <Route path="quotes" element={<AdminQuotes />} />
-              <Route path="returns" element={<AdminReturns />} />
+              <Route path="returns" element={<AdminReturnsRefunds />} />
               <Route path="products" element={<AdminProducts />} />
               <Route path="categories" element={<AdminCategories />} />
               <Route path="customization" element={<AdminCustomization />} />
@@ -121,7 +127,7 @@ const App = () => (
               <Route path="gst-reports" element={<AdminGSTReportsPage />} />
               <Route path="payouts" element={<AdminPayoutTracker />} />
               <Route path="settings" element={<AdminSettings />} />
-              <Route path="shipping" element={<AdminShipping />} />
+              <Route path="shipping" element={<AdminShippingSettings />} />
               <Route path="tax" element={<AdminTax />} />
               <Route path="staff" element={<AdminStaff />} />
               <Route path="audit-log" element={<AdminAuditLog />} />

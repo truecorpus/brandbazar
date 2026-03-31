@@ -897,9 +897,12 @@ export type Database = {
           order_type: string
           payment_status: string
           payment_terms: string | null
+          production_days: number | null
           remaining_amount: number | null
           shipping_address_id: string | null
           shipping_amount: number | null
+          shipping_method: string | null
+          shipping_zone_id: string | null
           special_instructions: string | null
           subtotal: number
           total_amount: number
@@ -924,9 +927,12 @@ export type Database = {
           order_type?: string
           payment_status?: string
           payment_terms?: string | null
+          production_days?: number | null
           remaining_amount?: number | null
           shipping_address_id?: string | null
           shipping_amount?: number | null
+          shipping_method?: string | null
+          shipping_zone_id?: string | null
           special_instructions?: string | null
           subtotal?: number
           total_amount?: number
@@ -951,9 +957,12 @@ export type Database = {
           order_type?: string
           payment_status?: string
           payment_terms?: string | null
+          production_days?: number | null
           remaining_amount?: number | null
           shipping_address_id?: string | null
           shipping_amount?: number | null
+          shipping_method?: string | null
+          shipping_zone_id?: string | null
           special_instructions?: string | null
           subtotal?: number
           total_amount?: number
@@ -979,6 +988,13 @@ export type Database = {
             columns: ["shipping_address_id"]
             isOneToOne: false
             referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_shipping_zone_id_fkey"
+            columns: ["shipping_zone_id"]
+            isOneToOne: false
+            referencedRelation: "shipping_zones"
             referencedColumns: ["id"]
           },
         ]
@@ -1041,6 +1057,44 @@ export type Database = {
             columns: ["order_id"]
             isOneToOne: false
             referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pincode_serviceability: {
+        Row: {
+          city: string | null
+          created_at: string
+          id: string
+          is_serviceable: boolean | null
+          pincode: string
+          state: string | null
+          zone_id: string | null
+        }
+        Insert: {
+          city?: string | null
+          created_at?: string
+          id?: string
+          is_serviceable?: boolean | null
+          pincode: string
+          state?: string | null
+          zone_id?: string | null
+        }
+        Update: {
+          city?: string | null
+          created_at?: string
+          id?: string
+          is_serviceable?: boolean | null
+          pincode?: string
+          state?: string | null
+          zone_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pincode_serviceability_zone_id_fkey"
+            columns: ["zone_id"]
+            isOneToOne: false
+            referencedRelation: "shipping_zones"
             referencedColumns: ["id"]
           },
         ]
@@ -1339,6 +1393,81 @@ export type Database = {
           },
         ]
       }
+      return_requests: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          credit_note_id: string | null
+          customer_id: string
+          description: string | null
+          id: string
+          order_id: string
+          photo_urls: string[] | null
+          reason: string
+          refund_amount: number | null
+          refund_status: string | null
+          return_courier: string | null
+          return_tracking_number: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          credit_note_id?: string | null
+          customer_id: string
+          description?: string | null
+          id?: string
+          order_id: string
+          photo_urls?: string[] | null
+          reason: string
+          refund_amount?: number | null
+          refund_status?: string | null
+          return_courier?: string | null
+          return_tracking_number?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          credit_note_id?: string | null
+          customer_id?: string
+          description?: string | null
+          id?: string
+          order_id?: string
+          photo_urls?: string[] | null
+          reason?: string
+          refund_amount?: number | null
+          refund_status?: string | null
+          return_courier?: string | null
+          return_tracking_number?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "return_requests_credit_note_id_fkey"
+            columns: ["credit_note_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "return_requests_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reviews: {
         Row: {
           admin_response: string | null
@@ -1460,6 +1589,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      shipping_zones: {
+        Row: {
+          created_at: string
+          express_days: number | null
+          express_rate: number | null
+          flat_rate: number | null
+          free_shipping_threshold: number | null
+          id: string
+          is_active: boolean | null
+          standard_days: number | null
+          updated_at: string
+          zone_name: string
+          zone_type: string
+        }
+        Insert: {
+          created_at?: string
+          express_days?: number | null
+          express_rate?: number | null
+          flat_rate?: number | null
+          free_shipping_threshold?: number | null
+          id?: string
+          is_active?: boolean | null
+          standard_days?: number | null
+          updated_at?: string
+          zone_name: string
+          zone_type?: string
+        }
+        Update: {
+          created_at?: string
+          express_days?: number | null
+          express_rate?: number | null
+          flat_rate?: number | null
+          free_shipping_threshold?: number | null
+          id?: string
+          is_active?: boolean | null
+          standard_days?: number | null
+          updated_at?: string
+          zone_name?: string
+          zone_type?: string
+        }
+        Relationships: []
       }
       suppressed_emails: {
         Row: {
