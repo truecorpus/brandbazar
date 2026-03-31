@@ -108,7 +108,7 @@ const App = () => (
               <Route path="production" element={<AdminProductionQueue />} />
               <Route path="bulk-orders" element={<AdminBulkOrders />} />
               <Route path="quotes" element={<AdminQuotes />} />
-              <Route path="returns" element={<AdminReturns />} />
+              <Route path="returns" element={<AdminReturnsRefunds />} />
               <Route path="products" element={<AdminProducts />} />
               <Route path="categories" element={<AdminCategories />} />
               <Route path="customization" element={<AdminCustomization />} />
