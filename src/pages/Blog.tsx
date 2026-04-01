@@ -7,6 +7,7 @@ import BackToTop from "@/components/BackToTop";
 import { blogPosts } from "@/data/blogPosts";
 import { ArrowRight, Clock, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SEOHead from "@/components/SEOHead";
 
 const categories = ["All", ...Array.from(new Set(blogPosts.map((p) => p.category)))];
 
