@@ -48,6 +48,11 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Blog — BrandBazaar | Corporate Gifting Insights & Guides"
+        description="Expert tips on corporate gifting, print technology, branding strategy, and creating merchandise people love."
+        canonical="https://brandbazar.lovable.app/blog"
+      />
       <Navbar />
 
       {/* Hero */}
