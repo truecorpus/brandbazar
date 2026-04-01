@@ -8,6 +8,7 @@ import QuoteForm from "@/components/QuoteForm";
 import Footer from "@/components/Footer";
 import WhatsAppFab from "@/components/WhatsAppFab";
 import BackToTop from "@/components/BackToTop";
+import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useEffect } from "react";
@@ -42,6 +43,20 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="BrandBazaar — Premium Custom Printed Corporate Gifts & Merchandise"
+        description="Premium customized printed gifts for corporate teams. Custom mugs, t-shirts, caps, ID cards & branded merchandise with bulk pricing and fast delivery across India."
+        canonical="https://brandbazar.lovable.app/"
+        ogImage="https://brandbazar.lovable.app/og-image.png"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "BrandBazaar",
+          "description": "Premium customized printed gifts and branded merchandise for corporate teams across India.",
+          "url": "https://brandbazar.lovable.app",
+          "contactPoint": { "@type": "ContactPoint", "telephone": "+91-98765-43210", "contactType": "sales" }
+        }}
+      />
       <Navbar />
 
       {/* Hero */}
@@ -105,9 +120,9 @@ const Index = () => {
                     className="w-full h-auto object-cover"
                     width={1280}
                     height={720}
+                    loading="eager"
                   />
                 </div>
-                {/* Floating product cards */}
                 <div className="absolute -bottom-4 -left-4 sm:-left-8">
                   <ProductGrid />
                 </div>
