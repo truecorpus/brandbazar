@@ -19,9 +19,7 @@ interface NavSection {
 const navSections: NavSection[] = [
   {
     label: "Overview",
-    items: [
-      { to: "/admin", icon: LayoutDashboard, label: "Dashboard" },
-    ],
+    items: [{ to: "/admin", icon: LayoutDashboard, label: "Dashboard" }],
   },
   {
     label: "Orders",
@@ -38,7 +36,7 @@ const navSections: NavSection[] = [
     items: [
       { to: "/admin/products", icon: Box, label: "Products" },
       { to: "/admin/categories", icon: FolderTree, label: "Categories" },
-      { to: "/admin/customization", icon: Palette, label: "Customization Options" },
+      { to: "/admin/customization", icon: Palette, label: "Customization" },
       { to: "/admin/inventory", icon: Warehouse, label: "Inventory" },
     ],
   },
@@ -46,8 +44,8 @@ const navSections: NavSection[] = [
     label: "Customers",
     items: [
       { to: "/admin/customers", icon: Users, label: "All Customers" },
-      { to: "/admin/corporate", icon: Building2, label: "Corporate Accounts" },
-      { to: "/admin/reviews", icon: Star, label: "Customer Reviews" },
+      { to: "/admin/corporate", icon: Building2, label: "Corporate" },
+      { to: "/admin/reviews", icon: Star, label: "Reviews" },
     ],
   },
   {
@@ -55,15 +53,15 @@ const navSections: NavSection[] = [
     items: [
       { to: "/admin/artwork", icon: Image, label: "Artwork Reviews" },
       { to: "/admin/mockups", icon: Layers, label: "Mockup Manager" },
-      { to: "/admin/tracker", icon: Activity, label: "Production Tracker" },
+      { to: "/admin/tracker", icon: Activity, label: "Tracker" },
     ],
   },
   {
     label: "Marketing",
     items: [
-      { to: "/admin/coupons", icon: Ticket, label: "Coupons & Offers" },
-      { to: "/admin/cms", icon: FileImage, label: "Banners & CMS" },
-      { to: "/admin/email-campaigns", icon: Mail, label: "Email Campaigns" },
+      { to: "/admin/coupons", icon: Ticket, label: "Coupons" },
+      { to: "/admin/cms", icon: FileImage, label: "CMS" },
+      { to: "/admin/email-campaigns", icon: Mail, label: "Email" },
     ],
   },
   {
@@ -72,19 +70,28 @@ const navSections: NavSection[] = [
       { to: "/admin/payments", icon: CreditCard, label: "Payments" },
       { to: "/admin/invoices", icon: FileText, label: "Invoices" },
       { to: "/admin/gst-reports", icon: Receipt, label: "GST Reports" },
-      { to: "/admin/payouts", icon: TrendingUp, label: "Payout Tracker" },
+      { to: "/admin/payouts", icon: TrendingUp, label: "Payouts" },
     ],
   },
   {
     label: "Settings",
     items: [
-      { to: "/admin/settings", icon: Settings, label: "Store Settings" },
-      { to: "/admin/shipping", icon: Truck, label: "Shipping Settings" },
-      { to: "/admin/tax", icon: Calculator, label: "Tax Settings" },
-      { to: "/admin/staff", icon: UserCog, label: "Staff Accounts" },
+      { to: "/admin/settings", icon: Settings, label: "Store" },
+      { to: "/admin/shipping", icon: Truck, label: "Shipping" },
+      { to: "/admin/tax", icon: Calculator, label: "Tax" },
+      { to: "/admin/staff", icon: UserCog, label: "Staff" },
       { to: "/admin/audit-log", icon: ScrollText, label: "Audit Log" },
     ],
   },
+];
+
+// Mobile bottom tab items
+const mobileTabItems = [
+  { to: "/admin", icon: LayoutDashboard, label: "Home" },
+  { to: "/admin/orders", icon: ShoppingCart, label: "Orders" },
+  { to: "/admin/products", icon: Box, label: "Products" },
+  { to: "/admin/payments", icon: CreditCard, label: "Finance" },
+  { to: "/admin/settings", icon: Settings, label: "Settings" },
 ];
 
 const AdminLayout = () => {
@@ -105,7 +112,6 @@ const AdminLayout = () => {
 
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
-      {/* Logo */}
       <div className="px-5 py-5 border-b border-white/10">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-[#1A73E8] rounded-lg flex items-center justify-center">
@@ -120,7 +126,6 @@ const AdminLayout = () => {
         </div>
       </div>
 
-      {/* Navigation */}
       <div className="flex-1 overflow-y-auto py-3 px-3 space-y-1 scrollbar-thin">
         {navSections.map((section) => {
           const isCollapsed = collapsedSections[section.label];
@@ -161,7 +166,6 @@ const AdminLayout = () => {
         })}
       </div>
 
-      {/* User section */}
       <div className="px-4 py-4 border-t border-white/10">
         <div className="flex items-center gap-3 mb-3">
           <div className="w-8 h-8 rounded-full bg-[#1A73E8]/20 flex items-center justify-center text-[#8AB4F8] text-xs font-semibold">
@@ -228,11 +232,33 @@ const AdminLayout = () => {
           </div>
         </header>
 
-        {/* Page Content */}
-        <main className="flex-1 p-4 lg:p-6 overflow-auto">
+        {/* Page Content — extra bottom padding on mobile for tab bar */}
+        <main className="flex-1 p-4 lg:p-6 overflow-auto pb-20 lg:pb-6">
           <Outlet />
         </main>
       </div>
+
+      {/* Mobile Bottom Tab Bar */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-[#202124] border-t border-white/10 z-40 safe-area-bottom">
+        <div className="flex items-center justify-around h-14">
+          {mobileTabItems.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.to === "/admin"}
+              className={({ isActive }) =>
+                cn(
+                  "flex flex-col items-center justify-center gap-0.5 w-full h-full text-[10px] font-medium transition-colors",
+                  isActive ? "text-[#8AB4F8]" : "text-gray-400"
+                )
+              }
+            >
+              <item.icon className="w-5 h-5" />
+              <span>{item.label}</span>
+            </NavLink>
+          ))}
+        </div>
+      </nav>
     </div>
   );
 };
