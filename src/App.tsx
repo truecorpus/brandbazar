@@ -135,6 +135,7 @@ const App = () => (
             </Route>
 
             {/* Public pages */}
+            <Route path="/customize/:slug" element={<Customizer />} />
             <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
             <Route path="/unsubscribe" element={<Unsubscribe />} />
 
