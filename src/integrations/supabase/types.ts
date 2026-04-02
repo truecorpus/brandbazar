@@ -476,6 +476,302 @@ export type Database = {
           },
         ]
       }
+      customization_pricing_rules: {
+        Row: {
+          additional_cost_per_unit: number
+          created_at: string
+          id: string
+          is_active: boolean | null
+          minimum_quantity: number | null
+          product_id: string | null
+          rule_description: string | null
+          rule_name: string
+          rule_type: string
+        }
+        Insert: {
+          additional_cost_per_unit?: number
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          minimum_quantity?: number | null
+          product_id?: string | null
+          rule_description?: string | null
+          rule_name: string
+          rule_type: string
+        }
+        Update: {
+          additional_cost_per_unit?: number
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          minimum_quantity?: number | null
+          product_id?: string | null
+          rule_description?: string | null
+          rule_name?: string
+          rule_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customization_pricing_rules_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customization_sessions: {
+        Row: {
+          active_view: string | null
+          created_at: string
+          customer_user_id: string | null
+          device_type: string | null
+          expires_at: string
+          id: string
+          last_modified_at: string
+          product_id: string | null
+          selected_print_method: string | null
+          selected_variant_id: string | null
+          session_state: Json
+          session_status: string
+          template_id: string | null
+        }
+        Insert: {
+          active_view?: string | null
+          created_at?: string
+          customer_user_id?: string | null
+          device_type?: string | null
+          expires_at?: string
+          id?: string
+          last_modified_at?: string
+          product_id?: string | null
+          selected_print_method?: string | null
+          selected_variant_id?: string | null
+          session_state?: Json
+          session_status?: string
+          template_id?: string | null
+        }
+        Update: {
+          active_view?: string | null
+          created_at?: string
+          customer_user_id?: string | null
+          device_type?: string | null
+          expires_at?: string
+          id?: string
+          last_modified_at?: string
+          product_id?: string | null
+          selected_print_method?: string | null
+          selected_variant_id?: string | null
+          session_state?: Json
+          session_status?: string
+          template_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customization_sessions_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customization_sessions_selected_variant_id_fkey"
+            columns: ["selected_variant_id"]
+            isOneToOne: false
+            referencedRelation: "product_variants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customization_sessions_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "product_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      design_elements: {
+        Row: {
+          category: string
+          created_at: string
+          element_name: string
+          element_type: string
+          id: string
+          image_url: string | null
+          is_premium: boolean | null
+          svg_content: string | null
+          tags: string[] | null
+          usage_count: number | null
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          element_name: string
+          element_type: string
+          id?: string
+          image_url?: string | null
+          is_premium?: boolean | null
+          svg_content?: string | null
+          tags?: string[] | null
+          usage_count?: number | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          element_name?: string
+          element_type?: string
+          id?: string
+          image_url?: string | null
+          is_premium?: boolean | null
+          svg_content?: string | null
+          tags?: string[] | null
+          usage_count?: number | null
+        }
+        Relationships: []
+      }
+      design_layers: {
+        Row: {
+          content: string | null
+          created_at: string
+          design_id: string
+          fill_color: string | null
+          filters_applied: Json | null
+          font_color: string | null
+          font_id: string | null
+          font_size: number | null
+          font_style: string | null
+          font_weight: string | null
+          height: number | null
+          id: string
+          layer_order: number
+          layer_type: string
+          letter_spacing: number | null
+          opacity: number | null
+          position_x: number | null
+          position_y: number | null
+          print_zone_id: string | null
+          rotation: number | null
+          stroke_color: string | null
+          stroke_width: number | null
+          text_alignment: string | null
+          width: number | null
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          design_id: string
+          fill_color?: string | null
+          filters_applied?: Json | null
+          font_color?: string | null
+          font_id?: string | null
+          font_size?: number | null
+          font_style?: string | null
+          font_weight?: string | null
+          height?: number | null
+          id?: string
+          layer_order?: number
+          layer_type: string
+          letter_spacing?: number | null
+          opacity?: number | null
+          position_x?: number | null
+          position_y?: number | null
+          print_zone_id?: string | null
+          rotation?: number | null
+          stroke_color?: string | null
+          stroke_width?: number | null
+          text_alignment?: string | null
+          width?: number | null
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          design_id?: string
+          fill_color?: string | null
+          filters_applied?: Json | null
+          font_color?: string | null
+          font_id?: string | null
+          font_size?: number | null
+          font_style?: string | null
+          font_weight?: string | null
+          height?: number | null
+          id?: string
+          layer_order?: number
+          layer_type?: string
+          letter_spacing?: number | null
+          opacity?: number | null
+          position_x?: number | null
+          position_y?: number | null
+          print_zone_id?: string | null
+          rotation?: number | null
+          stroke_color?: string | null
+          stroke_width?: number | null
+          text_alignment?: string | null
+          width?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "design_layers_design_id_fkey"
+            columns: ["design_id"]
+            isOneToOne: false
+            referencedRelation: "saved_designs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "design_layers_font_id_fkey"
+            columns: ["font_id"]
+            isOneToOne: false
+            referencedRelation: "font_library"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      design_templates_gallery: {
+        Row: {
+          category: string | null
+          created_at: string
+          design_state: Json
+          id: string
+          industry_tags: string[] | null
+          is_featured: boolean | null
+          name: string
+          product_template_id: string | null
+          thumbnail_url: string | null
+          usage_count: number | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          design_state?: Json
+          id?: string
+          industry_tags?: string[] | null
+          is_featured?: boolean | null
+          name: string
+          product_template_id?: string | null
+          thumbnail_url?: string | null
+          usage_count?: number | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          design_state?: Json
+          id?: string
+          industry_tags?: string[] | null
+          is_featured?: boolean | null
+          name?: string
+          product_template_id?: string | null
+          thumbnail_url?: string | null
+          usage_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "design_templates_gallery_product_template_id_fkey"
+            columns: ["product_template_id"]
+            isOneToOne: false
+            referencedRelation: "product_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       email_send_log: {
         Row: {
           created_at: string
@@ -560,6 +856,45 @@ export type Database = {
           id?: string
           token?: string
           used_at?: string | null
+        }
+        Relationships: []
+      }
+      font_library: {
+        Row: {
+          category: string
+          created_at: string
+          font_family: string
+          font_file_url: string | null
+          font_name: string
+          id: string
+          is_active: boolean | null
+          is_safe_for_print: boolean | null
+          min_recommended_size: number | null
+          preview_text_image_url: string | null
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          font_family: string
+          font_file_url?: string | null
+          font_name: string
+          id?: string
+          is_active?: boolean | null
+          is_safe_for_print?: boolean | null
+          min_recommended_size?: number | null
+          preview_text_image_url?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          font_family?: string
+          font_file_url?: string | null
+          font_name?: string
+          id?: string
+          is_active?: boolean | null
+          is_safe_for_print?: boolean | null
+          min_recommended_size?: number | null
+          preview_text_image_url?: string | null
         }
         Relationships: []
       }
@@ -1150,6 +1485,48 @@ export type Database = {
           },
         ]
       }
+      product_templates: {
+        Row: {
+          base_product_image_url: string | null
+          canvas_height: number
+          canvas_width: number
+          created_at: string
+          id: string
+          print_zones: Json
+          product_type: Database["public"]["Enums"]["product_type"]
+          status: string
+          template_name: string
+          updated_at: string
+          views: Json
+        }
+        Insert: {
+          base_product_image_url?: string | null
+          canvas_height?: number
+          canvas_width?: number
+          created_at?: string
+          id?: string
+          print_zones?: Json
+          product_type: Database["public"]["Enums"]["product_type"]
+          status?: string
+          template_name: string
+          updated_at?: string
+          views?: Json
+        }
+        Update: {
+          base_product_image_url?: string | null
+          canvas_height?: number
+          canvas_width?: number
+          created_at?: string
+          id?: string
+          print_zones?: Json
+          product_type?: Database["public"]["Enums"]["product_type"]
+          status?: string
+          template_name?: string
+          updated_at?: string
+          views?: Json
+        }
+        Relationships: []
+      }
       product_variants: {
         Row: {
           additional_price: number | null
@@ -1528,6 +1905,82 @@ export type Database = {
           },
         ]
       }
+      saved_designs: {
+        Row: {
+          admin_approval_notes: string | null
+          approved_at: string | null
+          created_at: string
+          customer_user_id: string
+          customization_summary: Json | null
+          design_name: string | null
+          design_state: Json
+          id: string
+          is_approved_by_admin: boolean | null
+          preview_image_urls: string[] | null
+          print_file_status: string | null
+          print_file_urls: string[] | null
+          product_id: string | null
+          session_id: string | null
+          template_id: string | null
+        }
+        Insert: {
+          admin_approval_notes?: string | null
+          approved_at?: string | null
+          created_at?: string
+          customer_user_id: string
+          customization_summary?: Json | null
+          design_name?: string | null
+          design_state?: Json
+          id?: string
+          is_approved_by_admin?: boolean | null
+          preview_image_urls?: string[] | null
+          print_file_status?: string | null
+          print_file_urls?: string[] | null
+          product_id?: string | null
+          session_id?: string | null
+          template_id?: string | null
+        }
+        Update: {
+          admin_approval_notes?: string | null
+          approved_at?: string | null
+          created_at?: string
+          customer_user_id?: string
+          customization_summary?: Json | null
+          design_name?: string | null
+          design_state?: Json
+          id?: string
+          is_approved_by_admin?: boolean | null
+          preview_image_urls?: string[] | null
+          print_file_status?: string | null
+          print_file_urls?: string[] | null
+          product_id?: string | null
+          session_id?: string | null
+          template_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_designs_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "saved_designs_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "customization_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "saved_designs_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "product_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       shipments: {
         Row: {
           actual_delivery_date: string | null
@@ -1724,6 +2177,15 @@ export type Database = {
         | "staff"
         | "corporate_client"
         | "individual_customer"
+      product_type:
+        | "mug"
+        | "tshirt"
+        | "cap"
+        | "idcard"
+        | "lamp"
+        | "keychain"
+        | "notebook"
+        | "kit"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1857,6 +2319,16 @@ export const Constants = {
         "staff",
         "corporate_client",
         "individual_customer",
+      ],
+      product_type: [
+        "mug",
+        "tshirt",
+        "cap",
+        "idcard",
+        "lamp",
+        "keychain",
+        "notebook",
+        "kit",
       ],
     },
   },
