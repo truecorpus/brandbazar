@@ -61,6 +61,7 @@ import ReturnRequest from "./pages/dashboard/ReturnRequest";
 import MyReturns from "./pages/dashboard/MyReturns";
 import NotFound from "./pages/NotFound";
 import Unsubscribe from "./pages/Unsubscribe";
+import Customizer from "./pages/Customizer";
 
 const queryClient = new QueryClient();
 
@@ -134,6 +135,7 @@ const App = () => (
             </Route>
 
             {/* Public pages */}
+            <Route path="/customize/:slug" element={<Customizer />} />
             <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
             <Route path="/unsubscribe" element={<Unsubscribe />} />
 
