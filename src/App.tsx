@@ -62,6 +62,7 @@ import MyReturns from "./pages/dashboard/MyReturns";
 import NotFound from "./pages/NotFound";
 import Unsubscribe from "./pages/Unsubscribe";
 import Customizer from "./pages/Customizer";
+import AdminTemplates from "./pages/admin/AdminTemplates";
 
 const queryClient = new QueryClient();
 
