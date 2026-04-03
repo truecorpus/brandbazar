@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useCustomizerStore } from "@/hooks/useCustomizerStore";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,6 +7,7 @@ import CustomizerTopBar from "@/components/customizer/CustomizerTopBar";
 import LeftPanel from "@/components/customizer/LeftPanel";
 import CanvasPanel from "@/components/customizer/CanvasPanel";
 import RightPanel from "@/components/customizer/RightPanel";
+import PreviewModal from "@/components/customizer/PreviewModal";
 
 export default function Customizer() {
   const { slug } = useParams<{ slug: string }>();
