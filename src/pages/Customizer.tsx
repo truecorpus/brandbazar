@@ -13,6 +13,7 @@ export default function Customizer() {
   const { slug } = useParams<{ slug: string }>();
   const store = useCustomizerStore();
   const autoSaveTimer = useRef<NodeJS.Timeout | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
 
   // Load product + template data
   useEffect(() => {
