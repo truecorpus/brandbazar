@@ -32,14 +32,37 @@ export default function Customizer() {
         return;
       }
 
-      // Try to find a template for this product
-      const { data: templates } = await supabase
-        .from("product_templates" as any)
-        .select("*")
-        .eq("status", "active")
-        .limit(1);
+      // Try to find a template matching this product's category name
+      const categoryName = (product as any).categories?.name?.toLowerCase() || "";
+      const typeMap: Record<string, string> = {
+        mugs: "mug", "ceramic mugs": "mug", "magic mugs": "mug",
+        "t-shirts": "tshirt", tshirts: "tshirt", polo: "tshirt", shirts: "tshirt",
+        caps: "cap", hats: "cap",
+        "id cards": "idcard", cards: "idcard",
+        lamps: "lamp",
+        keychains: "keychain",
+        notebooks: "notebook", diaries: "notebook",
+      };
+      const productType = typeMap[categoryName] || null;
 
-      const template = (templates as any)?.[0];
+      let template: any = null;
+      if (productType) {
+        const { data: templates } = await supabase
+          .from("product_templates")
+          .select("*")
+          .eq("status", "active")
+          .eq("product_type", productType as any)
+          .limit(1);
+        template = templates?.[0] || null;
+      }
+      if (!template) {
+        const { data: templates } = await supabase
+          .from("product_templates")
+          .select("*")
+          .eq("status", "active")
+          .limit(1);
+        template = templates?.[0] || null;
+      }
 
       const defaultZones = [
         {
