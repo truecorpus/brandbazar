@@ -141,7 +141,7 @@ export default function Customizer() {
   }, [store]);
 
   const handlePreview = useCallback(() => {
-    toast.info("Preview mode coming soon");
+    setShowPreview(true);
   }, []);
 
   const handleAddToCart = useCallback(() => {
