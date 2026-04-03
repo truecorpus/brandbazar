@@ -391,6 +391,27 @@ export default function PreviewModal({
               </div>
             </div>
 
+            {/* Quality Warnings */}
+            {qualityWarnings.length > 0 && (
+              <div className="space-y-1.5">
+                {qualityWarnings.map((w, i) => (
+                  <div
+                    key={i}
+                    className="flex items-start gap-2 p-2.5 rounded-lg text-xs"
+                    style={{
+                      backgroundColor: w.severity === "error" ? "#FDE7E7" : w.severity === "warning" ? "#FFF3E0" : "#E8F0FE",
+                      color: w.severity === "error" ? "#C62828" : w.severity === "warning" ? "#E65100" : "#1565C0",
+                    }}
+                  >
+                    {w.severity === "error" ? <AlertCircle className="w-3.5 h-3.5 mt-0.5 shrink-0" /> :
+                     w.severity === "warning" ? <AlertTriangle className="w-3.5 h-3.5 mt-0.5 shrink-0" /> :
+                     <Info className="w-3.5 h-3.5 mt-0.5 shrink-0" />}
+                    <span>{w.message}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
             {/* Approval Checkbox */}
             <label className="flex items-start gap-2.5 cursor-pointer select-none">
               <input
@@ -399,8 +420,9 @@ export default function PreviewModal({
                 onChange={(e) => setApproved(e.target.checked)}
                 className="mt-0.5 w-4 h-4 rounded border-2 accent-[#1A73E8] cursor-pointer"
                 style={{ borderColor: "#DADCE0" }}
+                disabled={hasErrors}
               />
-              <span className="text-[11px] leading-relaxed" style={{ color: "#5F6368" }}>
+              <span className="text-[11px] leading-relaxed" style={{ color: hasErrors ? "#9AA0A6" : "#5F6368" }}>
                 I have reviewed my design and confirm it is correct. I understand that once production begins, changes cannot be made.
               </span>
             </label>
@@ -409,8 +431,8 @@ export default function PreviewModal({
             <div className="space-y-2">
               <Button
                 className="w-full h-11 gap-2 text-sm font-medium"
-                style={{ backgroundColor: approved ? "#1A73E8" : undefined }}
-                disabled={!approved}
+                style={{ backgroundColor: approved && !hasErrors ? "#1A73E8" : undefined }}
+                disabled={!approved || hasErrors}
                 onClick={handleAddToCart}
               >
                 <ShoppingCart className="w-4 h-4" />
