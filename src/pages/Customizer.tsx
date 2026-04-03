@@ -218,6 +218,23 @@ export default function Customizer() {
           onReorderLayers={store.reorderLayers}
         />
       </div>
+
+      <PreviewModal
+        isOpen={showPreview}
+        onClose={() => setShowPreview(false)}
+        productName={store.state.productName}
+        unitPrice={store.state.unitPrice}
+        minQuantity={store.state.minQuantity}
+        layers={store.state.layers}
+        views={store.state.views}
+        printZones={store.state.printZones}
+        activeViewId={store.state.activeViewId}
+        selectedPrintMethod={store.state.selectedPrintMethod}
+        baseProductImageUrl={store.state.baseProductImageUrl}
+        canvasWidth={store.state.canvasWidth}
+        canvasHeight={store.state.canvasHeight}
+        onAddToCart={handleAddToCart}
+      />
     </div>
   );
 }
