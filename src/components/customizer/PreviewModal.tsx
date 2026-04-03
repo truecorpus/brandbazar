@@ -1,12 +1,13 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import {
   X, Check, ShoppingCart, FileText, Copy, Share2,
   Minus, Plus, Calendar, Zap, ChevronLeft, ChevronRight,
-  ZoomIn, MessageCircle,
+  ZoomIn, MessageCircle, AlertTriangle, AlertCircle, Info,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import type { DesignLayer, PrintZone, ProductView } from "@/hooks/useCustomizerStore";
+import { checkDesignQuality, type QualityWarning } from "@/lib/designQualityChecker";
 
 interface PreviewModalProps {
   isOpen: boolean;
