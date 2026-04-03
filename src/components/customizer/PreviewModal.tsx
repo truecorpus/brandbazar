@@ -51,6 +51,8 @@ export default function PreviewModal({
     [layers, printZones]
   );
   const hasErrors = qualityWarnings.some((w) => w.severity === "error");
+
+  const printMethodLabel: Record<string, string> = {
     digital_print: "Digital Print",
     sublimation: "Sublimation",
     screen_print: "Screen Print",
