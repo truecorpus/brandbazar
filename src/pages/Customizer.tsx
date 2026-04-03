@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useCustomizerStore } from "@/hooks/useCustomizerStore";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,11 +7,13 @@ import CustomizerTopBar from "@/components/customizer/CustomizerTopBar";
 import LeftPanel from "@/components/customizer/LeftPanel";
 import CanvasPanel from "@/components/customizer/CanvasPanel";
 import RightPanel from "@/components/customizer/RightPanel";
+import PreviewModal from "@/components/customizer/PreviewModal";
 
 export default function Customizer() {
   const { slug } = useParams<{ slug: string }>();
   const store = useCustomizerStore();
   const autoSaveTimer = useRef<NodeJS.Timeout | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
 
   // Load product + template data
   useEffect(() => {
@@ -139,7 +141,7 @@ export default function Customizer() {
   }, [store]);
 
   const handlePreview = useCallback(() => {
-    toast.info("Preview mode coming soon");
+    setShowPreview(true);
   }, []);
 
   const handleAddToCart = useCallback(() => {
@@ -216,6 +218,23 @@ export default function Customizer() {
           onReorderLayers={store.reorderLayers}
         />
       </div>
+
+      <PreviewModal
+        isOpen={showPreview}
+        onClose={() => setShowPreview(false)}
+        productName={store.state.productName}
+        unitPrice={store.state.unitPrice}
+        minQuantity={store.state.minQuantity}
+        layers={store.state.layers}
+        views={store.state.views}
+        printZones={store.state.printZones}
+        activeViewId={store.state.activeViewId}
+        selectedPrintMethod={store.state.selectedPrintMethod}
+        baseProductImageUrl={store.state.baseProductImageUrl}
+        canvasWidth={store.state.canvasWidth}
+        canvasHeight={store.state.canvasHeight}
+        onAddToCart={handleAddToCart}
+      />
     </div>
   );
 }
