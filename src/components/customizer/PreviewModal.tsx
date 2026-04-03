@@ -45,7 +45,12 @@ export default function PreviewModal({
   const [approved, setApproved] = useState(false);
   const [zoomed, setZoomed] = useState(false);
 
-  const printMethodLabel: Record<string, string> = {
+  // Quality check
+  const qualityWarnings = useMemo(
+    () => checkDesignQuality(layers, printZones),
+    [layers, printZones]
+  );
+  const hasErrors = qualityWarnings.some((w) => w.severity === "error");
     digital_print: "Digital Print",
     sublimation: "Sublimation",
     screen_print: "Screen Print",
