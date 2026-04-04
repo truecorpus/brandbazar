@@ -176,9 +176,19 @@ export default function Customizer() {
   const handleReset = useCallback(() => {
     if (confirm("This will remove all design elements. Continue?")) {
       store.resetDesign();
+      setBulkMode(false);
       toast.info("Design reset");
     }
   }, [store]);
+
+  const handleBulkToggle = useCallback(() => {
+    setBulkMode((prev) => !prev);
+  }, []);
+
+  const handleBulkProceed = useCallback((data: any) => {
+    toast.success(`Quote ready: ${data.totalQty} units (${data.personalizedQty} personalized)`);
+    setBulkMode(false);
+  }, []);
 
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-white">
