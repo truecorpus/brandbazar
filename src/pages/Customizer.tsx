@@ -228,6 +228,7 @@ export default function Customizer() {
           onSetActiveView={store.setActiveView}
           onSetActiveZone={store.setActiveZone}
         />
+        )
 
         <CanvasPanel
           canvasWidth={store.state.canvasWidth}
