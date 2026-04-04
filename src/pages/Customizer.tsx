@@ -228,7 +228,7 @@ export default function Customizer() {
           onSetActiveView={store.setActiveView}
           onSetActiveZone={store.setActiveZone}
         />
-        )
+        )}
 
         <CanvasPanel
           canvasWidth={store.state.canvasWidth}
@@ -247,15 +247,25 @@ export default function Customizer() {
           onSetZoom={store.setZoom}
         />
 
-        <RightPanel
-          selectedLayer={store.selectedLayer}
-          currentViewLayers={store.currentViewLayers}
-          onUpdateLayer={store.updateLayer}
-          onDeleteLayer={store.deleteLayer}
-          onDuplicateLayer={store.duplicateLayer}
-          onSelectLayer={store.selectLayer}
-          onReorderLayers={store.reorderLayers}
-        />
+        {bulkMode ? (
+          <BulkPersonalizationPanel
+            layers={store.currentViewLayers}
+            canvasWidth={store.state.canvasWidth}
+            canvasHeight={store.state.canvasHeight}
+            unitPrice={store.state.unitPrice}
+            onProceedToQuote={handleBulkProceed}
+          />
+        ) : (
+          <RightPanel
+            selectedLayer={store.selectedLayer}
+            currentViewLayers={store.currentViewLayers}
+            onUpdateLayer={store.updateLayer}
+            onDeleteLayer={store.deleteLayer}
+            onDuplicateLayer={store.duplicateLayer}
+            onSelectLayer={store.selectLayer}
+            onReorderLayers={store.reorderLayers}
+          />
+        )}
       </div>
 
       <PreviewModal
