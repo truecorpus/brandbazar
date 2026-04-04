@@ -204,6 +204,8 @@ export default function Customizer() {
         onSave={handleSave}
         onPreview={handlePreview}
         onAddToCart={handleAddToCart}
+        onBulkPersonalization={store.state.minQuantity >= 25 ? handleBulkToggle : undefined}
+        isBulkMode={bulkMode}
         canUndo={store.state.undoStack.length > 0}
         canRedo={store.state.redoStack.length > 0}
         hasCustomization={store.hasCustomization}
@@ -212,7 +214,8 @@ export default function Customizer() {
       />
 
       <div className="flex flex-1 overflow-hidden">
-        <LeftPanel
+        {!bulkMode && (
+          <LeftPanel
           activeViewId={store.state.activeViewId}
           activeZoneId={store.state.activeZoneId}
           selectedLayer={store.selectedLayer}
