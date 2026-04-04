@@ -8,12 +8,14 @@ import LeftPanel from "@/components/customizer/LeftPanel";
 import CanvasPanel from "@/components/customizer/CanvasPanel";
 import RightPanel from "@/components/customizer/RightPanel";
 import PreviewModal from "@/components/customizer/PreviewModal";
+import BulkPersonalizationPanel from "@/components/customizer/BulkPersonalizationPanel";
 
 export default function Customizer() {
   const { slug } = useParams<{ slug: string }>();
   const store = useCustomizerStore();
   const autoSaveTimer = useRef<NodeJS.Timeout | null>(null);
   const [showPreview, setShowPreview] = useState(false);
+  const [bulkMode, setBulkMode] = useState(false);
 
   // Load product + template data
   useEffect(() => {
@@ -174,9 +176,19 @@ export default function Customizer() {
   const handleReset = useCallback(() => {
     if (confirm("This will remove all design elements. Continue?")) {
       store.resetDesign();
+      setBulkMode(false);
       toast.info("Design reset");
     }
   }, [store]);
+
+  const handleBulkToggle = useCallback(() => {
+    setBulkMode((prev) => !prev);
+  }, []);
+
+  const handleBulkProceed = useCallback((data: any) => {
+    toast.success(`Quote ready: ${data.totalQty} units (${data.personalizedQty} personalized)`);
+    setBulkMode(false);
+  }, []);
 
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-white">
@@ -192,6 +204,8 @@ export default function Customizer() {
         onSave={handleSave}
         onPreview={handlePreview}
         onAddToCart={handleAddToCart}
+        onBulkPersonalization={store.state.minQuantity >= 25 ? handleBulkToggle : undefined}
+        isBulkMode={bulkMode}
         canUndo={store.state.undoStack.length > 0}
         canRedo={store.state.redoStack.length > 0}
         hasCustomization={store.hasCustomization}
@@ -200,7 +214,8 @@ export default function Customizer() {
       />
 
       <div className="flex flex-1 overflow-hidden">
-        <LeftPanel
+        {!bulkMode && (
+          <LeftPanel
           activeViewId={store.state.activeViewId}
           activeZoneId={store.state.activeZoneId}
           selectedLayer={store.selectedLayer}
@@ -213,6 +228,7 @@ export default function Customizer() {
           onSetActiveView={store.setActiveView}
           onSetActiveZone={store.setActiveZone}
         />
+        )}
 
         <CanvasPanel
           canvasWidth={store.state.canvasWidth}
@@ -231,15 +247,25 @@ export default function Customizer() {
           onSetZoom={store.setZoom}
         />
 
-        <RightPanel
-          selectedLayer={store.selectedLayer}
-          currentViewLayers={store.currentViewLayers}
-          onUpdateLayer={store.updateLayer}
-          onDeleteLayer={store.deleteLayer}
-          onDuplicateLayer={store.duplicateLayer}
-          onSelectLayer={store.selectLayer}
-          onReorderLayers={store.reorderLayers}
-        />
+        {bulkMode ? (
+          <BulkPersonalizationPanel
+            layers={store.currentViewLayers}
+            canvasWidth={store.state.canvasWidth}
+            canvasHeight={store.state.canvasHeight}
+            unitPrice={store.state.unitPrice}
+            onProceedToQuote={handleBulkProceed}
+          />
+        ) : (
+          <RightPanel
+            selectedLayer={store.selectedLayer}
+            currentViewLayers={store.currentViewLayers}
+            onUpdateLayer={store.updateLayer}
+            onDeleteLayer={store.deleteLayer}
+            onDuplicateLayer={store.duplicateLayer}
+            onSelectLayer={store.selectLayer}
+            onReorderLayers={store.reorderLayers}
+          />
+        )}
       </div>
 
       <PreviewModal

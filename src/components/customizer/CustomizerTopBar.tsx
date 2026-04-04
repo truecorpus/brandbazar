@@ -1,4 +1,4 @@
-import { ArrowLeft, Undo2, Redo2, Minus, Plus, RotateCcw, Save, Eye, ShoppingCart } from "lucide-react";
+import { ArrowLeft, Undo2, Redo2, Minus, Plus, RotateCcw, Save, Eye, ShoppingCart, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -15,6 +15,8 @@ interface CustomizerTopBarProps {
   onSave: () => void;
   onPreview: () => void;
   onAddToCart: () => void;
+  onBulkPersonalization?: () => void;
+  isBulkMode?: boolean;
   canUndo: boolean;
   canRedo: boolean;
   hasCustomization: boolean;
@@ -34,6 +36,8 @@ export default function CustomizerTopBar({
   onSave,
   onPreview,
   onAddToCart,
+  onBulkPersonalization,
+  isBulkMode,
   canUndo,
   canRedo,
   hasCustomization,
@@ -126,6 +130,17 @@ export default function CustomizerTopBar({
         <Button variant="outline" size="sm" onClick={onPreview} className="hidden md:flex gap-1.5 h-8 text-xs border-[#DADCE0]">
           <Eye className="w-3.5 h-3.5" /> Preview
         </Button>
+        {onBulkPersonalization && (
+          <Button
+            variant={isBulkMode ? "default" : "outline"}
+            size="sm"
+            onClick={onBulkPersonalization}
+            className="hidden lg:flex gap-1.5 h-8 text-xs"
+            style={isBulkMode ? { backgroundColor: "#1A73E8" } : { borderColor: "#DADCE0" }}
+          >
+            <Users className="w-3.5 h-3.5" /> Bulk
+          </Button>
+        )}
         <Button
           size="sm"
           onClick={onAddToCart}
