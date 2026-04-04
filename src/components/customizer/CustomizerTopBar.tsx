@@ -15,6 +15,8 @@ interface CustomizerTopBarProps {
   onSave: () => void;
   onPreview: () => void;
   onAddToCart: () => void;
+  onBulkPersonalization?: () => void;
+  isBulkMode?: boolean;
   canUndo: boolean;
   canRedo: boolean;
   hasCustomization: boolean;
