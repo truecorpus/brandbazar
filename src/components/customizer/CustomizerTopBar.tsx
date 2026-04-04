@@ -1,4 +1,4 @@
-import { ArrowLeft, Undo2, Redo2, Minus, Plus, RotateCcw, Save, Eye, ShoppingCart } from "lucide-react";
+import { ArrowLeft, Undo2, Redo2, Minus, Plus, RotateCcw, Save, Eye, ShoppingCart, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
