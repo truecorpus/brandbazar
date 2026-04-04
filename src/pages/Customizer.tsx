@@ -15,6 +15,7 @@ export default function Customizer() {
   const store = useCustomizerStore();
   const autoSaveTimer = useRef<NodeJS.Timeout | null>(null);
   const [showPreview, setShowPreview] = useState(false);
+  const [bulkMode, setBulkMode] = useState(false);
 
   // Load product + template data
   useEffect(() => {
