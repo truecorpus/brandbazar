@@ -8,6 +8,7 @@ import LeftPanel from "@/components/customizer/LeftPanel";
 import CanvasPanel from "@/components/customizer/CanvasPanel";
 import RightPanel from "@/components/customizer/RightPanel";
 import PreviewModal from "@/components/customizer/PreviewModal";
+import BulkPersonalizationPanel from "@/components/customizer/BulkPersonalizationPanel";
 
 export default function Customizer() {
   const { slug } = useParams<{ slug: string }>();
