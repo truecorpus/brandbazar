@@ -130,6 +130,17 @@ export default function CustomizerTopBar({
         <Button variant="outline" size="sm" onClick={onPreview} className="hidden md:flex gap-1.5 h-8 text-xs border-[#DADCE0]">
           <Eye className="w-3.5 h-3.5" /> Preview
         </Button>
+        {onBulkPersonalization && (
+          <Button
+            variant={isBulkMode ? "default" : "outline"}
+            size="sm"
+            onClick={onBulkPersonalization}
+            className="hidden lg:flex gap-1.5 h-8 text-xs"
+            style={isBulkMode ? { backgroundColor: "#1A73E8" } : { borderColor: "#DADCE0" }}
+          >
+            <Users className="w-3.5 h-3.5" /> Bulk
+          </Button>
+        )}
         <Button
           size="sm"
           onClick={onAddToCart}
