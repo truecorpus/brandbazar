@@ -36,6 +36,8 @@ export default function CustomizerTopBar({
   onSave,
   onPreview,
   onAddToCart,
+  onBulkPersonalization,
+  isBulkMode,
   canUndo,
   canRedo,
   hasCustomization,
