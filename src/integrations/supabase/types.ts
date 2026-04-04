@@ -523,48 +523,63 @@ export type Database = {
       customization_sessions: {
         Row: {
           active_view: string | null
+          bulk_data: Json | null
           created_at: string
           customer_user_id: string | null
           device_type: string | null
           expires_at: string
           id: string
+          identical_quantity: number | null
           last_modified_at: string
+          personalization_fields: Json | null
+          personalized_quantity: number | null
           product_id: string | null
           selected_print_method: string | null
           selected_variant_id: string | null
           session_state: Json
           session_status: string
           template_id: string | null
+          total_quantity: number | null
         }
         Insert: {
           active_view?: string | null
+          bulk_data?: Json | null
           created_at?: string
           customer_user_id?: string | null
           device_type?: string | null
           expires_at?: string
           id?: string
+          identical_quantity?: number | null
           last_modified_at?: string
+          personalization_fields?: Json | null
+          personalized_quantity?: number | null
           product_id?: string | null
           selected_print_method?: string | null
           selected_variant_id?: string | null
           session_state?: Json
           session_status?: string
           template_id?: string | null
+          total_quantity?: number | null
         }
         Update: {
           active_view?: string | null
+          bulk_data?: Json | null
           created_at?: string
           customer_user_id?: string | null
           device_type?: string | null
           expires_at?: string
           id?: string
+          identical_quantity?: number | null
           last_modified_at?: string
+          personalization_fields?: Json | null
+          personalized_quantity?: number | null
           product_id?: string | null
           selected_print_method?: string | null
           selected_variant_id?: string | null
           session_state?: Json
           session_status?: string
           template_id?: string | null
+          total_quantity?: number | null
         }
         Relationships: [
           {
@@ -1145,12 +1160,15 @@ export type Database = {
       order_items: {
         Row: {
           artwork_file_urls: string[] | null
+          bulk_personalization_data: Json | null
           created_at: string
           customization_selections: Json | null
           id: string
+          is_personalized: boolean | null
           mockup_approved: boolean | null
           mockup_url: string | null
           order_id: string
+          personalization_cost_per_unit: number | null
           print_notes: string | null
           product_id: string | null
           production_status: string | null
@@ -1160,12 +1178,15 @@ export type Database = {
         }
         Insert: {
           artwork_file_urls?: string[] | null
+          bulk_personalization_data?: Json | null
           created_at?: string
           customization_selections?: Json | null
           id?: string
+          is_personalized?: boolean | null
           mockup_approved?: boolean | null
           mockup_url?: string | null
           order_id: string
+          personalization_cost_per_unit?: number | null
           print_notes?: string | null
           product_id?: string | null
           production_status?: string | null
@@ -1175,12 +1196,15 @@ export type Database = {
         }
         Update: {
           artwork_file_urls?: string[] | null
+          bulk_personalization_data?: Json | null
           created_at?: string
           customization_selections?: Json | null
           id?: string
+          is_personalized?: boolean | null
           mockup_approved?: boolean | null
           mockup_url?: string | null
           order_id?: string
+          personalization_cost_per_unit?: number | null
           print_notes?: string | null
           product_id?: string | null
           production_status?: string | null
