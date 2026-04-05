@@ -27,32 +27,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState<UserRole | null>(null);
+  const [roleLoading, setRoleLoading] = useState(false);
   const [profile, setProfile] = useState<any | null>(null);
 
   const fetchUserData = async (userId: string) => {
-    const [roleRes, profileRes] = await Promise.all([
-      supabase.from("user_roles").select("role").eq("user_id", userId).limit(1).single(),
-      supabase.from("profiles").select("*").eq("user_id", userId).limit(1).single(),
-    ]);
-    if (roleRes.data) setRole(roleRes.data.role as UserRole);
-    if (profileRes.data) setProfile(profileRes.data);
+    setRoleLoading(true);
+    try {
+      const [roleRes, profileRes] = await Promise.all([
+        supabase.from("user_roles").select("role").eq("user_id", userId).limit(1).single(),
+        supabase.from("profiles").select("*").eq("user_id", userId).limit(1).single(),
+      ]);
+      if (roleRes.data) setRole(roleRes.data.role as UserRole);
+      if (profileRes.data) setProfile(profileRes.data);
+    } finally {
+      setRoleLoading(false);
+    }
   };
 
   useEffect(() => {
+    // Set up listener first (non-async — fire and forget for data fetch)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      (_event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         if (session?.user) {
-          await fetchUserData(session.user.id);
+          fetchUserData(session.user.id);
         } else {
           setRole(null);
           setProfile(null);
         }
-        setLoading(false);
       }
     );
 
+    // Then restore session
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
