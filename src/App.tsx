@@ -63,6 +63,7 @@ import NotFound from "./pages/NotFound";
 import Unsubscribe from "./pages/Unsubscribe";
 import Customizer from "./pages/Customizer";
 import AdminTemplates from "./pages/admin/AdminTemplates";
+import AdminLogin from "./pages/admin/AdminLogin";
 
 const queryClient = new QueryClient();
 
@@ -102,6 +103,9 @@ const App = () => (
               <Route path="returns" element={<MyReturns />} />
               <Route path="returns/:orderId" element={<ReturnRequest />} />
             </Route>
+
+            {/* Admin login */}
+            <Route path="/admin/login" element={<AdminLogin />} />
 
             {/* Admin routes */}
             <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
