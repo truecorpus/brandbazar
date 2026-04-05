@@ -104,6 +104,9 @@ const App = () => (
               <Route path="returns/:orderId" element={<ReturnRequest />} />
             </Route>
 
+            {/* Admin login */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+
             {/* Admin routes */}
             <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
               <Route index element={<AdminDashboard />} />
