@@ -29,7 +29,7 @@ const MyOrders = () => {
     if (!user) return;
     const fetch = async () => {
       let q = supabase
-        .from("orders")
+        .from("customer_orders")
         .select("*")
         .eq("customer_id", user.id)
         .order("created_at", { ascending: false });

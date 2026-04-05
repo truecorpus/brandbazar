@@ -126,6 +126,13 @@ export type Database = {
             foreignKeyName: "artwork_uploads_quote_id_fkey"
             columns: ["quote_id"]
             isOneToOne: false
+            referencedRelation: "customer_quotes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "artwork_uploads_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
             referencedRelation: "quotes"
             referencedColumns: ["id"]
           },
@@ -1058,6 +1065,13 @@ export type Database = {
             foreignKeyName: "invoices_order_id_fkey"
             columns: ["order_id"]
             isOneToOne: false
+            referencedRelation: "customer_orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
             referencedRelation: "orders"
             referencedColumns: ["id"]
           },
@@ -1213,6 +1227,13 @@ export type Database = {
           variant_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "customer_orders"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "order_items_order_id_fkey"
             columns: ["order_id"]
@@ -1411,6 +1432,13 @@ export type Database = {
           refund_date?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "payments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "customer_orders"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "payments_order_id_fkey"
             columns: ["order_id"]
@@ -1864,6 +1892,13 @@ export type Database = {
             foreignKeyName: "return_requests_order_id_fkey"
             columns: ["order_id"]
             isOneToOne: false
+            referencedRelation: "customer_orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "return_requests_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
             referencedRelation: "orders"
             referencedColumns: ["id"]
           },
@@ -2062,6 +2097,13 @@ export type Database = {
             foreignKeyName: "shipments_order_id_fkey"
             columns: ["order_id"]
             isOneToOne: false
+            referencedRelation: "customer_orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shipments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
             referencedRelation: "orders"
             referencedColumns: ["id"]
           },
@@ -2156,7 +2198,257 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      customer_orders: {
+        Row: {
+          advance_amount: number | null
+          advance_paid: boolean | null
+          billing_address_id: string | null
+          corporate_account_id: string | null
+          created_at: string | null
+          currency: string | null
+          customer_id: string | null
+          discount_amount: number | null
+          expected_delivery_date: string | null
+          gst_amount: number | null
+          id: string | null
+          order_number: string | null
+          order_status: string | null
+          order_type: string | null
+          payment_status: string | null
+          payment_terms: string | null
+          production_days: number | null
+          remaining_amount: number | null
+          shipping_address_id: string | null
+          shipping_amount: number | null
+          shipping_method: string | null
+          shipping_zone_id: string | null
+          special_instructions: string | null
+          subtotal: number | null
+          total_amount: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          advance_amount?: number | null
+          advance_paid?: boolean | null
+          billing_address_id?: string | null
+          corporate_account_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          customer_id?: string | null
+          discount_amount?: number | null
+          expected_delivery_date?: string | null
+          gst_amount?: number | null
+          id?: string | null
+          order_number?: string | null
+          order_status?: string | null
+          order_type?: string | null
+          payment_status?: string | null
+          payment_terms?: string | null
+          production_days?: number | null
+          remaining_amount?: number | null
+          shipping_address_id?: string | null
+          shipping_amount?: number | null
+          shipping_method?: string | null
+          shipping_zone_id?: string | null
+          special_instructions?: string | null
+          subtotal?: number | null
+          total_amount?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          advance_amount?: number | null
+          advance_paid?: boolean | null
+          billing_address_id?: string | null
+          corporate_account_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          customer_id?: string | null
+          discount_amount?: number | null
+          expected_delivery_date?: string | null
+          gst_amount?: number | null
+          id?: string | null
+          order_number?: string | null
+          order_status?: string | null
+          order_type?: string | null
+          payment_status?: string | null
+          payment_terms?: string | null
+          production_days?: number | null
+          remaining_amount?: number | null
+          shipping_address_id?: string | null
+          shipping_amount?: number | null
+          shipping_method?: string | null
+          shipping_zone_id?: string | null
+          special_instructions?: string | null
+          subtotal?: number | null
+          total_amount?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_billing_address_id_fkey"
+            columns: ["billing_address_id"]
+            isOneToOne: false
+            referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_corporate_account_id_fkey"
+            columns: ["corporate_account_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_shipping_address_id_fkey"
+            columns: ["shipping_address_id"]
+            isOneToOne: false
+            referencedRelation: "addresses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_shipping_zone_id_fkey"
+            columns: ["shipping_zone_id"]
+            isOneToOne: false
+            referencedRelation: "shipping_zones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customer_quotes: {
+        Row: {
+          corporate_account_id: string | null
+          created_at: string | null
+          customer_id: string | null
+          id: string | null
+          lead_email: string | null
+          lead_name: string | null
+          lead_phone: string | null
+          products_requested: Json | null
+          quote_number: string | null
+          responded_at: string | null
+          status: string | null
+          total_estimated_amount: number | null
+          updated_at: string | null
+          valid_until: string | null
+        }
+        Insert: {
+          corporate_account_id?: string | null
+          created_at?: string | null
+          customer_id?: string | null
+          id?: string | null
+          lead_email?: string | null
+          lead_name?: string | null
+          lead_phone?: string | null
+          products_requested?: Json | null
+          quote_number?: string | null
+          responded_at?: string | null
+          status?: string | null
+          total_estimated_amount?: number | null
+          updated_at?: string | null
+          valid_until?: string | null
+        }
+        Update: {
+          corporate_account_id?: string | null
+          created_at?: string | null
+          customer_id?: string | null
+          id?: string | null
+          lead_email?: string | null
+          lead_name?: string | null
+          lead_phone?: string | null
+          products_requested?: Json | null
+          quote_number?: string | null
+          responded_at?: string | null
+          status?: string | null
+          total_estimated_amount?: number | null
+          updated_at?: string | null
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quotes_corporate_account_id_fkey"
+            columns: ["corporate_account_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customer_return_requests: {
+        Row: {
+          created_at: string | null
+          credit_note_id: string | null
+          customer_id: string | null
+          description: string | null
+          id: string | null
+          order_id: string | null
+          photo_urls: string[] | null
+          reason: string | null
+          refund_amount: number | null
+          refund_status: string | null
+          return_courier: string | null
+          return_tracking_number: string | null
+          reviewed_at: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          credit_note_id?: string | null
+          customer_id?: string | null
+          description?: string | null
+          id?: string | null
+          order_id?: string | null
+          photo_urls?: string[] | null
+          reason?: string | null
+          refund_amount?: number | null
+          refund_status?: string | null
+          return_courier?: string | null
+          return_tracking_number?: string | null
+          reviewed_at?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          credit_note_id?: string | null
+          customer_id?: string | null
+          description?: string | null
+          id?: string | null
+          order_id?: string | null
+          photo_urls?: string[] | null
+          reason?: string | null
+          refund_amount?: number | null
+          refund_status?: string | null
+          return_courier?: string | null
+          return_tracking_number?: string | null
+          reviewed_at?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "return_requests_credit_note_id_fkey"
+            columns: ["credit_note_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "return_requests_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "customer_orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "return_requests_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       check_admins_exist: { Args: never; Returns: boolean }

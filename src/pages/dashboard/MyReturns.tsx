@@ -21,7 +21,7 @@ const MyReturns = () => {
 
   useEffect(() => {
     if (!user) return;
-    supabase.from("return_requests")
+    supabase.from("customer_return_requests" as any)
       .select("*, orders(order_number)")
       .eq("customer_id", user.id)
       .order("created_at", { ascending: false })
