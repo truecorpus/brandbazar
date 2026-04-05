@@ -192,7 +192,7 @@ const AdminLayout = () => {
       {/* Desktop Sidebar */}
       <aside
         className={cn(
-          "hidden lg:flex flex-col bg-[#202124] transition-all duration-300 flex-shrink-0",
+          "hidden lg:flex flex-col bg-[#202124] transition-all duration-300 flex-shrink-0 h-screen sticky top-0",
           sidebarOpen ? "w-[260px]" : "w-0 overflow-hidden"
         )}
       >
