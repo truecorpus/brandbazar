@@ -30,7 +30,7 @@ const MyQuotes = () => {
 
   const fetchQuotes = async () => {
     if (!user) return;
-    const { data } = await supabase.from("quotes").select("*").eq("customer_id", user.id).order("created_at", { ascending: false });
+    const { data } = await supabase.from("customer_quotes" as any).select("*").eq("customer_id", user.id).order("created_at", { ascending: false });
     setQuotes(data || []);
     setLoading(false);
   };

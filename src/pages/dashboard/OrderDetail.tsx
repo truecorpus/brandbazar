@@ -19,7 +19,7 @@ const OrderDetail = () => {
     if (!orderId) return;
     const fetch = async () => {
       const [orderRes, itemsRes, shipRes] = await Promise.all([
-        supabase.from("orders").select("*").eq("id", orderId).single(),
+        supabase.from("customer_orders" as any).select("*").eq("id", orderId).single(),
         supabase.from("order_items").select("*, products(name, slug)").eq("order_id", orderId),
         supabase.from("shipments").select("*").eq("order_id", orderId).limit(1).maybeSingle(),
       ]);
