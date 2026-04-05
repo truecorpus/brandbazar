@@ -63,6 +63,7 @@ import NotFound from "./pages/NotFound";
 import Unsubscribe from "./pages/Unsubscribe";
 import Customizer from "./pages/Customizer";
 import AdminTemplates from "./pages/admin/AdminTemplates";
+import AdminLogin from "./pages/admin/AdminLogin";
 
 const queryClient = new QueryClient();
 
