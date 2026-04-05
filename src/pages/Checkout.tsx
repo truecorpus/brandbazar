@@ -51,7 +51,7 @@ const Checkout = () => {
   useEffect(() => {
     if (!orderId || !user) return;
     const fetchOrder = async () => {
-      const { data: o } = await supabase.from("customer_orders" as any).select("*").eq("id", orderId).single();
+      const { data: o } = await supabase.from("customer_orders" as any).select("*").eq("id", orderId).single() as { data: any };
       if (!o) { navigate("/dashboard/orders"); return; }
       setOrder(o);
 
