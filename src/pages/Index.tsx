@@ -1,14 +1,18 @@
 import Navbar from "@/components/Navbar";
-import ProductGrid from "@/components/ProductGrid";
-import ProductCatalog from "@/components/ProductCatalog";
-import CorporateSection from "@/components/CorporateSection";
-import Testimonials from "@/components/Testimonials";
-import PricingTiers from "@/components/PricingTiers";
-import QuoteForm from "@/components/QuoteForm";
 import Footer from "@/components/Footer";
 import WhatsAppFab from "@/components/WhatsAppFab";
 import BackToTop from "@/components/BackToTop";
 import SEOHead from "@/components/SEOHead";
+import CategoryGrid from "@/components/home/CategoryGrid";
+import StartCustomizing from "@/components/home/StartCustomizing";
+import PopularProducts from "@/components/home/PopularProducts";
+import UseCases from "@/components/home/UseCases";
+import CorporateSection from "@/components/CorporateSection";
+import Testimonials from "@/components/Testimonials";
+import PricingTiers from "@/components/PricingTiers";
+import TrustBanner from "@/components/home/TrustBanner";
+import FinalCTA from "@/components/home/FinalCTA";
+import QuoteForm from "@/components/QuoteForm";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useEffect } from "react";
@@ -44,22 +48,22 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="BrandBazaar — Premium Custom Printed Corporate Gifts & Merchandise"
-        description="Premium customized printed gifts for corporate teams. Custom mugs, t-shirts, caps, ID cards & branded merchandise with bulk pricing and fast delivery across India."
+        title="BrandBazaar — Design & Order Custom Merchandise for Your Business"
+        description="Design custom branded merchandise online. T-shirts, mugs, caps, notebooks & corporate kits with your logo. Bulk pricing from 25 units. Start designing now!"
         canonical="https://brandbazar.lovable.app/"
         ogImage="https://brandbazar.lovable.app/og-image.png"
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Organization",
           "name": "BrandBazaar",
-          "description": "Premium customized printed gifts and branded merchandise for corporate teams across India.",
+          "description": "Design and order custom branded merchandise for your business. Premium quality, bulk pricing, fast delivery.",
           "url": "https://brandbazar.lovable.app",
           "contactPoint": { "@type": "ContactPoint", "telephone": "+91-98765-43210", "contactType": "sales" }
         }}
       />
       <Navbar />
 
-      {/* Hero */}
+      {/* Hero — Customization focused */}
       <section id="home" className="pt-28 sm:pt-32 lg:pt-[140px] pb-20 lg:pb-[100px] bg-background relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-primary/[0.03] blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-accent/[0.03] blur-[100px] pointer-events-none" />
@@ -70,26 +74,26 @@ const Index = () => {
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/[0.06] border border-primary/[0.12] animate-fade-up stagger-1">
                 <Sparkles size={12} className="text-primary" />
                 <span className="text-[12px] font-medium text-primary tracking-wide">
-                  Corporate Gifting & Custom Printing
+                  Online Design Tool • No Design Skills Needed
                 </span>
               </div>
 
               <h1 className="mt-7 text-[36px] sm:text-[44px] lg:text-[52px] font-heading font-semibold leading-[1.1] tracking-tight text-foreground animate-fade-up stagger-2">
-                Your brand on{" "}
-                <span className="text-gradient">everything.</span>
+                Design & Order Custom Merchandise{" "}
+                <span className="text-gradient">for Your Business</span>
               </h1>
 
               <p className="mt-5 text-[15px] sm:text-[16px] text-muted-foreground leading-[1.7] max-w-[460px] animate-fade-up stagger-3">
-                Premium custom printed merchandise for corporate teams. Mugs, T-shirts, ID cards, caps and more — bulk pricing from 25 units.
+                Upload your logo, customize colors & text, preview your design live — and order in bulk with pricing from just ₹49/unit.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3 animate-fade-up stagger-4">
-                <Button variant="default" size="lg" className="rounded-xl px-6 h-11 text-[14px] font-medium shadow-brand-lg" onClick={() => scrollTo("quote")}>
-                  Get a Free Quote
-                  <ArrowRight size={15} />
+                <Button variant="default" size="lg" className="rounded-xl px-7 h-12 text-[15px] font-semibold shadow-brand-lg gap-2" onClick={() => scrollTo("products")}>
+                  Start Designing
+                  <ArrowRight size={16} />
                 </Button>
-                <Button variant="outline" size="lg" className="rounded-xl px-6 h-11 text-[14px] font-medium" onClick={() => scrollTo("products")}>
-                  Browse Products
+                <Button variant="outline" size="lg" className="rounded-xl px-7 h-12 text-[15px] font-medium" onClick={() => scrollTo("quote")}>
+                  Get Free Quote
                 </Button>
               </div>
 
@@ -123,8 +127,15 @@ const Index = () => {
                     loading="eager"
                   />
                 </div>
-                <div className="absolute -bottom-4 -left-4 sm:-left-8">
-                  <ProductGrid />
+                {/* Floating badge */}
+                <div className="absolute -bottom-3 -left-3 sm:-left-5 bg-background rounded-xl border border-border px-4 py-3 flex items-center gap-3" style={{ boxShadow: 'var(--shadow-lg)' }}>
+                  <div className="w-9 h-9 rounded-lg bg-primary/[0.08] flex items-center justify-center">
+                    <Sparkles size={16} className="text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-[13px] font-semibold text-foreground">Free Design Tool</p>
+                    <p className="text-[11px] text-muted-foreground">Customize online instantly</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -132,22 +143,50 @@ const Index = () => {
         </div>
       </section>
 
-      <div id="products" data-animate>
-        <ProductCatalog />
+      {/* Trust banner right after hero */}
+      <TrustBanner />
+
+      {/* Category Grid */}
+      <div data-animate>
+        <CategoryGrid />
       </div>
 
+      {/* How It Works / Start Customizing */}
+      <div data-animate>
+        <StartCustomizing />
+      </div>
+
+      {/* Popular Products with Customize CTAs */}
+      <div data-animate>
+        <PopularProducts />
+      </div>
+
+      {/* Use Cases */}
+      <div data-animate>
+        <UseCases />
+      </div>
+
+      {/* Corporate Section */}
       <div id="corporate" data-animate>
         <CorporateSection />
       </div>
 
+      {/* Testimonials + Stats */}
       <div id="about" data-animate>
         <Testimonials />
       </div>
 
+      {/* Pricing Tiers */}
       <div data-animate>
         <PricingTiers />
       </div>
 
+      {/* Strong Final CTA */}
+      <div data-animate>
+        <FinalCTA />
+      </div>
+
+      {/* Quote Form */}
       <div id="contact" data-animate>
         <QuoteForm />
       </div>
