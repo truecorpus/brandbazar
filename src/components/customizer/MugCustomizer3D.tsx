@@ -1,16 +1,27 @@
 import { useState, useCallback, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Environment, ContactShadows } from "@react-three/drei";
+import { OrbitControls, Environment, ContactShadows, Center } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { toast } from "sonner";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import * as THREE from "three";
 import Mug3DScene from "./Mug3DScene";
 import MugDesignCanvas, { type DesignElement, CANVAS_W, CANVAS_H } from "./MugDesignCanvas";
 import MugCustomizerSidebar from "./MugCustomizerSidebar";
 
 let idCounter = 0;
 const nextId = () => `el-${++idCounter}`;
+
+function SceneLoader() {
+  return (
+    <mesh>
+      <sphereGeometry args={[0.3, 16, 16]} />
+      <meshBasicMaterial color="#ccc" wireframe />
+    </mesh>
+  );
+}
 
 export default function MugCustomizer3D() {
   const navigate = useNavigate();
@@ -148,39 +159,103 @@ export default function MugCustomizer3D() {
         {/* Main Area */}
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* 3D Viewport */}
-          <div className="flex-1 relative bg-secondary/30">
+          <div className="flex-1 relative" style={{ background: "linear-gradient(180deg, #e8e8e8 0%, #d4d4d4 50%, #c8c8c8 100%)" }}>
             <Canvas
-              camera={{ position: [0, 1, 6], fov: 40 }}
-              shadows
-              gl={{ preserveDrawingBuffer: true, antialias: true }}
-              dpr={[1, 1.5]}
+              camera={{ position: [0, 1.2, 5.5], fov: 38 }}
+              shadows="soft"
+              gl={{
+                preserveDrawingBuffer: true,
+                antialias: true,
+                toneMapping: THREE.ACESFilmicToneMapping,
+                toneMappingExposure: 1.15,
+                outputColorSpace: THREE.SRGBColorSpace,
+              }}
+              dpr={[1, 2]}
             >
-              <ambientLight intensity={0.5} />
-              <directionalLight position={[5, 8, 5]} intensity={1.2} castShadow shadow-mapSize={1024} />
-              <directionalLight position={[-3, 4, -3]} intensity={0.4} />
-              <pointLight position={[0, 5, 0]} intensity={0.3} />
+              {/* Studio lighting */}
+              <ambientLight intensity={0.3} color="#f5f0eb" />
+              
+              {/* Key light — warm, front-left */}
+              <directionalLight
+                position={[4, 6, 4]}
+                intensity={1.4}
+                color="#fff8f0"
+                castShadow
+                shadow-mapSize={2048}
+                shadow-bias={-0.0004}
+                shadow-normalBias={0.04}
+              >
+                <orthographicCamera attach="shadow-camera" args={[-4, 4, 4, -4, 0.1, 20]} />
+              </directionalLight>
 
-              <Suspense fallback={null}>
-                <Mug3DScene
-                  designTexture={textureCanvas}
-                  mugColor={mugColor}
-                  autoRotate={autoRotate}
+              {/* Fill light — cool, right side */}
+              <directionalLight position={[-3, 3, 2]} intensity={0.5} color="#e8eef5" />
+
+              {/* Rim light — behind for edge highlight */}
+              <spotLight
+                position={[-2, 5, -4]}
+                intensity={0.8}
+                color="#ffffff"
+                angle={0.5}
+                penumbra={0.8}
+                distance={15}
+              />
+
+              {/* Subtle bottom bounce */}
+              <pointLight position={[0, -2, 3]} intensity={0.15} color="#f0e8df" />
+
+              <Suspense fallback={<SceneLoader />}>
+                <Center>
+                  <Mug3DScene
+                    designTexture={textureCanvas}
+                    mugColor={mugColor}
+                    autoRotate={autoRotate}
+                  />
+                </Center>
+
+                {/* Contact shadow */}
+                <ContactShadows
+                  position={[0, -1.76, 0]}
+                  opacity={0.4}
+                  scale={6}
+                  blur={2.5}
+                  far={4}
+                  color="#2a2a2a"
                 />
-                <ContactShadows position={[0, -1.7, 0]} opacity={0.25} scale={8} blur={2} />
-                <Environment preset="studio" />
+
+                {/* Ground plane shadow catcher */}
+                <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.77, 0]} receiveShadow>
+                  <planeGeometry args={[12, 12]} />
+                  <shadowMaterial transparent opacity={0.15} />
+                </mesh>
+
+                {/* HDRI Environment */}
+                <Environment preset="studio" environmentIntensity={1.2} />
               </Suspense>
+
+              {/* Post-processing */}
+              <EffectComposer>
+                <Bloom
+                  intensity={0.08}
+                  luminanceThreshold={0.9}
+                  luminanceSmoothing={0.4}
+                  mipmapBlur
+                />
+              </EffectComposer>
 
               <OrbitControls
                 enablePan={false}
                 minDistance={3.5}
-                maxDistance={10}
+                maxDistance={9}
                 minPolarAngle={Math.PI / 4}
-                maxPolarAngle={Math.PI / 1.5}
+                maxPolarAngle={Math.PI / 1.6}
+                enableDamping
+                dampingFactor={0.06}
               />
             </Canvas>
 
             {/* Overlay labels */}
-            <div className="absolute top-3 left-3 bg-card/80 backdrop-blur-sm rounded px-2.5 py-1 text-[11px] text-muted-foreground border border-border">
+            <div className="absolute top-3 left-3 bg-card/70 backdrop-blur-md rounded-lg px-3 py-1.5 text-[11px] text-muted-foreground border border-border/50 shadow-sm">
               Drag to rotate • Scroll to zoom
             </div>
           </div>
