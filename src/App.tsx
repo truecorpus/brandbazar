@@ -64,6 +64,7 @@ import Unsubscribe from "./pages/Unsubscribe";
 import Customizer from "./pages/Customizer";
 import AdminTemplates from "./pages/admin/AdminTemplates";
 import AdminLogin from "./pages/admin/AdminLogin";
+import MugCustomizer3DPage from "./pages/MugCustomizer3D";
 
 const queryClient = new QueryClient();
 
@@ -141,6 +142,7 @@ const App = () => (
 
             {/* Public pages */}
             <Route path="/customize/:slug" element={<Customizer />} />
+            <Route path="/customize-3d/mug" element={<MugCustomizer3DPage />} />
             <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
             <Route path="/unsubscribe" element={<Unsubscribe />} />
 
