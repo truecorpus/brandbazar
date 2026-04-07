@@ -142,6 +142,7 @@ const App = () => (
 
             {/* Public pages */}
             <Route path="/customize/:slug" element={<Customizer />} />
+            <Route path="/customize-3d/mug" element={<MugCustomizer3DPage />} />
             <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
             <Route path="/unsubscribe" element={<Unsubscribe />} />
 
