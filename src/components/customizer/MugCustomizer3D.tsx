@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment, ContactShadows, Center } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { toast } from "sonner";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft, RotateCw, ZoomIn, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import * as THREE from "three";
@@ -17,8 +17,8 @@ const nextId = () => `el-${++idCounter}`;
 function SceneLoader() {
   return (
     <mesh>
-      <sphereGeometry args={[0.3, 16, 16]} />
-      <meshBasicMaterial color="#ccc" wireframe />
+      <boxGeometry args={[0.4, 0.4, 0.4]} />
+      <meshBasicMaterial color="#ddd" wireframe />
     </mesh>
   );
 }
@@ -30,6 +30,7 @@ export default function MugCustomizer3D() {
   const [mugColor, setMugColor] = useState("#FFFFFF");
   const [autoRotate, setAutoRotate] = useState(true);
   const [textureCanvas, setTextureCanvas] = useState<HTMLCanvasElement | null>(null);
+  const [showCanvas, setShowCanvas] = useState(true);
 
   const handleCanvasReady = useCallback((canvas: HTMLCanvasElement) => {
     setTextureCanvas(canvas);
@@ -55,7 +56,7 @@ export default function MugCustomizer3D() {
           fileName: file.name,
         },
       ]);
-      toast.success(`"${file.name}" added`);
+      toast.success(`"${file.name}" added to design`);
     };
     img.src = URL.createObjectURL(file);
   }, []);
@@ -126,20 +127,25 @@ export default function MugCustomizer3D() {
   return (
     <div className="h-screen flex flex-col bg-background overflow-hidden">
       {/* Top Bar */}
-      <header className="h-12 border-b border-border bg-card flex items-center px-4 gap-3 shrink-0">
-        <Button size="sm" variant="ghost" className="h-8 gap-1.5 text-xs" onClick={() => navigate(-1)}>
-          <ArrowLeft className="w-3.5 h-3.5" /> Back
+      <header className="h-14 border-b border-border bg-card flex items-center px-4 gap-3 shrink-0 shadow-sm">
+        <Button size="sm" variant="ghost" className="h-9 gap-1.5 text-xs" onClick={() => navigate(-1)}>
+          <ArrowLeft className="w-4 h-4" /> Back
         </Button>
-        <div className="h-5 w-px bg-border" />
-        <h1 className="text-sm font-semibold text-foreground">3D Mug Customizer</h1>
-        <span className="text-[11px] text-muted-foreground">• 11oz Sublimation Coffee Mug</span>
-        <div className="ml-auto flex gap-2">
-          <Button size="sm" className="h-8 text-xs">Add to Quote</Button>
+        <div className="h-6 w-px bg-border" />
+        <div className="flex flex-col">
+          <h1 className="text-sm font-bold text-foreground leading-tight">Mug Customizer</h1>
+          <span className="text-[10px] text-muted-foreground leading-tight">11oz White Sublimation Ceramic Mug</span>
+        </div>
+        <div className="ml-auto flex items-center gap-2">
+          <span className="text-xs text-muted-foreground hidden sm:block">Starting at ₹199</span>
+          <Button size="sm" className="h-9 text-xs gap-1.5">
+            <ShoppingCart className="w-3.5 h-3.5" /> Add to Quote
+          </Button>
         </div>
       </header>
 
       <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
+        {/* Left Sidebar */}
         <MugCustomizerSidebar
           elements={elements}
           selectedId={selectedId}
@@ -159,50 +165,55 @@ export default function MugCustomizer3D() {
         {/* Main Area */}
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* 3D Viewport */}
-          <div className="flex-1 relative" style={{ background: "linear-gradient(180deg, #e8e8e8 0%, #d4d4d4 50%, #c8c8c8 100%)" }}>
+          <div
+            className="flex-1 relative"
+            style={{
+              background: "radial-gradient(ellipse at center, #f0eeec 0%, #e2dfdb 50%, #d6d2ce 100%)",
+            }}
+          >
             <Canvas
-              camera={{ position: [0, 1.2, 5.5], fov: 38 }}
+              camera={{ position: [0, 0.8, 5.8], fov: 35 }}
               shadows="soft"
               gl={{
                 preserveDrawingBuffer: true,
                 antialias: true,
                 toneMapping: THREE.ACESFilmicToneMapping,
-                toneMappingExposure: 1.15,
+                toneMappingExposure: 1.2,
                 outputColorSpace: THREE.SRGBColorSpace,
               }}
               dpr={[1, 2]}
             >
-              {/* Studio lighting */}
-              <ambientLight intensity={0.3} color="#f5f0eb" />
-              
-              {/* Key light — warm, front-left */}
+              {/* Ambient fill */}
+              <ambientLight intensity={0.35} color="#f8f5f0" />
+
+              {/* Key light — soft warm, front-left above */}
               <directionalLight
-                position={[4, 6, 4]}
-                intensity={1.4}
-                color="#fff8f0"
+                position={[4, 7, 5]}
+                intensity={1.3}
+                color="#fffaf0"
                 castShadow
                 shadow-mapSize={2048}
-                shadow-bias={-0.0004}
+                shadow-bias={-0.0003}
                 shadow-normalBias={0.04}
               >
                 <orthographicCamera attach="shadow-camera" args={[-4, 4, 4, -4, 0.1, 20]} />
               </directionalLight>
 
-              {/* Fill light — cool, right side */}
-              <directionalLight position={[-3, 3, 2]} intensity={0.5} color="#e8eef5" />
+              {/* Fill light — cool tone from right */}
+              <directionalLight position={[-4, 4, 3]} intensity={0.45} color="#e6edf5" />
 
-              {/* Rim light — behind for edge highlight */}
+              {/* Rim/back light — for edge definition */}
               <spotLight
-                position={[-2, 5, -4]}
-                intensity={0.8}
+                position={[-2, 6, -5]}
+                intensity={0.7}
                 color="#ffffff"
-                angle={0.5}
-                penumbra={0.8}
-                distance={15}
+                angle={0.45}
+                penumbra={0.9}
+                distance={18}
               />
 
-              {/* Subtle bottom bounce */}
-              <pointLight position={[0, -2, 3]} intensity={0.15} color="#f0e8df" />
+              {/* Bottom bounce */}
+              <pointLight position={[0, -2, 4]} intensity={0.12} color="#f0e8df" />
 
               <Suspense fallback={<SceneLoader />}>
                 <Center>
@@ -213,62 +224,76 @@ export default function MugCustomizer3D() {
                   />
                 </Center>
 
-                {/* Contact shadow */}
+                {/* Contact shadow under mug */}
                 <ContactShadows
-                  position={[0, -1.76, 0]}
-                  opacity={0.4}
-                  scale={6}
-                  blur={2.5}
+                  position={[0, -1.81, 0]}
+                  opacity={0.35}
+                  scale={7}
+                  blur={2.8}
                   far={4}
-                  color="#2a2a2a"
+                  color="#3a3a3a"
                 />
 
-                {/* Ground plane shadow catcher */}
-                <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.77, 0]} receiveShadow>
-                  <planeGeometry args={[12, 12]} />
-                  <shadowMaterial transparent opacity={0.15} />
+                {/* Ground plane for soft shadow */}
+                <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.82, 0]} receiveShadow>
+                  <planeGeometry args={[14, 14]} />
+                  <shadowMaterial transparent opacity={0.12} />
                 </mesh>
 
-                {/* HDRI Environment */}
-                <Environment preset="studio" environmentIntensity={1.2} />
+                {/* Studio HDRI environment */}
+                <Environment preset="studio" environmentIntensity={1.3} />
               </Suspense>
 
-              {/* Post-processing */}
+              {/* Subtle bloom for highlights */}
               <EffectComposer>
                 <Bloom
-                  intensity={0.08}
-                  luminanceThreshold={0.9}
-                  luminanceSmoothing={0.4}
+                  intensity={0.06}
+                  luminanceThreshold={0.92}
+                  luminanceSmoothing={0.5}
                   mipmapBlur
                 />
               </EffectComposer>
 
               <OrbitControls
                 enablePan={false}
-                minDistance={3.5}
-                maxDistance={9}
+                minDistance={3.8}
+                maxDistance={8.5}
                 minPolarAngle={Math.PI / 4}
-                maxPolarAngle={Math.PI / 1.6}
+                maxPolarAngle={Math.PI / 1.7}
                 enableDamping
-                dampingFactor={0.06}
+                dampingFactor={0.05}
               />
             </Canvas>
 
-            {/* Overlay labels */}
-            <div className="absolute top-3 left-3 bg-card/70 backdrop-blur-md rounded-lg px-3 py-1.5 text-[11px] text-muted-foreground border border-border/50 shadow-sm">
-              Drag to rotate • Scroll to zoom
+            {/* Overlay hint */}
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-card/60 backdrop-blur-md rounded-full px-4 py-1.5 text-[11px] text-muted-foreground border border-border/40 shadow-sm flex items-center gap-3">
+              <span className="flex items-center gap-1"><RotateCw className="w-3 h-3" /> Drag to rotate</span>
+              <span className="w-px h-3 bg-border" />
+              <span className="flex items-center gap-1"><ZoomIn className="w-3 h-3" /> Scroll to zoom</span>
             </div>
           </div>
 
-          {/* 2D Design Canvas */}
-          <div className="h-[240px] shrink-0 border-t border-border bg-card p-3 overflow-auto">
-            <MugDesignCanvas
-              elements={elements}
-              selectedId={selectedId}
-              onSelect={setSelectedId}
-              onUpdate={handleUpdate}
-              onCanvasReady={handleCanvasReady}
-            />
+          {/* 2D Design Canvas - collapsible */}
+          <div className={`shrink-0 border-t border-border bg-card transition-all duration-300 ${showCanvas ? 'h-[220px]' : 'h-9'}`}>
+            <button
+              onClick={() => setShowCanvas(!showCanvas)}
+              className="w-full h-9 flex items-center justify-center gap-2 text-[11px] text-muted-foreground hover:text-foreground transition-colors border-b border-border/50"
+            >
+              <span className="font-medium uppercase tracking-wider">
+                {showCanvas ? '▼ Design Canvas' : '▲ Show Design Canvas'}
+              </span>
+            </button>
+            {showCanvas && (
+              <div className="p-3 overflow-auto h-[calc(100%-36px)]">
+                <MugDesignCanvas
+                  elements={elements}
+                  selectedId={selectedId}
+                  onSelect={setSelectedId}
+                  onUpdate={handleUpdate}
+                  onCanvasReady={handleCanvasReady}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
