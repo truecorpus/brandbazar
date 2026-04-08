@@ -31,7 +31,6 @@ function MugBody({
     t.needsUpdate = true;
     t.wrapS = THREE.RepeatWrapping;
     t.wrapT = THREE.ClampToEdgeWrapping;
-    t.colorSpace = THREE.SRGBColorSpace;
     t.anisotropy = 16;
     return t;
   }, [designTexture]);
