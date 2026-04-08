@@ -168,17 +168,17 @@ export default function MugCustomizer3D() {
           <div
             className="flex-1 relative"
             style={{
-              background: "radial-gradient(ellipse at center, #f0eeec 0%, #e2dfdb 50%, #d6d2ce 100%)",
+              background: "linear-gradient(160deg, #c8c4c0 0%, #b8b4b0 40%, #a8a4a0 100%)",
             }}
           >
             <Canvas
-              camera={{ position: [0, 0.8, 5.8], fov: 35 }}
+              camera={{ position: [0, 0.6, 4.2], fov: 32 }}
               shadows="soft"
               gl={{
                 preserveDrawingBuffer: true,
                 antialias: true,
                 toneMapping: THREE.ACESFilmicToneMapping,
-                toneMappingExposure: 1.2,
+                toneMappingExposure: 1.0,
                 outputColorSpace: THREE.SRGBColorSpace,
               }}
               dpr={[1, 2]}
