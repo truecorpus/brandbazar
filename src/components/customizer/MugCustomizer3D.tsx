@@ -226,22 +226,22 @@ export default function MugCustomizer3D() {
 
                 {/* Contact shadow under mug */}
                 <ContactShadows
-                  position={[0, -1.81, 0]}
-                  opacity={0.35}
-                  scale={7}
-                  blur={2.8}
-                  far={4}
-                  color="#3a3a3a"
+                  position={[0, -1.21, 0]}
+                  opacity={0.45}
+                  scale={5}
+                  blur={2.2}
+                  far={3}
+                  color="#333333"
                 />
 
                 {/* Ground plane for soft shadow */}
-                <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.82, 0]} receiveShadow>
-                  <planeGeometry args={[14, 14]} />
-                  <shadowMaterial transparent opacity={0.12} />
+                <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.22, 0]} receiveShadow>
+                  <planeGeometry args={[12, 12]} />
+                  <shadowMaterial transparent opacity={0.15} />
                 </mesh>
 
                 {/* Studio HDRI environment */}
-                <Environment preset="studio" environmentIntensity={1.3} />
+                <Environment preset="studio" environmentIntensity={1.5} />
               </Suspense>
 
               {/* Subtle bloom for highlights */}
