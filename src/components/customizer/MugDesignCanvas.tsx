@@ -49,11 +49,16 @@ export default function MugDesignCanvas({
   const textureCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const [dragging, setDragging] = useState<{ id: string; offsetX: number; offsetY: number } | null>(null);
 
-  // Hidden canvas for texture (no UI borders)
+  // Hidden canvas for texture (no UI borders) — pre-fill white
   useEffect(() => {
     const tc = document.createElement("canvas");
     tc.width = CANVAS_W;
     tc.height = CANVAS_H;
+    const ctx = tc.getContext("2d");
+    if (ctx) {
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+    }
     textureCanvasRef.current = tc;
     onCanvasReady(tc);
   }, [onCanvasReady]);

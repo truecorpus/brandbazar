@@ -168,29 +168,29 @@ export default function MugCustomizer3D() {
           <div
             className="flex-1 relative"
             style={{
-              background: "radial-gradient(ellipse at center, #f0eeec 0%, #e2dfdb 50%, #d6d2ce 100%)",
+              background: "linear-gradient(160deg, #c8c4c0 0%, #b8b4b0 40%, #a8a4a0 100%)",
             }}
           >
             <Canvas
-              camera={{ position: [0, 0.8, 5.8], fov: 35 }}
+              camera={{ position: [2.2, 1.0, 5.0], fov: 28 }}
               shadows="soft"
               gl={{
                 preserveDrawingBuffer: true,
                 antialias: true,
                 toneMapping: THREE.ACESFilmicToneMapping,
-                toneMappingExposure: 1.2,
+                toneMappingExposure: 1.4,
                 outputColorSpace: THREE.SRGBColorSpace,
               }}
               dpr={[1, 2]}
             >
               {/* Ambient fill */}
-              <ambientLight intensity={0.35} color="#f8f5f0" />
+              <ambientLight intensity={0.8} color="#ffffff" />
 
-              {/* Key light — soft warm, front-left above */}
+              {/* Key light — bright, front-left above */}
               <directionalLight
-                position={[4, 7, 5]}
-                intensity={1.3}
-                color="#fffaf0"
+                position={[3, 5, 5]}
+                intensity={1.8}
+                color="#ffffff"
                 castShadow
                 shadow-mapSize={2048}
                 shadow-bias={-0.0003}
@@ -200,7 +200,7 @@ export default function MugCustomizer3D() {
               </directionalLight>
 
               {/* Fill light — cool tone from right */}
-              <directionalLight position={[-4, 4, 3]} intensity={0.45} color="#e6edf5" />
+              <directionalLight position={[-3, 3, 3]} intensity={0.8} color="#eef2f8" />
 
               {/* Rim/back light — for edge definition */}
               <spotLight
@@ -226,22 +226,22 @@ export default function MugCustomizer3D() {
 
                 {/* Contact shadow under mug */}
                 <ContactShadows
-                  position={[0, -1.81, 0]}
-                  opacity={0.35}
-                  scale={7}
-                  blur={2.8}
-                  far={4}
-                  color="#3a3a3a"
+                  position={[0, -1.21, 0]}
+                  opacity={0.45}
+                  scale={5}
+                  blur={2.2}
+                  far={3}
+                  color="#333333"
                 />
 
                 {/* Ground plane for soft shadow */}
-                <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.82, 0]} receiveShadow>
-                  <planeGeometry args={[14, 14]} />
-                  <shadowMaterial transparent opacity={0.12} />
+                <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.22, 0]} receiveShadow>
+                  <planeGeometry args={[12, 12]} />
+                  <shadowMaterial transparent opacity={0.15} />
                 </mesh>
 
                 {/* Studio HDRI environment */}
-                <Environment preset="studio" environmentIntensity={1.3} />
+                <Environment preset="city" environmentIntensity={0.4} />
               </Suspense>
 
               {/* Subtle bloom for highlights */}
