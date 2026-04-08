@@ -172,7 +172,7 @@ export default function MugCustomizer3D() {
             }}
           >
             <Canvas
-              camera={{ position: [0, 0.6, 4.2], fov: 32 }}
+              camera={{ position: [2.5, 1.0, 3.5], fov: 30 }}
               shadows="soft"
               gl={{
                 preserveDrawingBuffer: true,
