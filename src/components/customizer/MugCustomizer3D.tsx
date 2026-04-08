@@ -178,7 +178,7 @@ export default function MugCustomizer3D() {
                 preserveDrawingBuffer: true,
                 antialias: true,
                 toneMapping: THREE.ACESFilmicToneMapping,
-                toneMappingExposure: 1.0,
+                toneMappingExposure: 1.4,
                 outputColorSpace: THREE.SRGBColorSpace,
               }}
               dpr={[1, 2]}
