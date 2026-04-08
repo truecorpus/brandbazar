@@ -184,7 +184,7 @@ export default function MugCustomizer3D() {
               dpr={[1, 2]}
             >
               {/* Ambient fill */}
-              <ambientLight intensity={0.35} color="#f8f5f0" />
+              <ambientLight intensity={0.6} color="#ffffff" />
 
               {/* Key light — soft warm, front-left above */}
               <directionalLight
