@@ -196,7 +196,7 @@ export default function Mug3DScene({
   });
 
   return (
-    <group ref={groupRef} position={[0, -1.2, 0]}>
+    <group ref={groupRef} position={[0, -1.2, 0]} rotation={[0, -Math.PI * 0.75, 0]}>
       <MugBody designTexture={designTexture} mugColor={mugColor} />
       <MugHandle mugColor={mugColor} />
       <MugInterior />
