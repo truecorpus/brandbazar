@@ -200,7 +200,7 @@ export default function MugCustomizer3D() {
               </directionalLight>
 
               {/* Fill light — cool tone from right */}
-              <directionalLight position={[-4, 4, 3]} intensity={0.45} color="#e6edf5" />
+              <directionalLight position={[-3, 3, 3]} intensity={0.8} color="#eef2f8" />
 
               {/* Rim/back light — for edge definition */}
               <spotLight
