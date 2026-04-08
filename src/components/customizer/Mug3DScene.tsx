@@ -131,12 +131,12 @@ function MugHandle({ mugColor }: { mugColor: string }) {
     <mesh geometry={handleGeo} castShadow>
       <meshPhysicalMaterial
         color={mugColor}
-        roughness={0.2}
+        roughness={0.35}
         metalness={0}
-        clearcoat={0.8}
-        clearcoatRoughness={0.06}
-        reflectivity={1.0}
-        envMapIntensity={1.8}
+        clearcoat={0.4}
+        clearcoatRoughness={0.15}
+        reflectivity={0.5}
+        envMapIntensity={0.8}
       />
     </mesh>
   );
