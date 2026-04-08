@@ -184,13 +184,13 @@ export default function MugCustomizer3D() {
               dpr={[1, 2]}
             >
               {/* Ambient fill */}
-              <ambientLight intensity={0.6} color="#ffffff" />
+              <ambientLight intensity={0.8} color="#ffffff" />
 
-              {/* Key light — soft warm, front-left above */}
+              {/* Key light — bright, front-left above */}
               <directionalLight
-                position={[4, 7, 5]}
-                intensity={1.3}
-                color="#fffaf0"
+                position={[3, 5, 5]}
+                intensity={1.8}
+                color="#ffffff"
                 castShadow
                 shadow-mapSize={2048}
                 shadow-bias={-0.0003}
