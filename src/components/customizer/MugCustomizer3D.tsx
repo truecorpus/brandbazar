@@ -241,7 +241,7 @@ export default function MugCustomizer3D() {
                 </mesh>
 
                 {/* Studio HDRI environment */}
-                <Environment preset="studio" environmentIntensity={1.5} />
+                <Environment preset="studio" environmentIntensity={0.8} />
               </Suspense>
 
               {/* Subtle bloom for highlights */}
