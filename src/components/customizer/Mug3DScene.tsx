@@ -88,13 +88,13 @@ function MugBody({
 
   const materialProps = {
     color: bodyColor,
-    roughness: 0.2,
+    roughness: 0.35,
     metalness: 0,
-    clearcoat: 0.8,
-    clearcoatRoughness: 0.06,
-    reflectivity: 1.0,
-    envMapIntensity: 1.8,
-    sheen: 0.02,
+    clearcoat: 0.4,
+    clearcoatRoughness: 0.15,
+    reflectivity: 0.5,
+    envMapIntensity: 0.8,
+    sheen: 0.01,
     sheenColor: new THREE.Color("#ffffff"),
   };
 
