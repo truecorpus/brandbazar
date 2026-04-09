@@ -65,6 +65,7 @@ import Customizer from "./pages/Customizer";
 import AdminTemplates from "./pages/admin/AdminTemplates";
 import AdminLogin from "./pages/admin/AdminLogin";
 import MugCustomizer3DPage from "./pages/MugCustomizer3D";
+import DynamicProductDetail from "./pages/DynamicProductDetail";
 
 const queryClient = new QueryClient();
 
