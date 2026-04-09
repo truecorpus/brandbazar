@@ -65,6 +65,7 @@ import Customizer from "./pages/Customizer";
 import AdminTemplates from "./pages/admin/AdminTemplates";
 import AdminLogin from "./pages/admin/AdminLogin";
 import MugCustomizer3DPage from "./pages/MugCustomizer3D";
+import DynamicProductDetail from "./pages/DynamicProductDetail";
 
 const queryClient = new QueryClient();
 
@@ -79,6 +80,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/product/:slug" element={<ProductDetail />} />
+            <Route path="/products/:categorySlug/:productSlug" element={<DynamicProductDetail />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/login" element={<Login />} />
