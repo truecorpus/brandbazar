@@ -10,18 +10,56 @@ import RightPanel from "@/components/customizer/RightPanel";
 import PreviewModal from "@/components/customizer/PreviewModal";
 import BulkPersonalizationPanel from "@/components/customizer/BulkPersonalizationPanel";
 
+interface ProductVariantData {
+  id: string;
+  variant_name: string;
+  color: string | null;
+  size: string | null;
+  material: string | null;
+  additional_price: number | null;
+  stock_quantity: number | null;
+  variant_image_urls: string[] | null;
+}
+
+interface FontData {
+  id: string;
+  font_name: string;
+  font_family: string;
+  category: string;
+  font_file_url: string | null;
+  is_safe_for_print: boolean | null;
+  min_recommended_size: number | null;
+}
+
+interface DesignElementData {
+  id: string;
+  element_name: string;
+  element_type: string;
+  category: string;
+  image_url: string | null;
+  svg_content: string | null;
+  tags: string[] | null;
+  is_premium: boolean | null;
+}
+
 export default function Customizer() {
   const { slug } = useParams<{ slug: string }>();
   const store = useCustomizerStore();
   const autoSaveTimer = useRef<NodeJS.Timeout | null>(null);
   const [showPreview, setShowPreview] = useState(false);
   const [bulkMode, setBulkMode] = useState(false);
+  const [variants, setVariants] = useState<ProductVariantData[]>([]);
+  const [fonts, setFonts] = useState<FontData[]>([]);
+  const [designElements, setDesignElements] = useState<DesignElementData[]>([]);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
-  // Load product + template data
+  // Load product + template + variants + fonts + elements
   useEffect(() => {
-    async function loadProduct() {
+    async function loadAll() {
       if (!slug) return;
 
+      // Fetch product
       const { data: product } = await supabase
         .from("products")
         .select("*, categories(*)")
@@ -34,16 +72,42 @@ export default function Customizer() {
         return;
       }
 
-      // Try to find a template matching this product's category name
+      // Fetch variants, fonts, design elements in parallel
+      const [variantsRes, fontsRes, elementsRes] = await Promise.all([
+        supabase
+          .from("product_variants")
+          .select("*")
+          .eq("product_id", product.id)
+          .eq("status", "active"),
+        supabase
+          .from("font_library")
+          .select("*")
+          .eq("is_active", true)
+          .order("font_name"),
+        supabase
+          .from("design_elements")
+          .select("*")
+          .order("usage_count", { ascending: false })
+          .limit(60),
+      ]);
+
+      if (variantsRes.data) {
+        setVariants(variantsRes.data as ProductVariantData[]);
+        const firstColor = variantsRes.data.find((v: any) => v.color)?.color;
+        if (firstColor) setSelectedColor(firstColor);
+        const firstSize = variantsRes.data.find((v: any) => v.size)?.size;
+        if (firstSize) setSelectedSize(firstSize);
+      }
+      if (fontsRes.data) setFonts(fontsRes.data as FontData[]);
+      if (elementsRes.data) setDesignElements(elementsRes.data as DesignElementData[]);
+
+      // Template lookup
       const categoryName = (product as any).categories?.name?.toLowerCase() || "";
       const typeMap: Record<string, string> = {
         mugs: "mug", "ceramic mugs": "mug", "magic mugs": "mug",
-        "t-shirts": "tshirt", tshirts: "tshirt", polo: "tshirt", shirts: "tshirt",
+        "t-shirts": "tshirt", tshirts: "tshirt", polo: "tshirt",
         caps: "cap", hats: "cap",
         "id cards": "idcard", cards: "idcard",
-        lamps: "lamp",
-        keychains: "keychain",
-        notebooks: "notebook", diaries: "notebook",
       };
       const productType = typeMap[categoryName] || null;
 
@@ -71,17 +135,13 @@ export default function Customizer() {
           id: "zone-front",
           name: "Front Print Area",
           zoneType: "print",
-          x: 150,
-          y: 100,
-          width: 700,
-          height: 600,
+          x: 150, y: 100, width: 700, height: 600,
           shape: "rectangle" as const,
           isSafeArea: true,
           maxColors: 12,
           supportedPrintMethods: ["digital_print", "sublimation", "screen_print"],
         },
       ];
-
       const defaultViews = [
         { id: "front", name: "Front View", baseImageUrl: "", printZoneIds: ["zone-front"] },
       ];
@@ -102,18 +162,16 @@ export default function Customizer() {
       });
     }
 
-    loadProduct();
+    loadAll();
   }, [slug]);
 
-  // Auto-save every 30 seconds
+  // Auto-save
   useEffect(() => {
     if (store.state.autoSaveStatus !== "unsaved") return;
-
     if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
 
     autoSaveTimer.current = setTimeout(async () => {
       store.setAutoSaveStatus("saving");
-      // Save to customization_sessions table
       try {
         const { data: { user } } = await supabase.auth.getUser();
         if (user && store.state.productId) {
@@ -121,10 +179,7 @@ export default function Customizer() {
             customer_user_id: user.id,
             product_id: store.state.productId,
             template_id: store.state.templateId,
-            session_state: {
-              layers: store.state.layers,
-              activeViewId: store.state.activeViewId,
-            },
+            session_state: { layers: store.state.layers, activeViewId: store.state.activeViewId },
             active_view: store.state.activeViewId,
             selected_print_method: store.state.selectedPrintMethod,
             session_status: "active",
@@ -136,9 +191,7 @@ export default function Customizer() {
       }
     }, 5000);
 
-    return () => {
-      if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
-    };
+    return () => { if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current); };
   }, [store.state.autoSaveStatus, store.state.layers]);
 
   const handleAddTextLayer = useCallback(() => {
@@ -148,14 +201,25 @@ export default function Customizer() {
   const handleAddImageLayer = useCallback(
     (file: File) => {
       const url = URL.createObjectURL(file);
-      store.addLayer({
-        type: "image",
-        imageUrl: url,
-        fileName: file.name,
-        width: 200,
-        height: 200,
-      });
+      store.addLayer({ type: "image", imageUrl: url, fileName: file.name, width: 200, height: 200 });
       toast.success(`"${file.name}" added to canvas`);
+    },
+    [store]
+  );
+
+  const handleAddClipart = useCallback(
+    (element: DesignElementData) => {
+      if (element.image_url) {
+        store.addLayer({
+          type: "clipart",
+          imageUrl: element.image_url,
+          fileName: element.element_name,
+          elementId: element.id,
+          width: 150,
+          height: 150,
+        });
+        toast.success(`"${element.element_name}" added`);
+      }
     },
     [store]
   );
@@ -165,9 +229,7 @@ export default function Customizer() {
     store.setAutoSaveStatus("saved");
   }, [store]);
 
-  const handlePreview = useCallback(() => {
-    setShowPreview(true);
-  }, []);
+  const handlePreview = useCallback(() => setShowPreview(true), []);
 
   const handleAddToCart = useCallback(() => {
     toast.success("Design added to quote request");
@@ -181,14 +243,16 @@ export default function Customizer() {
     }
   }, [store]);
 
-  const handleBulkToggle = useCallback(() => {
-    setBulkMode((prev) => !prev);
-  }, []);
+  const handleBulkToggle = useCallback(() => setBulkMode((p) => !p), []);
 
   const handleBulkProceed = useCallback((data: any) => {
     toast.success(`Quote ready: ${data.totalQty} units (${data.personalizedQty} personalized)`);
     setBulkMode(false);
   }, []);
+
+  // Extract unique colors and sizes from variants
+  const uniqueColors = [...new Set(variants.filter((v) => v.color).map((v) => v.color!))];
+  const uniqueSizes = [...new Set(variants.filter((v) => v.size).map((v) => v.size!))];
 
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-white">
@@ -216,18 +280,27 @@ export default function Customizer() {
       <div className="flex flex-1 overflow-hidden">
         {!bulkMode && (
           <LeftPanel
-          activeViewId={store.state.activeViewId}
-          activeZoneId={store.state.activeZoneId}
-          selectedLayer={store.selectedLayer}
-          printZones={store.state.printZones}
-          views={store.state.views}
-          selectedPrintMethod={store.state.selectedPrintMethod}
-          onAddTextLayer={handleAddTextLayer}
-          onAddImageLayer={handleAddImageLayer}
-          onUpdateLayer={store.updateLayer}
-          onSetActiveView={store.setActiveView}
-          onSetActiveZone={store.setActiveZone}
-        />
+            activeViewId={store.state.activeViewId}
+            activeZoneId={store.state.activeZoneId}
+            selectedLayer={store.selectedLayer}
+            printZones={store.state.printZones}
+            views={store.state.views}
+            selectedPrintMethod={store.state.selectedPrintMethod}
+            onAddTextLayer={handleAddTextLayer}
+            onAddImageLayer={handleAddImageLayer}
+            onUpdateLayer={store.updateLayer}
+            onSetActiveView={store.setActiveView}
+            onSetActiveZone={store.setActiveZone}
+            productColors={uniqueColors}
+            productSizes={uniqueSizes}
+            selectedColor={selectedColor}
+            selectedSize={selectedSize}
+            onSelectColor={setSelectedColor}
+            onSelectSize={setSelectedSize}
+            fonts={fonts}
+            designElements={designElements}
+            onAddClipart={handleAddClipart}
+          />
         )}
 
         <CanvasPanel
