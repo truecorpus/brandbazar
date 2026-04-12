@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Star, Minus, Plus, ChevronDown, ChevronUp, Upload, ArrowRight, Lock, Ruler, RefreshCw, FileText, Truck } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import type { Database } from "@/integrations/supabase/types";
 
 type Product = Database["public"]["Tables"]["products"]["Row"];
@@ -61,10 +62,12 @@ const DynamicProductInfo = ({
   availableColors, availableSizes, customizationOptions,
   reviewStats, category,
 }: Props) => {
+  const isMobile = useIsMobile();
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
   const [uploadedFile, setUploadedFile] = useState("");
   const [fileDropHover, setFileDropHover] = useState(false);
   const [specialInstructions, setSpecialInstructions] = useState("");
+  const [showBulkTiers, setShowBulkTiers] = useState(false);
 
   const toggle = (key: string) => setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
 
@@ -74,10 +77,14 @@ const DynamicProductInfo = ({
     `Hi! I'd like a quote for:\n• Product: ${product.name}\n• Quantity: ${quantity} units\n${selectedVariant?.color ? `• Color: ${selectedVariant.color}\n` : ""}Please share pricing and timeline.`
   )}`;
 
+  // On mobile, show only first 2 customization options
+  const visibleOptions = isMobile ? customizationOptions.slice(0, 2) : customizationOptions;
+  const hasMoreOptions = isMobile && customizationOptions.length > 2;
+
   return (
-    <div className="space-y-6">
-      {/* Breadcrumb */}
-      <nav aria-label="Breadcrumb">
+    <div className="space-y-5 lg:space-y-6">
+      {/* Breadcrumb - hidden on mobile (takes space) */}
+      <nav aria-label="Breadcrumb" className="hidden sm:block">
         <ol className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
           <li><Link to="/shop" className="hover:text-primary transition-colors">Shop</Link></li>
           <li className="text-border">›</li>
@@ -104,22 +111,22 @@ const DynamicProductInfo = ({
         )}
       </div>
 
-      {/* Title + Description */}
+      {/* Title */}
       <div>
-        <h1 className="text-3xl lg:text-4xl font-semibold text-foreground tracking-tight leading-tight">
+        <h1 className="text-2xl lg:text-4xl font-semibold text-foreground tracking-tight leading-tight">
           {product.name}
         </h1>
         {product.short_description && (
-          <p className="mt-2 text-muted-foreground text-base leading-relaxed">{product.short_description}</p>
+          <p className="mt-1.5 lg:mt-2 text-muted-foreground text-sm lg:text-base leading-relaxed">{product.short_description}</p>
         )}
       </div>
 
       {/* Rating */}
       {reviewStats && reviewStats.totalCount > 0 && (
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 lg:gap-3">
           <div className="flex gap-0.5">
             {[1, 2, 3, 4, 5].map((i) => (
-              <Star key={i} size={16} className={i <= Math.round(reviewStats.averageRating) ? "fill-amber-400 text-amber-400" : "text-muted-foreground/30"} />
+              <Star key={i} size={14} className={i <= Math.round(reviewStats.averageRating) ? "fill-amber-400 text-amber-400" : "text-muted-foreground/30"} />
             ))}
           </div>
           <span className="text-sm font-medium text-foreground">{reviewStats.averageRating} / 5</span>
@@ -127,13 +134,26 @@ const DynamicProductInfo = ({
         </div>
       )}
 
-      {/* Variant Colors */}
+      {/* Mobile price display (prominent) */}
+      {isMobile && (
+        <div className="flex items-baseline gap-2">
+          <span className="text-2xl font-semibold text-foreground">₹{priceCalc.pricePerUnit}</span>
+          <span className="text-sm text-muted-foreground">/unit</span>
+          {priceCalc.savingsPercent > 0 && (
+            <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
+              Save {priceCalc.savingsPercent}%
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* Colors */}
       {availableColors.length > 0 && (
         <div>
-          <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-muted-foreground mb-3">
+          <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-muted-foreground mb-2.5">
             Color: {selectedVariant?.color || "—"}
           </p>
-          <div className="flex gap-3 flex-wrap">
+          <div className="flex gap-2.5 flex-wrap">
             {variants
               .filter((v) => v.color)
               .map((v) => (
@@ -141,7 +161,7 @@ const DynamicProductInfo = ({
                   key={v.id}
                   onClick={() => onVariantChange(v.id)}
                   aria-label={`Select ${v.color}`}
-                  className={`w-9 h-9 rounded-full border-2 transition-all duration-200 hover:scale-110 ${
+                  className={`w-8 h-8 lg:w-9 lg:h-9 rounded-full border-2 transition-all duration-200 hover:scale-110 ${
                     selectedVariant?.id === v.id ? "ring-2 ring-primary ring-offset-2" : ""
                   }`}
                   style={{ backgroundColor: v.color!, borderColor: v.color === "#FFFFFF" || v.color === "#ffffff" ? "#DADCE0" : v.color! }}
@@ -151,10 +171,10 @@ const DynamicProductInfo = ({
         </div>
       )}
 
-      {/* Variant Sizes */}
+      {/* Sizes */}
       {availableSizes.length > 0 && (
         <div>
-          <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-muted-foreground mb-3">Size</p>
+          <p className="text-[10px] font-medium uppercase tracking-[0.15em] text-muted-foreground mb-2.5">Size</p>
           <div className="flex gap-2 flex-wrap">
             {variants
               .filter((v) => v.size)
@@ -162,7 +182,7 @@ const DynamicProductInfo = ({
                 <button
                   key={v.id}
                   onClick={() => onVariantChange(v.id)}
-                  className={`px-4 py-2 rounded-md text-sm font-medium border transition-all ${
+                  className={`px-3.5 py-2 rounded-md text-sm font-medium border transition-all ${
                     selectedVariant?.id === v.id
                       ? "border-primary bg-primary/5 text-primary"
                       : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
@@ -176,55 +196,95 @@ const DynamicProductInfo = ({
       )}
 
       {/* Pricing Engine */}
-      <div className="bg-card rounded-lg border border-border p-5 space-y-4">
+      <div className="bg-card rounded-lg border border-border p-4 lg:p-5 space-y-4">
         <div>
           <label className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-2 block">Quantity</label>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 lg:gap-3">
             <button onClick={() => onQuantityChange(Math.max(1, quantity - (quantity > 25 ? 25 : 1)))} className="w-10 h-10 rounded-md border border-border flex items-center justify-center text-foreground hover:bg-secondary transition-colors" aria-label="Decrease quantity">
               <Minus size={16} />
             </button>
             <input
               type="number" min="1" value={quantity}
+              inputMode="numeric"
               onChange={(e) => onQuantityChange(Math.max(1, parseInt(e.target.value) || 1))}
-              className="w-20 h-10 text-center rounded-md border border-border font-medium text-foreground bg-background focus:outline-none focus:ring-2 focus:ring-ring"
+              className="w-20 h-10 text-center rounded-md border border-border font-medium text-foreground bg-background focus:outline-none focus:ring-2 focus:ring-ring text-base"
             />
             <button onClick={() => onQuantityChange(quantity < 25 ? 25 : quantity + 25)} className="w-10 h-10 rounded-md border border-border flex items-center justify-center text-foreground hover:bg-secondary transition-colors" aria-label="Increase quantity">
               <Plus size={16} />
             </button>
             {quantity < 25 && (
-              <button onClick={() => onQuantityChange(25)} className="text-xs text-primary hover:underline transition-colors">Jump to bulk (25)</button>
+              <button onClick={() => onQuantityChange(25)} className="text-xs text-primary hover:underline transition-colors whitespace-nowrap">Jump to bulk (25)</button>
             )}
           </div>
         </div>
 
-        {/* Bulk Tiers */}
+        {/* Bulk Tiers - collapsible on mobile */}
         {bulkTiers.length > 0 && (
-          <div className="rounded-md border border-border overflow-hidden">
-            {bulkTiers.map((tier, i) => {
-              const active = priceCalc.appliedTier?.min_qty === tier.min_qty;
-              const saving = tier.price_per_unit < priceCalc.basePrice
-                ? Math.round(((priceCalc.basePrice - tier.price_per_unit) / priceCalc.basePrice) * 100)
-                : 0;
-              return (
-                <div
-                  key={tier.min_qty}
-                  className={`flex items-center justify-between px-4 py-2.5 text-sm transition-colors ${
-                    active ? "bg-primary/5 border-l-2 border-primary font-medium text-foreground" : "text-muted-foreground"
-                  } ${i > 0 ? "border-t border-border" : ""}`}
+          <>
+            {isMobile ? (
+              <div>
+                <button
+                  onClick={() => setShowBulkTiers(!showBulkTiers)}
+                  className="flex items-center justify-between w-full text-sm text-primary font-medium py-1"
                 >
-                  <span>{tier.label}</span>
-                  <div className="flex items-center gap-2">
-                    <span className={active ? "text-primary font-semibold" : ""}>₹{tier.price_per_unit}/unit</span>
-                    {saving > 0 && <span className={`text-[10px] ${active ? "text-primary" : "text-muted-foreground/60"}`}>↓{saving}%</span>}
+                  <span>Select quantity to see price</span>
+                  {showBulkTiers ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                </button>
+                {showBulkTiers && (
+                  <div className="rounded-md border border-border overflow-hidden mt-2">
+                    {bulkTiers.map((tier, i) => {
+                      const active = priceCalc.appliedTier?.min_qty === tier.min_qty;
+                      const saving = tier.price_per_unit < priceCalc.basePrice
+                        ? Math.round(((priceCalc.basePrice - tier.price_per_unit) / priceCalc.basePrice) * 100)
+                        : 0;
+                      return (
+                        <button
+                          key={tier.min_qty}
+                          onClick={() => onQuantityChange(tier.min_qty)}
+                          className={`w-full flex items-center justify-between px-4 py-2.5 text-sm transition-colors ${
+                            active ? "bg-primary/5 border-l-2 border-primary font-medium text-foreground" : "text-muted-foreground"
+                          } ${i > 0 ? "border-t border-border" : ""}`}
+                        >
+                          <span>{tier.label}</span>
+                          <div className="flex items-center gap-2">
+                            <span className={active ? "text-primary font-semibold" : ""}>₹{tier.price_per_unit}/unit</span>
+                            {saving > 0 && <span className={`text-[10px] ${active ? "text-primary" : "text-muted-foreground/60"}`}>↓{saving}%</span>}
+                          </div>
+                        </button>
+                      );
+                    })}
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                )}
+              </div>
+            ) : (
+              <div className="rounded-md border border-border overflow-hidden">
+                {bulkTiers.map((tier, i) => {
+                  const active = priceCalc.appliedTier?.min_qty === tier.min_qty;
+                  const saving = tier.price_per_unit < priceCalc.basePrice
+                    ? Math.round(((priceCalc.basePrice - tier.price_per_unit) / priceCalc.basePrice) * 100)
+                    : 0;
+                  return (
+                    <div
+                      key={tier.min_qty}
+                      className={`flex items-center justify-between px-4 py-2.5 text-sm transition-colors ${
+                        active ? "bg-primary/5 border-l-2 border-primary font-medium text-foreground" : "text-muted-foreground"
+                      } ${i > 0 ? "border-t border-border" : ""}`}
+                    >
+                      <span>{tier.label}</span>
+                      <div className="flex items-center gap-2">
+                        <span className={active ? "text-primary font-semibold" : ""}>₹{tier.price_per_unit}/unit</span>
+                        {saving > 0 && <span className={`text-[10px] ${active ? "text-primary" : "text-muted-foreground/60"}`}>↓{saving}%</span>}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </>
         )}
 
-        {/* Total */}
-        <div className="flex items-center justify-between pt-2">
+        {/* Total - hidden on mobile (shown in sticky bar) */}
+        <div className="hidden lg:flex items-center justify-between pt-2">
           <div>
             <p className="text-sm text-muted-foreground">Total</p>
             <p className="font-semibold text-2xl text-foreground">₹{priceCalc.totalPrice.toLocaleString("en-IN")}</p>
@@ -238,23 +298,23 @@ const DynamicProductInfo = ({
         </div>
       </div>
 
-      {/* Customization Options */}
-      {customizationOptions.map((opt) => {
+      {/* Customization Options (limited on mobile) */}
+      {visibleOptions.map((opt) => {
         const values = Array.isArray(opt.option_values) ? opt.option_values as any[] : [];
         if (values.length === 0) return null;
         const isOpen = openSections[opt.id] ?? false;
         return (
           <div key={opt.id} className="border border-border rounded-lg overflow-hidden">
-            <button onClick={() => toggle(opt.id)} className="w-full flex items-center justify-between px-5 py-3.5 bg-card hover:bg-secondary/50 transition-colors">
+            <button onClick={() => toggle(opt.id)} className="w-full flex items-center justify-between px-4 lg:px-5 py-3 bg-card hover:bg-secondary/50 transition-colors">
               <span className="text-sm font-medium text-foreground">
                 {opt.option_label} {opt.is_required && <span className="text-destructive">*</span>}
               </span>
               {isOpen ? <ChevronUp size={16} className="text-muted-foreground" /> : <ChevronDown size={16} className="text-muted-foreground" />}
             </button>
             {isOpen && (
-              <div className="px-5 pb-4 grid gap-2">
+              <div className="px-4 lg:px-5 pb-4 grid gap-2">
                 {values.map((val: any, i: number) => (
-                  <div key={i} className="flex items-center gap-3 px-4 py-3 rounded-md border border-border text-left">
+                  <div key={i} className="flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-md border border-border text-left">
                     <div className="flex-1">
                       <p className="text-sm font-medium text-foreground">{val.label || val.value || String(val)}</p>
                     </div>
@@ -267,26 +327,32 @@ const DynamicProductInfo = ({
         );
       })}
 
+      {hasMoreOptions && (
+        <Link to={`/customize/${product.slug}`} className="block text-center text-sm text-primary font-medium hover:underline py-1">
+          More options in customizer →
+        </Link>
+      )}
+
       {/* Artwork Upload */}
       <div className="border border-border rounded-lg overflow-hidden">
-        <button onClick={() => toggle("artwork")} className="w-full flex items-center justify-between px-5 py-3.5 bg-card hover:bg-secondary/50 transition-colors">
+        <button onClick={() => toggle("artwork")} className="w-full flex items-center justify-between px-4 lg:px-5 py-3 bg-card hover:bg-secondary/50 transition-colors">
           <span className="text-sm font-medium text-foreground">Artwork Upload</span>
           {openSections.artwork ? <ChevronUp size={16} className="text-muted-foreground" /> : <ChevronDown size={16} className="text-muted-foreground" />}
         </button>
         {openSections.artwork && (
-          <div className="px-5 pb-4">
+          <div className="px-4 lg:px-5 pb-4">
             {uploadedFile ? (
-              <div className="rounded-md border border-primary bg-primary/5 p-4 flex items-center gap-3">
+              <div className="rounded-md border border-primary bg-primary/5 p-3 lg:p-4 flex items-center gap-3">
                 <div className="w-8 h-8 rounded bg-primary/10 flex items-center justify-center text-primary">✓</div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-foreground">{uploadedFile}</p>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-foreground truncate">{uploadedFile}</p>
                   <p className="text-xs text-muted-foreground">Uploaded successfully</p>
                 </div>
-                <button onClick={() => setUploadedFile("")} className="text-xs text-muted-foreground hover:text-destructive">Remove</button>
+                <button onClick={() => setUploadedFile("")} className="text-xs text-muted-foreground hover:text-destructive shrink-0">Remove</button>
               </div>
             ) : (
               <div
-                className={`rounded-md border-2 border-dashed p-8 text-center transition-colors ${fileDropHover ? "border-primary bg-primary/5" : "border-border"}`}
+                className={`rounded-md border-2 border-dashed p-6 lg:p-8 text-center transition-colors ${fileDropHover ? "border-primary bg-primary/5" : "border-border"}`}
                 onDragOver={(e) => { e.preventDefault(); setFileDropHover(true); }}
                 onDragLeave={() => setFileDropHover(false)}
                 onDrop={(e) => { e.preventDefault(); setFileDropHover(false); setUploadedFile("company-logo.png"); }}
@@ -306,25 +372,25 @@ const DynamicProductInfo = ({
 
       {/* Special Instructions */}
       <div className="border border-border rounded-lg overflow-hidden">
-        <button onClick={() => toggle("instructions")} className="w-full flex items-center justify-between px-5 py-3.5 bg-card hover:bg-secondary/50 transition-colors">
+        <button onClick={() => toggle("instructions")} className="w-full flex items-center justify-between px-4 lg:px-5 py-3 bg-card hover:bg-secondary/50 transition-colors">
           <span className="text-sm font-medium text-foreground">Special Instructions</span>
           {openSections.instructions ? <ChevronUp size={16} className="text-muted-foreground" /> : <ChevronDown size={16} className="text-muted-foreground" />}
         </button>
         {openSections.instructions && (
-          <div className="px-5 pb-4">
+          <div className="px-4 lg:px-5 pb-4">
             <textarea
               rows={3} maxLength={500} value={specialInstructions}
               onChange={(e) => setSpecialInstructions(e.target.value)}
               placeholder="E.g. Employee names on each item, specific pantone color, packaging preferences..."
-              className="w-full px-4 py-3 rounded-md border border-border bg-background text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+              className="w-full px-3 lg:px-4 py-3 rounded-md border border-border bg-background text-base lg:text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
             />
             <p className="text-right text-[10px] text-muted-foreground mt-1">{specialInstructions.length}/500</p>
           </div>
         )}
       </div>
 
-      {/* CTAs */}
-      <div className="space-y-3">
+      {/* CTAs - hidden on mobile (sticky bar handles it) */}
+      <div className="hidden lg:block space-y-3">
         {isOutOfStock ? (
           <Button variant="outline" size="lg" className="w-full">
             Notify Me When Available
@@ -352,6 +418,9 @@ const DynamicProductInfo = ({
           </span>
         ))}
       </div>
+
+      {/* Bottom spacer for mobile sticky bar */}
+      <div className="h-20 lg:hidden" />
     </div>
   );
 };
