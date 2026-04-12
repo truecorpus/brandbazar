@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
+import { useEffect, useMemo } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import WhatsAppFab from "@/components/WhatsAppFab";
 import BackToTop from "@/components/BackToTop";
 import SEOHead from "@/components/SEOHead";
 import { useProductDetail } from "@/hooks/useProductDetail";
@@ -11,8 +11,28 @@ import DynamicProductTabs from "@/components/product/DynamicProductTabs";
 import DynamicRelatedProducts from "@/components/product/DynamicRelatedProducts";
 import MobileStickyBar from "@/components/product/MobileStickyBar";
 import ProductPageSkeleton from "@/components/product/ProductPageSkeleton";
+import ProductShareRow from "@/components/product/ProductShareRow";
+import FomoIndicator from "@/components/product/FomoIndicator";
+import RecentlyViewed, { trackRecentlyViewed } from "@/components/product/RecentlyViewed";
+import MugExtras from "@/components/product/types/MugExtras";
+import TshirtExtras from "@/components/product/types/TshirtExtras";
+import IdCardExtras from "@/components/product/types/IdCardExtras";
+import CapExtras from "@/components/product/types/CapExtras";
+import NotebookExtras from "@/components/product/types/NotebookExtras";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, ShoppingBag } from "lucide-react";
+
+// Derive product type from category slug
+function detectProductType(categorySlug: string | undefined): string | null {
+  if (!categorySlug) return null;
+  const s = categorySlug.toLowerCase();
+  if (s.includes("mug") || s.includes("cup")) return "mug";
+  if (s.includes("tshirt") || s.includes("t-shirt") || s.includes("shirt")) return "tshirt";
+  if (s.includes("idcard") || s.includes("id-card") || s.includes("badge")) return "idcard";
+  if (s.includes("cap") || s.includes("hat")) return "cap";
+  if (s.includes("notebook") || s.includes("diary") || s.includes("journal")) return "notebook";
+  return null;
+}
 
 const DynamicProductDetail = () => {
   const { productSlug } = useParams<{ categorySlug: string; productSlug: string }>();
@@ -26,6 +46,22 @@ const DynamicProductDetail = () => {
     activeTab, setActiveTab,
     isLoading, notFound,
   } = useProductDetail(productSlug || "");
+
+  const productType = useMemo(() => detectProductType(category?.slug), [category?.slug]);
+
+  // Track recently viewed
+  useEffect(() => {
+    if (!product || !images) return;
+    const primaryImage = images.find((i) => i.is_primary)?.image_url || images[0]?.image_url;
+    trackRecentlyViewed({
+      id: product.id,
+      name: product.name,
+      slug: product.slug,
+      price: product.base_price,
+      image: primaryImage,
+      categorySlug: category?.slug,
+    });
+  }, [product?.id]);
 
   if (isLoading) {
     return (
@@ -52,9 +88,7 @@ const DynamicProductDetail = () => {
             This product doesn't exist or has been removed from our catalog.
           </p>
           <Link to="/shop">
-            <Button>
-              Browse all products <ArrowRight size={16} />
-            </Button>
+            <Button>Browse all products <ArrowRight size={16} /></Button>
           </Link>
         </div>
         <Footer />
@@ -66,6 +100,7 @@ const DynamicProductDetail = () => {
   const primaryImage = images.find((i) => i.is_primary)?.image_url || images[0]?.image_url;
   const pageTitle = product.meta_title || `${product.name} | Custom Print from ₹${product.base_price} | BrandBazaar`;
   const pageDescription = product.meta_description || product.short_description || `Customize ${product.name} with your brand logo. Bulk pricing available.`;
+  const pageUrl = window.location.href;
 
   const jsonLd: Record<string, any> = {
     "@context": "https://schema.org",
@@ -78,7 +113,7 @@ const DynamicProductDetail = () => {
       price: product.base_price,
       priceCurrency: "INR",
       availability: "https://schema.org/InStock",
-      url: window.location.href,
+      url: pageUrl,
     },
   };
 
@@ -90,9 +125,7 @@ const DynamicProductDetail = () => {
     };
   }
 
-  if (primaryImage) {
-    jsonLd.image = primaryImage;
-  }
+  if (primaryImage) jsonLd.image = primaryImage;
 
   return (
     <div className="min-h-screen bg-background">
@@ -101,13 +134,13 @@ const DynamicProductDetail = () => {
         description={pageDescription}
         ogImage={primaryImage}
         ogType="product"
-        canonical={window.location.href}
+        canonical={pageUrl}
         jsonLd={jsonLd}
       />
 
       <Navbar />
 
-      {/* Back link - desktop only */}
+      {/* Back link - desktop */}
       <div className="hidden lg:block max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 lg:pt-28">
         <Link to="/shop" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors mb-6">
           <ArrowLeft size={14} /> Back to Shop
@@ -116,7 +149,7 @@ const DynamicProductDetail = () => {
 
       <article className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 lg:pt-0 pb-4 lg:pb-12">
         <div className="grid lg:grid-cols-[55%_45%] gap-6 lg:gap-12">
-          <div className="lg:sticky lg:top-24 lg:self-start">
+          <div className="lg:sticky lg:top-24 lg:self-start space-y-4">
             <DynamicProductGallery
               images={images}
               activeIndex={activeImageIndex}
@@ -124,7 +157,24 @@ const DynamicProductDetail = () => {
               productName={product.name}
             />
           </div>
-          <div>
+          <div className="space-y-5">
+            {/* Product-type badges (above title for mug/tshirt) */}
+            {productType === "mug" && (
+              <MugExtras
+                basePrice={priceCalc.pricePerUnit}
+                gstRate={product.gst_rate || 18}
+                onQuantityChange={setQuantity}
+              />
+            )}
+            {productType === "tshirt" && (
+              <TshirtExtras selectedColor={selectedVariant?.color} />
+            )}
+            {productType === "idcard" && (
+              <IdCardExtras productSlug={product.slug} />
+            )}
+            {productType === "cap" && <CapExtras />}
+            {productType === "notebook" && <NotebookExtras />}
+
             <DynamicProductInfo
               product={product}
               variants={variants}
@@ -140,6 +190,10 @@ const DynamicProductDetail = () => {
               reviewStats={reviewStats || undefined}
               category={category}
             />
+
+            {/* FOMO + Share */}
+            <FomoIndicator />
+            <ProductShareRow productName={product.name} productUrl={pageUrl} />
           </div>
         </div>
       </article>
@@ -162,9 +216,12 @@ const DynamicProductDetail = () => {
         />
       )}
 
+      {/* Recently Viewed */}
+      <RecentlyViewed currentProductId={product.id} />
+
       <Footer />
 
-      {/* WhatsApp FAB - positioned above sticky bar on mobile */}
+      {/* WhatsApp FAB */}
       <div className="lg:bottom-6 bottom-[88px] fixed right-4 lg:right-6 z-50">
         <a
           href={`https://wa.me/919876543210?text=${encodeURIComponent(`Hi! I'd like to inquire about ${product.name}`)}`}
@@ -182,7 +239,6 @@ const DynamicProductDetail = () => {
         </a>
       </div>
 
-      {/* Mobile sticky CTA bar */}
       <MobileStickyBar
         pricePerUnit={priceCalc.pricePerUnit}
         productSlug={product.slug}
