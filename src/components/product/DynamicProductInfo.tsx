@@ -396,9 +396,11 @@ const DynamicProductInfo = ({
             Notify Me When Available
           </Button>
         ) : (
-          <Button variant="default" size="lg" className="w-full">
-            Add to Quote Cart <ArrowRight size={16} />
-          </Button>
+          <Link to={`/customize/${product.slug}`}>
+            <Button variant="default" size="lg" className="w-full">
+              Customize & Order <ArrowRight size={16} />
+            </Button>
+          </Link>
         )}
         <a href={waLink} target="_blank" rel="noopener noreferrer" className="block">
           <Button variant="outline" size="lg" className="w-full border-[#25D366] text-[#25D366] hover:bg-[#25D366] hover:text-white">
