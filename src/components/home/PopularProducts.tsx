@@ -45,7 +45,7 @@ const PopularProducts = () => {
               style={{ boxShadow: "var(--shadow-sm)" }}
               onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "var(--shadow-lg)"; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "var(--shadow-sm)"; }}
-              onClick={() => navigate(`/product/${product.slug}`)}
+              onClick={() => navigate(`/customize/${product.slug}`)}
             >
               <div className="relative h-44 overflow-hidden bg-secondary">
                 <img
