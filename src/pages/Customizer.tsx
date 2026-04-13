@@ -281,7 +281,7 @@ export default function Customizer() {
       // Create order item
       const { error: itemError } = await supabase
         .from("order_items")
-        .insert({
+        .insert([{
           order_id: order.id,
           product_id: store.state.productId,
           quantity,
@@ -290,8 +290,8 @@ export default function Customizer() {
             layers: store.state.layers,
             activeViewId: store.state.activeViewId,
             selectedPrintMethod: store.state.selectedPrintMethod,
-          },
-        });
+          } as any,
+        }]);
 
       if (itemError) {
         toast.error("Failed to add item to order");
