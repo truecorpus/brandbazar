@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 import { useCustomizerStore } from "@/hooks/useCustomizerStore";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -44,6 +45,8 @@ interface DesignElementData {
 
 export default function Customizer() {
   const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const store = useCustomizerStore();
   const autoSaveTimer = useRef<NodeJS.Timeout | null>(null);
   const [showPreview, setShowPreview] = useState(false);
@@ -231,9 +234,77 @@ export default function Customizer() {
 
   const handlePreview = useCallback(() => setShowPreview(true), []);
 
-  const handleAddToCart = useCallback(() => {
-    toast.success("Design added to quote request");
-  }, []);
+  const handleAddToCart = useCallback(async () => {
+    if (!user) {
+      toast.error("Please log in to place an order");
+      navigate(`/login?redirect=/customize/${slug}`);
+      return;
+    }
+
+    if (!store.state.productId) {
+      toast.error("Product not loaded");
+      return;
+    }
+
+    try {
+      const quantity = store.state.minQuantity || 25;
+      const unitPrice = store.state.unitPrice || 0;
+      const subtotal = unitPrice * quantity;
+      const gstRate = 18;
+      const gstAmount = Math.round(subtotal * (gstRate / 100) * 100) / 100;
+      const totalAmount = subtotal + gstAmount;
+
+      // Create order
+      const { data: order, error: orderError } = await supabase
+        .from("orders")
+        .insert({
+          customer_id: user.id,
+          order_type: "retail",
+          subtotal,
+          gst_amount: gstAmount,
+          total_amount: totalAmount,
+          payment_status: "pending",
+          order_status: "pending_payment",
+          special_instructions: store.state.selectedPrintMethod
+            ? `Print method: ${store.state.selectedPrintMethod}`
+            : undefined,
+        })
+        .select("id")
+        .single();
+
+      if (orderError || !order) {
+        toast.error("Failed to create order");
+        console.error("Order creation error:", orderError);
+        return;
+      }
+
+      // Create order item
+      const { error: itemError } = await supabase
+        .from("order_items")
+        .insert([{
+          order_id: order.id,
+          product_id: store.state.productId,
+          quantity,
+          unit_price: unitPrice,
+          customization_selections: {
+            layers: store.state.layers,
+            activeViewId: store.state.activeViewId,
+            selectedPrintMethod: store.state.selectedPrintMethod,
+          } as any,
+        }]);
+
+      if (itemError) {
+        toast.error("Failed to add item to order");
+        console.error("Order item error:", itemError);
+        return;
+      }
+
+      toast.success("Order created! Redirecting to checkout...");
+      navigate(`/checkout?order=${order.id}`);
+    } catch (err: any) {
+      toast.error(err.message || "Something went wrong");
+    }
+  }, [user, store, slug, navigate]);
 
   const handleReset = useCallback(() => {
     if (confirm("This will remove all design elements. Continue?")) {

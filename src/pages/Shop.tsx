@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFab from "@/components/WhatsAppFab";
@@ -13,21 +14,22 @@ interface Product {
   id: number; name: string; category: Category; tagline: string; price: string;
   minUnits: string; badge?: "BESTSELLER" | "NEW" | "CORPORATE PICK" | "EXPRESS";
   tags: string[]; color: string; type: string; popularity: number; isNew?: boolean; featured?: boolean;
+  slug: string;
 }
 
 const products: Product[] = [
-  { id: 1, name: "Premium Ceramic Coffee Mug", category: "Drinkware", type: "mug", tagline: "Dishwasher safe · 11oz · Full wrap print available", price: "₹89", minUnits: "Min. 25 units", badge: "BESTSELLER", tags: ["Bulk Ready", "Logo Print", "Express"], color: "#E85D4A", popularity: 98 },
-  { id: 2, name: "Magic Color-Change Mug", category: "Drinkware", type: "mug-magic", tagline: "Heat-activated reveal · 11oz · Stunning brand impact", price: "₹149", minUnits: "Min. 25 units", badge: "NEW", tags: ["Heat Reactive", "Logo Print"], color: "#7C83DB", popularity: 85, isNew: true },
-  { id: 3, name: "360° Full-Print T-Shirt", category: "Apparel", type: "tshirt", tagline: "All-over sublimation · S–3XL · Vivid fade-proof colors", price: "₹349", minUnits: "Min. 50 units", badge: "CORPORATE PICK", tags: ["Full Print", "Team Wear"], color: "#1A73E8", popularity: 92 },
-  { id: 4, name: "Premium Polo T-Shirt", category: "Apparel", type: "polo", tagline: "Cotton-poly blend · Embroidery-ready · Executive finish", price: "₹449", minUnits: "Min. 25 units", tags: ["Embroidery", "Premium"], color: "#34A853", popularity: 78 },
-  { id: 5, name: "PVC Corporate ID Card + Holder", category: "Corporate Kits", type: "idcard", tagline: "CR80 standard · Dual-sided print · Holder included", price: "₹29", minUnits: "Min. 100 units", badge: "BESTSELLER", tags: ["Bulk Ready", "Fast Print"], color: "#7C83DB", popularity: 95 },
-  { id: 6, name: "Premium Lanyard Set", category: "Accessories", type: "lanyard", tagline: "20mm polyester · Full-color dye-sub · Safety breakaway clip", price: "₹39", minUnits: "Min. 50 units", tags: ["Logo Print", "Safety Clip"], color: "#EA4335", popularity: 70 },
-  { id: 7, name: "LED Mood Lamp with Logo", category: "Desk & Office", type: "lamp", tagline: "Acrylic etching · USB-powered · 7-color LED cycle", price: "₹399", minUnits: "Min. 25 units", badge: "NEW", tags: ["USB Powered", "Logo Etch"], color: "#FBBC04", popularity: 88, isNew: true },
-  { id: 8, name: "Spiral Hardcover Notebook", category: "Desk & Office", type: "notebook", tagline: "A5 · 200 pages · Debossed cover with custom inner pages", price: "₹119", minUnits: "Min. 50 units", tags: ["Deboss", "Custom Pages"], color: "#D63031", popularity: 74 },
-  { id: 9, name: "Structured Embroidery Cap", category: "Apparel", type: "cap", tagline: "Adjustable buckle · 3D puff embroidery · 6-panel construction", price: "₹199", minUnits: "Min. 25 units", badge: "CORPORATE PICK", tags: ["Embroidery", "Adjustable"], color: "#3C4043", popularity: 82 },
-  { id: 10, name: "Metal Keychain Set", category: "Accessories", type: "keychain", tagline: "Die-cast zinc alloy · Laser-engraved · Velvet pouch included", price: "₹59", minUnits: "Min. 50 units", tags: ["Laser Engrave", "Gift Box"], color: "#5F6368", popularity: 65 },
-  { id: 11, name: "Executive Corporate Gift Kit", category: "Corporate Kits", type: "kit", tagline: "Mug + Notebook + Pen + Keychain in branded magnetic box", price: "₹899", minUnits: "Min. 25 units", badge: "BESTSELLER", tags: ["All-in-One", "Premium Box", "White Label"], color: "#202124", popularity: 99, featured: true },
-  { id: 12, name: "Custom Tote Bag", category: "Accessories", type: "tote", tagline: "12oz canvas · Full-color DTG print · Eco-friendly material", price: "₹149", minUnits: "Min. 50 units", badge: "EXPRESS", tags: ["Eco-Friendly", "Full Print"], color: "#E17055", popularity: 76 },
+  { id: 1, name: "Premium Ceramic Coffee Mug", category: "Drinkware", type: "mug", tagline: "Dishwasher safe · 11oz · Full wrap print available", price: "₹89", minUnits: "Min. 25 units", badge: "BESTSELLER", tags: ["Bulk Ready", "Logo Print", "Express"], color: "#E85D4A", popularity: 98, slug: "custom-mugs" },
+  { id: 2, name: "Magic Color-Change Mug", category: "Drinkware", type: "mug-magic", tagline: "Heat-activated reveal · 11oz · Stunning brand impact", price: "₹149", minUnits: "Min. 25 units", badge: "NEW", tags: ["Heat Reactive", "Logo Print"], color: "#7C83DB", popularity: 85, isNew: true, slug: "magic-color-change-mug" },
+  { id: 3, name: "360° Full-Print T-Shirt", category: "Apparel", type: "tshirt", tagline: "All-over sublimation · S–3XL · Vivid fade-proof colors", price: "₹349", minUnits: "Min. 50 units", badge: "CORPORATE PICK", tags: ["Full Print", "Team Wear"], color: "#1A73E8", popularity: 92, slug: "branded-tshirts" },
+  { id: 4, name: "Premium Polo T-Shirt", category: "Apparel", type: "polo", tagline: "Cotton-poly blend · Embroidery-ready · Executive finish", price: "₹449", minUnits: "Min. 25 units", tags: ["Embroidery", "Premium"], color: "#34A853", popularity: 78, slug: "premium-polo-tshirt" },
+  { id: 5, name: "PVC Corporate ID Card + Holder", category: "Corporate Kits", type: "idcard", tagline: "CR80 standard · Dual-sided print · Holder included", price: "₹29", minUnits: "Min. 100 units", badge: "BESTSELLER", tags: ["Bulk Ready", "Fast Print"], color: "#7C83DB", popularity: 95, slug: "employee-id-cards" },
+  { id: 6, name: "Premium Lanyard Set", category: "Accessories", type: "lanyard", tagline: "20mm polyester · Full-color dye-sub · Safety breakaway clip", price: "₹39", minUnits: "Min. 50 units", tags: ["Logo Print", "Safety Clip"], color: "#EA4335", popularity: 70, slug: "premium-lanyard-set" },
+  { id: 7, name: "LED Mood Lamp with Logo", category: "Desk & Office", type: "lamp", tagline: "Acrylic etching · USB-powered · 7-color LED cycle", price: "₹399", minUnits: "Min. 25 units", badge: "NEW", tags: ["USB Powered", "Logo Etch"], color: "#FBBC04", popularity: 88, isNew: true, slug: "custom-lamps" },
+  { id: 8, name: "Spiral Hardcover Notebook", category: "Desk & Office", type: "notebook", tagline: "A5 · 200 pages · Debossed cover with custom inner pages", price: "₹119", minUnits: "Min. 50 units", tags: ["Deboss", "Custom Pages"], color: "#D63031", popularity: 74, slug: "branded-notebooks" },
+  { id: 9, name: "Structured Embroidery Cap", category: "Apparel", type: "cap", tagline: "Adjustable buckle · 3D puff embroidery · 6-panel construction", price: "₹199", minUnits: "Min. 25 units", badge: "CORPORATE PICK", tags: ["Embroidery", "Adjustable"], color: "#3C4043", popularity: 82, slug: "embroidered-caps" },
+  { id: 10, name: "Metal Keychain Set", category: "Accessories", type: "keychain", tagline: "Die-cast zinc alloy · Laser-engraved · Velvet pouch included", price: "₹59", minUnits: "Min. 50 units", tags: ["Laser Engrave", "Gift Box"], color: "#5F6368", popularity: 65, slug: "logo-keychains" },
+  { id: 11, name: "Executive Corporate Gift Kit", category: "Corporate Kits", type: "kit", tagline: "Mug + Notebook + Pen + Keychain in branded magnetic box", price: "₹899", minUnits: "Min. 25 units", badge: "BESTSELLER", tags: ["All-in-One", "Premium Box", "White Label"], color: "#202124", popularity: 99, featured: true, slug: "corporate-welcome-kits" },
+  { id: 12, name: "Custom Tote Bag", category: "Accessories", type: "tote", tagline: "12oz canvas · Full-color DTG print · Eco-friendly material", price: "₹149", minUnits: "Min. 50 units", badge: "EXPRESS", tags: ["Eco-Friendly", "Full Print"], color: "#E17055", popularity: 76, slug: "custom-tote-bag" },
 ];
 
 const categories: Category[] = ["All Products", "Corporate Kits", "Drinkware", "Apparel", "Desk & Office", "Accessories", "Recognition & Awards"];
@@ -58,6 +60,7 @@ const BadgeLabel = ({ badge }: { badge: string }) => {
 };
 
 const Shop = () => {
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState<Category>("All Products");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("featured");
@@ -189,7 +192,8 @@ const Shop = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {displayed.map((product) => (
               <article key={product.id}
-                className={`group relative bg-background rounded-2xl border border-border overflow-hidden transition-all duration-300 hover:border-primary/30 hover:-translate-y-1 ${product.featured ? "sm:col-span-2" : ""}`}
+                onClick={() => navigate(`/customize/${product.slug}`)}
+                className={`group relative bg-background rounded-2xl border border-border overflow-hidden transition-all duration-300 hover:border-primary/30 hover:-translate-y-1 cursor-pointer ${product.featured ? "sm:col-span-2" : ""}`}
                 style={{ boxShadow: 'var(--shadow-sm)' }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-lg)'; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-sm)'; }}
@@ -223,7 +227,8 @@ const Shop = () => {
           <div className="flex flex-col gap-4">
             {displayed.map((product) => (
               <article key={product.id}
-                className="group relative bg-background rounded-2xl border border-border overflow-hidden transition-all duration-300 hover:border-primary/30 flex flex-col sm:flex-row"
+                onClick={() => navigate(`/customize/${product.slug}`)}
+                className="group relative bg-background rounded-2xl border border-border overflow-hidden transition-all duration-300 hover:border-primary/30 flex flex-col sm:flex-row cursor-pointer"
                 style={{ boxShadow: 'var(--shadow-sm)' }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-lg)'; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-sm)'; }}
