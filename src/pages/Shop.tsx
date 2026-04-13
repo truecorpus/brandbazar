@@ -192,7 +192,8 @@ const Shop = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {displayed.map((product) => (
               <article key={product.id}
-                className={`group relative bg-background rounded-2xl border border-border overflow-hidden transition-all duration-300 hover:border-primary/30 hover:-translate-y-1 ${product.featured ? "sm:col-span-2" : ""}`}
+                onClick={() => navigate(`/customize/${product.slug}`)}
+                className={`group relative bg-background rounded-2xl border border-border overflow-hidden transition-all duration-300 hover:border-primary/30 hover:-translate-y-1 cursor-pointer ${product.featured ? "sm:col-span-2" : ""}`}
                 style={{ boxShadow: 'var(--shadow-sm)' }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-lg)'; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-sm)'; }}
@@ -226,7 +227,8 @@ const Shop = () => {
           <div className="flex flex-col gap-4">
             {displayed.map((product) => (
               <article key={product.id}
-                className="group relative bg-background rounded-2xl border border-border overflow-hidden transition-all duration-300 hover:border-primary/30 flex flex-col sm:flex-row"
+                onClick={() => navigate(`/customize/${product.slug}`)}
+                className="group relative bg-background rounded-2xl border border-border overflow-hidden transition-all duration-300 hover:border-primary/30 flex flex-col sm:flex-row cursor-pointer"
                 style={{ boxShadow: 'var(--shadow-sm)' }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-lg)'; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = 'var(--shadow-sm)'; }}
