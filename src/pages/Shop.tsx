@@ -60,6 +60,7 @@ const BadgeLabel = ({ badge }: { badge: string }) => {
 };
 
 const Shop = () => {
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState<Category>("All Products");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("featured");
