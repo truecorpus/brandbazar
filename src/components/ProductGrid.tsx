@@ -1,12 +1,12 @@
 import { mugWhite1, tshirtWhite1, capWhite1, capNavy1, idcard1, idcard2 } from "@/assets/products";
 
 const products = [
-  { name: "Custom Mugs", image: mug, color: "217 91% 50%" },
-  { name: "T-Shirts", image: tshirt, color: "142 71% 45%" },
-  { name: "Caps & Hats", image: cap, color: "262 60% 55%" },
-  { name: "Lamps", image: lamp, color: "36 100% 49%" },
-  { name: "ID Cards", image: idcard, color: "346 77% 50%" },
-  { name: "Keychains", image: keychain, color: "190 80% 42%" },
+  { name: "Custom Mugs", image: mugWhite1, color: "217 91% 50%" },
+  { name: "T-Shirts", image: tshirtWhite1, color: "142 71% 45%" },
+  { name: "Caps & Hats", image: capWhite1, color: "262 60% 55%" },
+  { name: "Notebooks", image: capNavy1, color: "36 100% 49%" },
+  { name: "ID Cards", image: idcard1, color: "346 77% 50%" },
+  { name: "Lanyards", image: idcard2, color: "190 80% 42%" },
 ];
 
 const ProductGrid = () => {
