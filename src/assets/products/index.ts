@@ -1,29 +1,27 @@
-import mug from './mug.jpg';
-import mugMagic from './mug-magic.jpg';
-import tshirt from './tshirt.jpg';
-import polo from './polo.jpg';
-import cap from './cap.jpg';
-import lamp from './lamp.jpg';
-import idcard from './idcard.jpg';
-import keychain from './keychain.jpg';
-import notebook from './notebook.jpg';
-import kit from './kit.jpg';
-import lanyard from './lanyard.jpg';
-import tote from './tote.jpg';
+import mugWhite1 from './mug-white-1.jpg';
+import mugWhite2 from './mug-white-2.jpg';
+import tshirtWhite1 from './tshirt-white-1.jpg';
+import tshirtBlack1 from './tshirt-black-1.jpg';
+import capWhite1 from './cap-white-1.jpg';
+import capNavy1 from './cap-navy-1.jpg';
+import notebook1 from './notebook-1.jpg';
+import notebook2 from './notebook-2.jpg';
+import idcard1 from './idcard-1.jpg';
+import idcard2 from './idcard-2.jpg';
 
 export const productImages: Record<string, string> = {
-  mug,
-  'mug-magic': mugMagic,
-  tshirt,
-  polo,
-  cap,
-  lamp,
-  idcard,
-  keychain,
-  notebook,
-  kit,
-  lanyard,
-  tote,
+  mug: mugWhite1,
+  'mug-magic': mugWhite2,
+  tshirt: tshirtWhite1,
+  polo: tshirtBlack1,
+  cap: capWhite1,
+  lamp: capNavy1,
+  idcard: idcard1,
+  keychain: idcard2,
+  notebook: notebook1,
+  kit: notebook2,
+  lanyard: idcard2,
+  tote: capNavy1,
 };
 
-export { mug, mugMagic, tshirt, polo, cap, lamp, idcard, keychain, notebook, kit, lanyard, tote };
+export { mugWhite1, mugWhite2, tshirtWhite1, tshirtBlack1, capWhite1, capNavy1, notebook1, notebook2, idcard1, idcard2 };
