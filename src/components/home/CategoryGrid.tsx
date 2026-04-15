@@ -3,14 +3,11 @@ import { ArrowRight } from "lucide-react";
 import { productImages } from "@/assets/products";
 
 const categories = [
-  { name: "T-Shirts", slug: "branded-tshirts", imageKey: "tshirt", desc: "Custom printed & embroidered" },
-  { name: "Mugs", slug: "custom-mugs", imageKey: "mug", desc: "Ceramic, magic & steel" },
-  { name: "Caps & Hats", slug: "embroidered-caps", imageKey: "cap", desc: "Embroidered & printed" },
-  { name: "ID Cards", slug: "employee-id-cards", imageKey: "idcard", desc: "PVC & smart cards" },
-  { name: "Notebooks", slug: "branded-notebooks", imageKey: "notebook", desc: "Custom covers & branding" },
-  { name: "Corporate Kits", slug: "corporate-welcome-kits", imageKey: "kit", desc: "Welcome & onboarding kits" },
-  { name: "Tote Bags", slug: "custom-tote-bag", imageKey: "tote", desc: "Canvas & non-woven" },
-  { name: "Keychains", slug: "logo-keychains", imageKey: "keychain", desc: "Metal, acrylic & wooden" },
+  { name: "T-Shirts", slug: "tshirts", imageKey: "tshirt", desc: "Custom printed & embroidered", productSlug: "premium-cotton-round-neck-tshirt" },
+  { name: "Mugs", slug: "mugs", imageKey: "mug", desc: "Ceramic, magic & steel", productSlug: "classic-white-ceramic-mug" },
+  { name: "Caps & Hats", slug: "caps", imageKey: "cap", desc: "Embroidered & printed", productSlug: "classic-baseball-cap" },
+  { name: "ID Cards", slug: "idcards", imageKey: "idcard", desc: "PVC & smart cards", productSlug: "pvc-id-card" },
+  { name: "Notebooks", slug: "notebooks", imageKey: "notebook", desc: "Custom covers & branding", productSlug: "a5-hardcover-notebook" },
 ];
 
 const CategoryGrid = () => {
@@ -31,7 +28,7 @@ const CategoryGrid = () => {
           {categories.map((cat) => (
             <button
               key={cat.name}
-              onClick={() => navigate(`/customize/${cat.slug}`)}
+              onClick={() => navigate(`/customize/${cat.productSlug}`)}
               className="group bg-background rounded-2xl border border-border overflow-hidden text-left transition-all duration-300 hover:border-primary/30 hover:-translate-y-1"
               style={{ boxShadow: "var(--shadow-sm)" }}
               onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.boxShadow = "var(--shadow-lg)"; }}

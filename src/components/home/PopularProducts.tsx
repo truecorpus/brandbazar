@@ -13,14 +13,14 @@ interface Product {
 }
 
 const popularProducts: Product[] = [
-  { name: "Custom Mugs", tagline: "Sip in style with your brand", price: "₹149", imageKey: "mug", badge: "Bestseller", slug: "custom-mugs" },
-  { name: "Branded T-Shirts", tagline: "Wearable identity for your team", price: "₹299", imageKey: "tshirt", slug: "branded-tshirts" },
-  { name: "Employee ID Cards", tagline: "Professional badges, instant credibility", price: "₹49", imageKey: "idcard", badge: "Bestseller", slug: "employee-id-cards" },
-  { name: "Embroidered Caps", tagline: "Top-notch brand visibility", price: "₹199", imageKey: "cap", slug: "embroidered-caps" },
-  { name: "Custom Lamps", tagline: "Light up your workspace", price: "₹499", imageKey: "lamp", badge: "New", slug: "custom-lamps" },
-  { name: "Corporate Kits", tagline: "Onboard with impact", price: "₹999", imageKey: "kit", slug: "corporate-welcome-kits" },
-  { name: "Branded Notebooks", tagline: "Every page carries your mark", price: "₹129", imageKey: "notebook", slug: "branded-notebooks" },
-  { name: "Logo Keychains", tagline: "Small gift, lasting impression", price: "₹59", imageKey: "keychain", slug: "logo-keychains" },
+  { name: "Classic White Ceramic Mug", tagline: "Sip in style with your brand", price: "₹149", imageKey: "mug", badge: "Bestseller", slug: "classic-white-ceramic-mug" },
+  { name: "Premium Cotton T-Shirt", tagline: "Wearable identity for your team", price: "₹299", imageKey: "tshirt", slug: "premium-cotton-round-neck-tshirt" },
+  { name: "PVC ID Card", tagline: "Professional badges, instant credibility", price: "₹49", imageKey: "idcard", badge: "Bestseller", slug: "pvc-id-card" },
+  { name: "Classic Baseball Cap", tagline: "Top-notch brand visibility", price: "₹199", imageKey: "cap", slug: "classic-baseball-cap" },
+  { name: "Magic Color-Changing Mug", tagline: "Heat-activated brand reveal", price: "₹249", imageKey: "mug-magic", badge: "New", slug: "magic-color-changing-mug" },
+  { name: "ID Card with Lanyard Set", tagline: "Complete badge solution", price: "₹99", imageKey: "idcard", slug: "id-card-lanyard-set" },
+  { name: "A5 Hardcover Notebook", tagline: "Every page carries your mark", price: "₹129", imageKey: "notebook", slug: "a5-hardcover-notebook" },
+  { name: "Premium Snapback Cap", tagline: "Street-style brand visibility", price: "₹249", imageKey: "cap", slug: "premium-snapback-cap" },
 ];
 
 const PopularProducts = () => {
