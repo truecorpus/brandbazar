@@ -1,4 +1,4 @@
-import { mug, tshirt, cap, lamp, idcard, keychain } from "@/assets/products";
+import { mugWhite1, tshirtWhite1, capWhite1, capNavy1, idcard1, idcard2 } from "@/assets/products";
 
 const products = [
   { name: "Custom Mugs", image: mug, color: "217 91% 50%" },
