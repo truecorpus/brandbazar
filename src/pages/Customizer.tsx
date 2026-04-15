@@ -68,7 +68,7 @@ export default function Customizer() {
         .select("*, categories(*)")
         .eq("slug", slug)
         .eq("status", "active")
-        .single();
+        .maybeSingle();
 
       if (!product) {
         toast.error("Product not found");
