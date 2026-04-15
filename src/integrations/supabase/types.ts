@@ -2449,6 +2449,42 @@ export type Database = {
           },
         ]
       }
+      public_coupons: {
+        Row: {
+          code: string | null
+          description: string | null
+          discount_type: string | null
+          discount_value: number | null
+          id: string | null
+          is_active: boolean | null
+          min_order_value: number | null
+          valid_from: string | null
+          valid_until: string | null
+        }
+        Insert: {
+          code?: string | null
+          description?: string | null
+          discount_type?: string | null
+          discount_value?: number | null
+          id?: string | null
+          is_active?: boolean | null
+          min_order_value?: number | null
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Update: {
+          code?: string | null
+          description?: string | null
+          discount_type?: string | null
+          discount_value?: number | null
+          id?: string | null
+          is_active?: boolean | null
+          min_order_value?: number | null
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       check_admins_exist: { Args: never; Returns: boolean }
