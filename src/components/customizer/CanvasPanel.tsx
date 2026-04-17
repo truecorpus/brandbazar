@@ -214,15 +214,23 @@ export default function CanvasPanel({
         (shape as any).layerId = layer.id;
         canvas.add(shape);
       } else if ((layer.type === "image" || layer.type === "clipart") && layer.imageUrl) {
-        // Load image async — discard if a newer sync started
-        FabricImage.fromURL(layer.imageUrl, { crossOrigin: "anonymous" }).then((img) => {
+        // blob: and data: URLs must NOT use crossOrigin — it causes silent load failure.
+        const isLocal = layer.imageUrl.startsWith("blob:") || layer.imageUrl.startsWith("data:");
+        const loadOpts = isLocal ? {} : { crossOrigin: "anonymous" as const };
+
+        FabricImage.fromURL(layer.imageUrl, loadOpts).then((img) => {
           if (!fabricRef.current) return;
           if (syncGenRef.current !== myGen) return; // stale, abandon
+          const naturalW = img.width || 1;
+          const naturalH = img.height || 1;
+          // If layer has no size yet, fit to default 200px max preserving aspect ratio
+          const targetW = layer.width || 200;
+          const targetH = layer.height || (200 * naturalH) / naturalW;
           img.set({
             left: layer.x,
             top: layer.y,
-            scaleX: layer.width / (img.width || 1),
-            scaleY: layer.height / (img.height || 1),
+            scaleX: targetW / naturalW,
+            scaleY: targetH / naturalH,
             opacity: layer.opacity,
             angle: layer.rotation,
             selectable: !layer.locked,
@@ -241,7 +249,9 @@ export default function CanvasPanel({
           (img as any).layerId = layer.id;
           fabricRef.current!.add(img);
           fabricRef.current!.renderAll();
-        }).catch(() => { /* ignore image load errors */ });
+        }).catch((err) => {
+          console.error("[Canvas] Failed to load image:", layer.imageUrl, err);
+        });
       }
     });
 
