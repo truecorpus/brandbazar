@@ -1,0 +1,9 @@
+UPDATE product_templates SET base_product_image_url = 'https://mfpocfuhdjnfiyaakrie.supabase.co/storage/v1/object/public/design-templates/products/mug-white-1.jpg' WHERE product_type = 'mug';
+UPDATE product_templates SET base_product_image_url = 'https://mfpocfuhdjnfiyaakrie.supabase.co/storage/v1/object/public/design-templates/products/tshirt-white-1.jpg' WHERE product_type = 'tshirt';
+UPDATE product_templates SET base_product_image_url = 'https://mfpocfuhdjnfiyaakrie.supabase.co/storage/v1/object/public/design-templates/products/cap-white-1.jpg' WHERE product_type = 'cap';
+UPDATE product_templates SET base_product_image_url = 'https://mfpocfuhdjnfiyaakrie.supabase.co/storage/v1/object/public/design-templates/products/notebook-1.jpg' WHERE product_type = 'notebook';
+UPDATE product_templates SET base_product_image_url = 'https://mfpocfuhdjnfiyaakrie.supabase.co/storage/v1/object/public/design-templates/products/idcard-1.jpg' WHERE product_type = 'idcard';
+UPDATE product_templates SET base_product_image_url = 'https://mfpocfuhdjnfiyaakrie.supabase.co/storage/v1/object/public/design-templates/products/idcard-2.jpg' WHERE product_type = 'keychain';
+UPDATE product_templates SET base_product_image_url = 'https://mfpocfuhdjnfiyaakrie.supabase.co/storage/v1/object/public/design-templates/products/cap-navy-1.jpg' WHERE product_type = 'lamp';
+
+UPDATE product_templates SET views = jsonb_build_array(jsonb_build_object('id', 'front', 'name', 'Front View', 'baseImageUrl', base_product_image_url, 'printZoneIds', ARRAY['zone-front'])) WHERE views IS NULL OR jsonb_array_length(views) = 0 OR (views->0->>'baseImageUrl') IS NULL OR (views->0->>'baseImageUrl') = '';
