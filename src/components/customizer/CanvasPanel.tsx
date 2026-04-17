@@ -278,7 +278,7 @@ export default function CanvasPanel({
     }
     canvas.requestRenderAll();
     isUpdatingRef.current = false;
-  }, [selectedLayerId, layers]);
+  }, [selectedLayerId, layers, canvasReady]);
 
   // Zoom
   useEffect(() => {
