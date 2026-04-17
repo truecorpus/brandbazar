@@ -222,12 +222,19 @@ export default function CanvasPanel({
         const isLocal = layer.imageUrl.startsWith("blob:") || layer.imageUrl.startsWith("data:");
         const loadOpts = isLocal ? {} : { crossOrigin: "anonymous" as const };
 
+        console.log("[Canvas] Loading image layer:", layer.id, "url:", layer.imageUrl.substring(0, 60), "isLocal:", isLocal);
+
         FabricImage.fromURL(layer.imageUrl, loadOpts).then((img) => {
-          if (!fabricRef.current) return;
-          if (syncGenRef.current !== myGen) return; // stale, abandon
+          if (!fabricRef.current) {
+            console.warn("[Canvas] Image loaded but canvas was disposed:", layer.id);
+            return;
+          }
+          if (syncGenRef.current !== myGen) {
+            console.warn("[Canvas] Image loaded but sync was stale:", layer.id, "myGen:", myGen, "current:", syncGenRef.current);
+            return;
+          }
           const naturalW = img.width || 1;
           const naturalH = img.height || 1;
-          // If layer has no size yet, fit to default 200px max preserving aspect ratio
           const targetW = layer.width || 200;
           const targetH = layer.height || (200 * naturalH) / naturalW;
           img.set({
@@ -235,8 +242,8 @@ export default function CanvasPanel({
             top: layer.y,
             scaleX: targetW / naturalW,
             scaleY: targetH / naturalH,
-            opacity: layer.opacity,
-            angle: layer.rotation,
+            opacity: layer.opacity ?? 1,
+            angle: layer.rotation || 0,
             selectable: !layer.locked,
             lockMovementX: layer.locked,
             lockMovementY: layer.locked,
@@ -251,8 +258,9 @@ export default function CanvasPanel({
             borderColor: "#1A73E8",
           });
           (img as any).layerId = layer.id;
-          fabricRef.current!.add(img);
-          fabricRef.current!.renderAll();
+          fabricRef.current.add(img);
+          fabricRef.current.requestRenderAll();
+          console.log("[Canvas] Image added to canvas:", layer.id, "naturalSize:", naturalW, "x", naturalH, "scale:", targetW / naturalW, "pos:", layer.x, layer.y, "objectsOnCanvas:", fabricRef.current.getObjects().length);
         }).catch((err) => {
           console.error("[Canvas] Failed to load image:", layer.imageUrl, err);
         });
