@@ -52,8 +52,9 @@ export default function CanvasPanel({
 
     fabricRef.current = canvas;
 
-    // Selection events
+    // Selection events — ignore programmatic changes (during sync)
     canvas.on("selection:created", (e) => {
+      if (isUpdatingRef.current) return;
       const selected = e.selected?.[0];
       if (selected && (selected as any).layerId) {
         onSelectLayer((selected as any).layerId);
@@ -61,6 +62,7 @@ export default function CanvasPanel({
     });
 
     canvas.on("selection:updated", (e) => {
+      if (isUpdatingRef.current) return;
       const selected = e.selected?.[0];
       if (selected && (selected as any).layerId) {
         onSelectLayer((selected as any).layerId);
@@ -68,6 +70,7 @@ export default function CanvasPanel({
     });
 
     canvas.on("selection:cleared", () => {
+      if (isUpdatingRef.current) return;
       onSelectLayer(null);
     });
 
