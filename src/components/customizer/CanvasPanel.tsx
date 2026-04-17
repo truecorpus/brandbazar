@@ -261,7 +261,7 @@ export default function CanvasPanel({
 
     canvas.renderAll();
     isUpdatingRef.current = false;
-  }, [layers, printZones, activeZoneId]);
+  }, [layers, printZones, activeZoneId, canvasReady]);
 
   // Sync selection separately — don't rebuild canvas on selection change
   useEffect(() => {
