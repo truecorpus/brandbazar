@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { Canvas, Rect, IText, FabricImage, Circle } from "fabric";
 import type { DesignLayer, PrintZone, ProductView } from "@/hooks/useCustomizerStore";
 
@@ -38,8 +38,9 @@ export default function CanvasPanel({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fabricRef = useRef<Canvas | null>(null);
   const isUpdatingRef = useRef(false);
+  const [canvasReady, setCanvasReady] = useState(0); // bumps each time fabric canvas is (re)created
 
-  // Initialize Fabric canvas
+  // Initialize Fabric canvas ONCE; size is updated via setDimensions in the zoom effect.
   useEffect(() => {
     if (!canvasRef.current) return;
 
@@ -51,6 +52,7 @@ export default function CanvasPanel({
     });
 
     fabricRef.current = canvas;
+    setCanvasReady((v) => v + 1);
 
     // Selection events — ignore programmatic changes (during sync)
     canvas.on("selection:created", (e) => {
@@ -92,7 +94,9 @@ export default function CanvasPanel({
       canvas.dispose();
       fabricRef.current = null;
     };
-  }, [canvasWidth, canvasHeight]);
+    // Intentionally only run once on mount; resizing handled separately.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Track current sync generation to discard stale async image loads
   const syncGenRef = useRef(0);
@@ -257,7 +261,7 @@ export default function CanvasPanel({
 
     canvas.renderAll();
     isUpdatingRef.current = false;
-  }, [layers, printZones, activeZoneId]);
+  }, [layers, printZones, activeZoneId, canvasReady]);
 
   // Sync selection separately — don't rebuild canvas on selection change
   useEffect(() => {
@@ -274,7 +278,7 @@ export default function CanvasPanel({
     }
     canvas.requestRenderAll();
     isUpdatingRef.current = false;
-  }, [selectedLayerId, layers]);
+  }, [selectedLayerId, layers, canvasReady]);
 
   // Zoom
   useEffect(() => {
