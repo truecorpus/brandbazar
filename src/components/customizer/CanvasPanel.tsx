@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { Canvas, Rect, IText, FabricImage, Circle } from "fabric";
 import type { DesignLayer, PrintZone, ProductView } from "@/hooks/useCustomizerStore";
 
