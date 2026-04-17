@@ -91,11 +91,16 @@ export default function CanvasPanel({
     };
   }, [canvasWidth, canvasHeight]);
 
-  // Sync layers to canvas
+  // Track current sync generation to discard stale async image loads
+  const syncGenRef = useRef(0);
+
+  // Sync layers to canvas (NOT triggered by selection changes — selection handled separately)
   useEffect(() => {
     const canvas = fabricRef.current;
     if (!canvas) return;
     isUpdatingRef.current = true;
+    syncGenRef.current += 1;
+    const myGen = syncGenRef.current;
 
     // Clear canvas
     canvas.clear();
@@ -177,10 +182,6 @@ export default function CanvasPanel({
         });
 
         canvas.add(text);
-
-        if (layer.id === selectedLayerId) {
-          canvas.setActiveObject(text);
-        }
       } else if (layer.type === "shape") {
         const shape = new Rect({
           left: layer.x,
@@ -209,14 +210,11 @@ export default function CanvasPanel({
         });
         (shape as any).layerId = layer.id;
         canvas.add(shape);
-
-        if (layer.id === selectedLayerId) {
-          canvas.setActiveObject(shape);
-        }
-      } else if (layer.type === "image" && layer.imageUrl) {
-        // Load image async
+      } else if ((layer.type === "image" || layer.type === "clipart") && layer.imageUrl) {
+        // Load image async — discard if a newer sync started
         FabricImage.fromURL(layer.imageUrl, { crossOrigin: "anonymous" }).then((img) => {
           if (!fabricRef.current) return;
+          if (syncGenRef.current !== myGen) return; // stale, abandon
           img.set({
             left: layer.x,
             top: layer.y,
@@ -239,18 +237,31 @@ export default function CanvasPanel({
           });
           (img as any).layerId = layer.id;
           fabricRef.current!.add(img);
-
-          if (layer.id === selectedLayerId) {
-            fabricRef.current!.setActiveObject(img);
-          }
           fabricRef.current!.renderAll();
-        });
+        }).catch(() => { /* ignore image load errors */ });
       }
     });
 
     canvas.renderAll();
     isUpdatingRef.current = false;
-  }, [layers, printZones, activeZoneId, selectedLayerId]);
+  }, [layers, printZones, activeZoneId]);
+
+  // Sync selection separately — don't rebuild canvas on selection change
+  useEffect(() => {
+    const canvas = fabricRef.current;
+    if (!canvas) return;
+    isUpdatingRef.current = true;
+    if (!selectedLayerId) {
+      canvas.discardActiveObject();
+    } else {
+      const obj = canvas.getObjects().find((o: any) => o.layerId === selectedLayerId);
+      if (obj && canvas.getActiveObject() !== obj) {
+        canvas.setActiveObject(obj);
+      }
+    }
+    canvas.requestRenderAll();
+    isUpdatingRef.current = false;
+  }, [selectedLayerId, layers]);
 
   // Zoom
   useEffect(() => {
