@@ -41,16 +41,19 @@ export default function CanvasPanel({
   const imageElCacheRef = useRef<Map<string, HTMLImageElement>>(new Map());
   const [canvasReady, setCanvasReady] = useState(0); // bumps each time fabric canvas is (re)created
 
-  // Initialize Fabric canvas ONCE; size is updated via setDimensions in the zoom effect.
+  // Initialize Fabric canvas ONCE with correct zoomed dimensions
   useEffect(() => {
     if (!canvasRef.current) return;
+    const initialScale = zoom / 100;
 
     const canvas = new Canvas(canvasRef.current, {
-      width: canvasWidth,
-      height: canvasHeight,
+      width: canvasWidth * initialScale,
+      height: canvasHeight * initialScale,
       backgroundColor: "#F8F9FA",
       selection: true,
+      preserveObjectStacking: true,
     });
+    canvas.setZoom(initialScale);
 
     fabricRef.current = canvas;
     setCanvasReady((v) => v + 1);
@@ -220,14 +223,17 @@ export default function CanvasPanel({
         (shape as any).layerId = layer.id;
         canvas.add(shape);
       } else if ((layer.type === "image" || layer.type === "clipart") && layer.imageUrl) {
-        // Use a cached HTMLImageElement for synchronous add — eliminates async race on every re-sync.
-        const cached = imageElCacheRef.current.get(layer.imageUrl);
+        const url = layer.imageUrl;
         const addImageToCanvas = (htmlImg: HTMLImageElement) => {
           if (!fabricRef.current) return;
           if (syncGenRef.current !== myGen) return;
+          if (htmlImg.naturalWidth === 0) {
+            console.error("[Canvas] Image has zero dimensions, skipping:", url.substring(0, 60));
+            return;
+          }
           const fImg = new FabricImage(htmlImg);
-          const naturalW = htmlImg.naturalWidth || 1;
-          const naturalH = htmlImg.naturalHeight || 1;
+          const naturalW = htmlImg.naturalWidth;
+          const naturalH = htmlImg.naturalHeight;
           const targetW = layer.width || 200;
           const targetH = layer.height || (200 * naturalH) / naturalW;
           fImg.set({
@@ -252,22 +258,23 @@ export default function CanvasPanel({
           });
           (fImg as any).layerId = layer.id;
           fabricRef.current.add(fImg);
-          fabricRef.current.bringObjectToFront(fImg);
           fabricRef.current.requestRenderAll();
+          console.log("[Canvas] ✅ Image rendered:", layer.id, "at", layer.x, layer.y, "size:", targetW, "x", targetH, "scale:", targetW / naturalW, "totalObjects:", fabricRef.current.getObjects().length);
         };
 
+        const cached = imageElCacheRef.current.get(url);
         if (cached && cached.complete && cached.naturalWidth > 0) {
           addImageToCanvas(cached);
         } else {
-          const htmlImg = cached || new Image();
-          if (!cached) {
-            imageElCacheRef.current.set(layer.imageUrl, htmlImg);
-            const isLocal = layer.imageUrl.startsWith("blob:") || layer.imageUrl.startsWith("data:");
-            if (!isLocal) htmlImg.crossOrigin = "anonymous";
-            htmlImg.src = layer.imageUrl;
-          }
-          htmlImg.onload = () => addImageToCanvas(htmlImg);
-          htmlImg.onerror = () => console.error("[Canvas] Failed to load image:", layer.imageUrl);
+          const htmlImg = new Image();
+          const isLocal = url.startsWith("blob:") || url.startsWith("data:");
+          if (!isLocal) htmlImg.crossOrigin = "anonymous";
+          htmlImg.onload = () => {
+            imageElCacheRef.current.set(url, htmlImg);
+            addImageToCanvas(htmlImg);
+          };
+          htmlImg.onerror = (e) => console.error("[Canvas] ❌ Image failed to load:", url.substring(0, 80), e);
+          htmlImg.src = url;
         }
       }
     });
@@ -293,17 +300,18 @@ export default function CanvasPanel({
     isUpdatingRef.current = false;
   }, [selectedLayerId, layers, canvasReady]);
 
-  // Zoom
+  // Zoom — apply BEFORE layers sync runs by initializing zoom on mount
   useEffect(() => {
     const canvas = fabricRef.current;
     if (!canvas) return;
     const scale = zoom / 100;
-    canvas.setZoom(scale);
     canvas.setDimensions({
       width: canvasWidth * scale,
       height: canvasHeight * scale,
     });
-  }, [zoom, canvasWidth, canvasHeight]);
+    canvas.setZoom(scale);
+    canvas.requestRenderAll();
+  }, [zoom, canvasWidth, canvasHeight, canvasReady]);
 
   // Mouse wheel zoom
   const handleWheel = useCallback(
