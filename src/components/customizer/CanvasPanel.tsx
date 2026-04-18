@@ -293,17 +293,18 @@ export default function CanvasPanel({
     isUpdatingRef.current = false;
   }, [selectedLayerId, layers, canvasReady]);
 
-  // Zoom
+  // Zoom — apply BEFORE layers sync runs by initializing zoom on mount
   useEffect(() => {
     const canvas = fabricRef.current;
     if (!canvas) return;
     const scale = zoom / 100;
-    canvas.setZoom(scale);
     canvas.setDimensions({
       width: canvasWidth * scale,
       height: canvasHeight * scale,
     });
-  }, [zoom, canvasWidth, canvasHeight]);
+    canvas.setZoom(scale);
+    canvas.requestRenderAll();
+  }, [zoom, canvasWidth, canvasHeight, canvasReady]);
 
   // Mouse wheel zoom
   const handleWheel = useCallback(
