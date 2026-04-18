@@ -113,20 +113,20 @@ export default function CanvasPanel({
     canvas.clear();
     canvas.backgroundColor = "#F8F9FA";
 
-    // Draw print zones
+    // Draw print zones (as background guides — transparent fill so layers above are visible)
     printZones.forEach((zone) => {
-      const isActive = zone.id === activeZoneId;
       const rect = new Rect({
         left: zone.x,
         top: zone.y,
         width: zone.width,
         height: zone.height,
-        fill: isActive ? "rgba(26,115,232,0.06)" : "rgba(232,240,254,0.4)",
+        fill: "transparent",
         stroke: "#1A73E8",
         strokeWidth: 1.5,
         strokeDashArray: [6, 4],
         selectable: false,
         evented: false,
+        excludeFromExport: true,
       });
       canvas.add(rect);
 
@@ -144,6 +144,7 @@ export default function CanvasPanel({
           strokeDashArray: [3, 3],
           selectable: false,
           evented: false,
+          excludeFromExport: true,
         });
         canvas.add(safeRect);
       }
@@ -259,6 +260,7 @@ export default function CanvasPanel({
           });
           (img as any).layerId = layer.id;
           fabricRef.current.add(img);
+          fabricRef.current.bringObjectToFront(img);
           fabricRef.current.requestRenderAll();
           console.log("[Canvas] Image added to canvas:", layer.id, "naturalSize:", naturalW, "x", naturalH, "scale:", targetW / naturalW, "pos:", layer.x, layer.y, "objectsOnCanvas:", fabricRef.current.getObjects().length);
         }).catch((err) => {
