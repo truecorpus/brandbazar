@@ -203,9 +203,32 @@ export default function Customizer() {
 
   const handleAddImageLayer = useCallback(
     (file: File) => {
-      const url = URL.createObjectURL(file);
-      store.addLayer({ type: "image", imageUrl: url, fileName: file.name, width: 200, height: 200 });
-      toast.success(`"${file.name}" added to canvas`);
+      // Convert to data URL — stable across re-renders (blob URLs can race with rapid syncs)
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target?.result as string;
+        if (!dataUrl) {
+          toast.error("Failed to read image file");
+          return;
+        }
+        const img = new Image();
+        img.onload = () => {
+          const maxDim = 250;
+          const scale = Math.min(maxDim / img.naturalWidth, maxDim / img.naturalHeight, 1);
+          store.addLayer({
+            type: "image",
+            imageUrl: dataUrl,
+            fileName: file.name,
+            width: Math.round(img.naturalWidth * scale),
+            height: Math.round(img.naturalHeight * scale),
+          });
+          toast.success(`"${file.name}" added to canvas`);
+        };
+        img.onerror = () => toast.error("Failed to decode image");
+        img.src = dataUrl;
+      };
+      reader.onerror = () => toast.error("Failed to read file");
+      reader.readAsDataURL(file);
     },
     [store]
   );
