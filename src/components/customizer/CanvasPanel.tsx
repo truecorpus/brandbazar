@@ -260,6 +260,7 @@ export default function CanvasPanel({
           });
           (img as any).layerId = layer.id;
           fabricRef.current.add(img);
+          fabricRef.current.bringObjectToFront(img);
           fabricRef.current.requestRenderAll();
           console.log("[Canvas] Image added to canvas:", layer.id, "naturalSize:", naturalW, "x", naturalH, "scale:", targetW / naturalW, "pos:", layer.x, layer.y, "objectsOnCanvas:", fabricRef.current.getObjects().length);
         }).catch((err) => {
