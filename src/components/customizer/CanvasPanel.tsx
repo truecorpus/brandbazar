@@ -41,16 +41,19 @@ export default function CanvasPanel({
   const imageElCacheRef = useRef<Map<string, HTMLImageElement>>(new Map());
   const [canvasReady, setCanvasReady] = useState(0); // bumps each time fabric canvas is (re)created
 
-  // Initialize Fabric canvas ONCE; size is updated via setDimensions in the zoom effect.
+  // Initialize Fabric canvas ONCE with correct zoomed dimensions
   useEffect(() => {
     if (!canvasRef.current) return;
+    const initialScale = zoom / 100;
 
     const canvas = new Canvas(canvasRef.current, {
-      width: canvasWidth,
-      height: canvasHeight,
+      width: canvasWidth * initialScale,
+      height: canvasHeight * initialScale,
       backgroundColor: "#F8F9FA",
       selection: true,
+      preserveObjectStacking: true,
     });
+    canvas.setZoom(initialScale);
 
     fabricRef.current = canvas;
     setCanvasReady((v) => v + 1);
