@@ -38,6 +38,7 @@ export default function CanvasPanel({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fabricRef = useRef<Canvas | null>(null);
   const isUpdatingRef = useRef(false);
+  const imageElCacheRef = useRef<Map<string, HTMLImageElement>>(new Map());
   const [canvasReady, setCanvasReady] = useState(0); // bumps each time fabric canvas is (re)created
 
   // Initialize Fabric canvas ONCE; size is updated via setDimensions in the zoom effect.
