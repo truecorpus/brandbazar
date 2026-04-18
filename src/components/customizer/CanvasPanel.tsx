@@ -219,26 +219,17 @@ export default function CanvasPanel({
         (shape as any).layerId = layer.id;
         canvas.add(shape);
       } else if ((layer.type === "image" || layer.type === "clipart") && layer.imageUrl) {
-        // blob: and data: URLs must NOT use crossOrigin — it causes silent load failure.
-        const isLocal = layer.imageUrl.startsWith("blob:") || layer.imageUrl.startsWith("data:");
-        const loadOpts = isLocal ? {} : { crossOrigin: "anonymous" as const };
-
-        console.log("[Canvas] Loading image layer:", layer.id, "url:", layer.imageUrl.substring(0, 60), "isLocal:", isLocal);
-
-        FabricImage.fromURL(layer.imageUrl, loadOpts).then((img) => {
-          if (!fabricRef.current) {
-            console.warn("[Canvas] Image loaded but canvas was disposed:", layer.id);
-            return;
-          }
-          if (syncGenRef.current !== myGen) {
-            console.warn("[Canvas] Image loaded but sync was stale:", layer.id, "myGen:", myGen, "current:", syncGenRef.current);
-            return;
-          }
-          const naturalW = img.width || 1;
-          const naturalH = img.height || 1;
+        // Use a cached HTMLImageElement for synchronous add — eliminates async race on every re-sync.
+        const cached = imageElCacheRef.current.get(layer.imageUrl);
+        const addImageToCanvas = (htmlImg: HTMLImageElement) => {
+          if (!fabricRef.current) return;
+          if (syncGenRef.current !== myGen) return;
+          const fImg = new FabricImage(htmlImg);
+          const naturalW = htmlImg.naturalWidth || 1;
+          const naturalH = htmlImg.naturalHeight || 1;
           const targetW = layer.width || 200;
           const targetH = layer.height || (200 * naturalH) / naturalW;
-          img.set({
+          fImg.set({
             left: layer.x,
             top: layer.y,
             scaleX: targetW / naturalW,
@@ -258,14 +249,25 @@ export default function CanvasPanel({
             transparentCorners: false,
             borderColor: "#1A73E8",
           });
-          (img as any).layerId = layer.id;
-          fabricRef.current.add(img);
-          fabricRef.current.bringObjectToFront(img);
+          (fImg as any).layerId = layer.id;
+          fabricRef.current.add(fImg);
+          fabricRef.current.bringObjectToFront(fImg);
           fabricRef.current.requestRenderAll();
-          console.log("[Canvas] Image added to canvas:", layer.id, "naturalSize:", naturalW, "x", naturalH, "scale:", targetW / naturalW, "pos:", layer.x, layer.y, "objectsOnCanvas:", fabricRef.current.getObjects().length);
-        }).catch((err) => {
-          console.error("[Canvas] Failed to load image:", layer.imageUrl, err);
-        });
+        };
+
+        if (cached && cached.complete && cached.naturalWidth > 0) {
+          addImageToCanvas(cached);
+        } else {
+          const htmlImg = cached || new Image();
+          if (!cached) {
+            imageElCacheRef.current.set(layer.imageUrl, htmlImg);
+            const isLocal = layer.imageUrl.startsWith("blob:") || layer.imageUrl.startsWith("data:");
+            if (!isLocal) htmlImg.crossOrigin = "anonymous";
+            htmlImg.src = layer.imageUrl;
+          }
+          htmlImg.onload = () => addImageToCanvas(htmlImg);
+          htmlImg.onerror = () => console.error("[Canvas] Failed to load image:", layer.imageUrl);
+        }
       }
     });
 
