@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { ComingSoonClient } from './ComingSoonClient';
+import { ComingSoonClient } from '@/components/coming-soon/ComingSoonClient';
 import { BRAND_NAME, SITE_URL } from '@/lib/config';
 
 export const metadata: Metadata = {

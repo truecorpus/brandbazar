@@ -1,41 +1,52 @@
-import { HeroSection } from '@/components/sections/HeroSection';
-import { ProductStorytelling } from '@/components/sections/ProductStorytelling';
-import { ProcessTimeline } from '@/components/sections/ProcessTimeline';
-import { CaseStudySection } from '@/components/sections/CaseStudySection';
-import { BulkTrustSection } from '@/components/sections/BulkTrustSection';
-import { TestimonialSection } from '@/components/sections/TestimonialSection';
-import { FinalCTASection, FloatingCTA } from '@/components/sections/ConversionSection';
-import { Footer } from '@/components/layout/Footer';
+import type { Metadata } from 'next';
+import { ComingSoonClient } from '@/components/coming-soon/ComingSoonClient';
+import { BRAND_NAME, SITE_URL } from '@/lib/config';
+
+export const metadata: Metadata = {
+  title: `${BRAND_NAME} | Launching Soon`,
+  description:
+    'Something exceptional is coming. BrandBazar is crafting the future of corporate branding experiences. Join the waitlist for early access.',
+  keywords: [
+    'coming soon',
+    'brand launch',
+    'corporate branding',
+    'premium branding',
+    'waitlist',
+    'early access',
+    'BrandBazar',
+  ],
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: `Something Exceptional Is Coming | ${BRAND_NAME}`,
+    description:
+      'The future of corporate branding is being crafted. Join the waitlist for early access to BrandBazar.',
+    url: SITE_URL,
+    siteName: BRAND_NAME,
+    locale: 'en_IN',
+    type: 'website',
+    images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: `${BRAND_NAME} — Launching Soon`,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${BRAND_NAME} | Launching Soon`,
+    description: 'Something exceptional is being built. Join the waitlist.',
+    images: ['/opengraph-image'],
+  },
+  alternates: {
+    canonical: '/',
+  },
+};
 
 export default function Home() {
-  return (
-    <>
-      {/* Cinematic Hero Section */}
-      <HeroSection />
-
-      {/* Product Storytelling Section */}
-      <ProductStorytelling />
-
-      {/* Process Timeline Section */}
-      <ProcessTimeline />
-
-      {/* Case Study Section */}
-      <CaseStudySection />
-
-      {/* Bulk Order Trust Section */}
-      <BulkTrustSection />
-
-      {/* Testimonial Section */}
-      <TestimonialSection />
-
-      {/* Final CTA Section */}
-      <FinalCTASection />
-
-      {/* Floating CTA Button */}
-      <FloatingCTA />
-
-      {/* Footer */}
-      <Footer />
-    </>
-  );
+  return <ComingSoonClient />;
 }

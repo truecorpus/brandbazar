@@ -32,7 +32,7 @@ export function Navbar() {
   const { openDrawer } = useQuoteDrawer();
 
   // Hide navbar on coming soon page for immersive experience
-  if (pathname === '/coming-soon') {
+  if (pathname === '/' || pathname === '/coming-soon') {
     return null;
   }
 
