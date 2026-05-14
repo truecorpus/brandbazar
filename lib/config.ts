@@ -1,0 +1,9 @@
+export const BRAND_NAME = 'BrandBazar';
+export const BRAND_TAGLINE = 'Premium Corporate Branding & Merchandise Solutions';
+export const CONTACT_EMAIL = 'hello@brandbazar.com';
+export const WHATSAPP_NUMBER = '919999999999'; // TODO: replace with real number
+export const WHATSAPP_MESSAGE = 'Hi BrandBazar, I am interested in corporate branding solutions.';
+export const GOOGLE_VERIFICATION = 'your-google-verification-code'; // TODO: replace with real code
+export const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // TODO: replace with real GA4 ID
+export const COMPANY_EMAIL = 'hello@brandbazar.com';
+export const SITE_URL = 'https://brandbazar.com';
